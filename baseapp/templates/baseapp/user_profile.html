@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Demo</title>
+    {% include 'others/header_static.html' %}
+    {% include 'others/favicon.html' %}
+
+    {% load static from staticfiles %}
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <script src="{% static 'js/a_selected.js' %}"></script>
+    <script src="{% static 'js/nav_badge.js' %}"></script>
+    <script src="{% static 'js/date_differ.js' %}"></script>
+    <script src="{% static 'js/profile_populate.js' %}"></script>
+    <script src="{% static 'js/modal_resize.js' %}"></script>
+    <script src="{% static 'js/modal_feed_menu.js' %}"></script>
+    <script src="{% static 'js/modal_opens.js' %}"></script>
+    <script src="{% static 'js/modal_profile_reading.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Tauri" rel="stylesheet">
+    {% if user.is_authenticated %}
+    {% else %}
+    {% endif %}
+
+    <style>
+    </style>
+
+
+</head>
+<body class="light_background_color height_100">
+<!--navbar start-->
+{% include 'baseapp/_navbar.html' %}
+
+<!--navbar end-->
+<!--page info-->
+{% include 'others/bootstrap_tester.html' %}
+<div class="hidden" id="page_kind">user</div>
+
+    <div class="hidden" id="chosen_user_id">{{ chosen_user.username }}</div>
+    <div class="hidden" id="next_id"></div>
+    <div class="hidden" id="last_post_id"></div>
+<div class="hidden" id="post_to_delete"></div>
+
+
+<div class="hidden" id="post_last_id"></div>
+
+<div class="hidden" id="clicked_post_id"></div>
+
+<div class="hidden" id="reading_post_id"></div>
+<div class="hidden" id="reading_post_profile_photo"></div>
+<div class="hidden" id="reading_post_user_id"></div>
+<div class="hidden" id="reading_post_profile_name"></div>
+<div class="hidden" id="reading_post_chat_last_id"></div>
+<div class="hidden" id="reading_post_chat_before_id"></div>
+<div class="hidden" id="reading_post_chat_next_id"></div>
+<div class="hidden" id="post_liking_next_id"></div>
+<div class="hidden" id="post_follow_next_id"></div>
+<div class="hidden" id="post_chat_liking_next_id"></div>
+<div class="hidden" id="post_chat_rest_liking_next_id"></div>
+<div class="hidden" id="clicked_post_chat_id"></div>
+<div class="hidden" id="clicked_post_chat_rest_id"></div>
+{% if user.is_authenticated %}
+    <div class="hidden" id="user_id">{{ user.username }}</div>
+{% else %}
+    <div class="hidden" id="user_id"></div>
+{% endif %}
+<!--page info end -->
+
+<div class="container-fluid margin_top_50">
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
+            <div class="row" id="content">
+                <div class="row div_base" id="chat_base">
+                    <div align="center">
+                        <img class="img_300_300" id="img_300"
+                             src="{{ chosen_user.userphoto.file_300_url }}">
+                    </div>
+
+                    <div class="margin_top_20" align="center"><span class="user_name">{{ chosen_user.usertextname.name }}</span></div>
+                    <div class="margin_top_20" align="center"><span class="user_username">{{ chosen_user.userusername.username }}</span></div>
+
+                    <div class="row margin_top_20">
+                        <div class="col-xs-6" align="right"><span class="user_fellowship_title">Following: </span><a href="#"><span
+                                class="user_fellowship_count" id="count_following">{{ chosen_user.followingcount.count }}</span></a></div>
+                        <div class="col-xs-6" align="left"><span class="user_fellowship_title">Followers: </span><a href="#"><span
+                                class="user_fellowship_count" id="count_follower">{{ chosen_user.followercount.count }}</span></a></div>
+                    </div>
+                {% if following == None %}
+                    <a href="">
+                        <div class="margin_top_20 light_background_color hidden" align="center" id="follow">
+                            <span class="user_change_profile clickable" id="follow_text">follow</span>
+                        </div>
+                    </a>
+
+                {% else %}
+                    <a href="">
+                        <div class="margin_top_20 light_background_color hidden" align="center" id="follow">
+                            <span class="user_change_profile clickable" id="follow_text">now following <span class="glyphicon glyphicon-ok"></span></span>
+                        </div>
+                    </a>
+
+                {% endif %}
+                    <a href="/accounts/settings/">
+                        <div class="margin_top_20 light_background_color hidden" align="center" id="change_profile">
+                            <span class="user_change_profile clickable">change profile</span>
+                        </div>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_following">
+    <div class="modal-dialog modal-dialog_menu">
+      <div class="modal-content modal-content_menu">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal_follow_wrapper" id="modal_following_wrapper">
+            <div align="center">following</div>
+            <div id="modal_following_list">
+
+            </div>
+            <a href=""><div class="hidden" align="center" id="modal_following_more">more</div></a>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_follower">
+    <div class="modal-dialog modal-dialog_menu">
+      <div class="modal-content modal-content_menu">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal_follow_wrapper" id="modal_follower_wrapper">
+            <div align="center">followers</div>
+            <div id="modal_follower_list">
+
+            </div>
+            <a href=""><div class="hidden" align="center" id="modal_follower_more">more</div></a>
+        </div>
+      </div>
+    </div>
+</div>
+{% include 'baseapp/_modal_need_login.html' %}
+{% include 'baseapp/_modal_reading.html' %}
+{% include 'baseapp/_modal_post.html' %}
+{% include 'baseapp/_modal_post_delete.html' %}
+  <!-- Hidden 으로 데이터 저장해놓고 modal on show 랑 hide 에서 그 데이터 불러와서 모달 채우게 하자. 그리고 임플린은 친구 중심이고
+  피드가 존재하게 되었기 때문에 팔로우가 부가적으로 존재하는 것 뿐이다. -->
+
+
+</body>
+<script>
+    $(function () {
+            $('#post_delete').click(function (e) {
+                e.preventDefault()
+              $.ajax({
+                  url: '/re/profile/post/delete/', type: 'post', dataType: 'json', cache: false,
+                  data: {
+                      post_id: $('#post_to_delete').html(),
+                  },
+                  success: function (data) {
+                    if(data.res === 1){
+                        $('#post_wrapper_'+$('#post_to_delete').html()).replaceWith('<div>post removed</div>')
+                        $('#modal_post_delete').modal('hide')
+                    }
+                  }
+              })
+
+            })
+
+            $("#modal_post_delete").on("shown.bs.modal", function () {
+
+    }).on("hidden.bs.modal", function () {
+
+                        $('#post_to_delete').html('')
+
+        })
+    });
+    $(function () {
+
+        $.ajax({url:'/re/profile/post/', type:'post', dataType:'json', cache:false,
+            data:{
+                chosen_user_id: $('#chosen_user_id').html(),
+                last_post_id: $('#last_post_id').html()
+            },
+            success:function (data) {
+                var _modifier = ''
+                $.each(data.set, function (key, value) {
+
+                    if (data.master === true){
+                        _modifier = '<div align="right"><a href="/post/update/'+value.id+'/"><span class="profile_update">update</span></a><span>  </span><a href=""><span class="profile_delete">delete</span></a></div>'
+                    }
+                    var appender = '<div id="post_wrapper_'+value.id+'"><div class="row div_base profile_post_div" id="post_div_'+value.id+'">' +
+                        '<script defer>' +
+                        '    profile_populate("'+value.id+'")' +
+                        '<'+'/script></div>' + _modifier + '</div>'
+                        //'console.log($("#post_div_'+value.id+'").attr("data-u"))' +
+                    var jq_appender = $(appender)
+                    jq_appender.find('.profile_delete').on('click', function (e) {
+                        e.preventDefault()
+                        $('#post_to_delete').html(value.id)
+                        $('#modal_post_delete').modal('show')
+                    })
+                    $('#content').append(jq_appender)
+                })
+                    if (data.next === null){
+                        $('#profile_post_more_load').addClass('hidden')
+                    } else {
+                        $('#profile_post_more_load').removeClass('hidden')
+                    }
+
+            }
+        })
+    })
+
+</script>
+<script>
+$(function () {
+    var height = $(window).height();
+    $('.modal_follow_wrapper').css('max-height', height-120);
+    $(window).on('resize', function(){
+
+        if($(window).height() != height){
+            height = $(window).height();
+            $('.modal_follow_wrapper').css('max-height', height-120);
+        }
+    });
+})
+    $(function () {
+        if($('#user_id').html()===$('#chosen_user_id').html()){
+            $('#change_profile').removeClass('hidden')
+            $('#follow').addClass('hidden')
+        } else {
+            $('#change_profile').addClass('hidden')
+            $('#follow').removeClass('hidden')
+        }
+        $('#follow').click(function (e) {
+            e.preventDefault()
+            if($('#user_id').html()===''){
+                $('#modal_need_login').modal('show')
+                return false;
+            }
+            $.ajax({url:'/re/profile/follow/', type:'post', dataType:'json', cache:false,
+                data:{
+                    user_id: $('#chosen_user_id').html()
+                },
+                success:function (data) {
+                    console.log(data)
+                    if (data.result === true){
+                        $('#follow_text').html('now following <span class="glyphicon glyphicon-ok"></span>')
+                        var count_follower = parseInt($('#count_follower').html())+1
+                        $('#count_follower').html(count_follower)
+                    } else {
+                        $('#follow_text').html('follow')
+                        var count_follower = parseInt($('#count_follower').html())-1
+                        $('#count_follower').html(count_follower)
+                    }
+                }
+            })
+        })
+
+        $("#modal_following").on("shown.bs.modal", function () {
+    var height = $(window).height();
+    $('.modal_follow_wrapper').css('max-height', height-120);
+    $(window).on('resize', function(){
+
+        if($(window).height() != height){
+            height = $(window).height();
+            $('.modal_follow_wrapper').css('max-height', height-120);
+        }
+    });
+            var chosen_user_id = $('#chosen_user_id').html()
+
+            $.ajax({url:'/re/profile/following/', type:'post', dataType:'json', cache:false,
+                data:{
+                    user_id: $('#chosen_user_id').html(),
+                    next_id: $('#next_id').html()
+                },
+                success:function (data) {
+                    if (data.res === 1){
+                        $.each(data.set, function (key, value) {
+                            var appender = '<div class="profile_list_wrapper"><a href="/'+value.username+'/">\n' +
+                                '<img class="img_small" src="'+value.photo+'">\n' +
+                                '<span class="profile_list_username">'+value.username+'</span>\n' +
+                                '</a></div>'
+                            $('#modal_following_list').append(appender)
+                        })
+                    }
+                    if (data.next === null){
+                        $('#next_id').html('')
+                        $('#modal_following_more').addClass('hidden')
+                    } else {
+                        $('#next_id').html(data.next)
+                        $('#modal_following_more').removeClass('hidden')
+                    }
+
+                }
+            })
+        }).on("hidden.bs.modal", function () {
+            $('#modal_following_list').empty()
+            $('#next_id').html('')
+        });
+
+        $('#modal_following_more').click(function (e) {
+            e.preventDefault()
+            var chosen_user_id = $('#chosen_user_id').html()
+
+            $.ajax({url:'/re/profile/following/', type:'post', dataType:'json', cache:false,
+                data:{
+                    user_id: $('#chosen_user_id').html(),
+                    next_id: $('#next_id').html()
+                },
+                success:function (data) {
+                    if (data.res === 1){
+                        $.each(data.set, function (key, value) {
+                            var appender = '<div class="profile_list_wrapper"><a href="/'+value.username+'/">\n' +
+                                '<img class="img_small" src="'+value.photo+'">\n' +
+                                '<span class="profile_list_username">'+value.username+'</span>\n' +
+                                '</a></div>'
+                            $('#modal_following_list').append(appender)
+                        })
+                    }
+                    if (data.next === null){
+                        $('#next_id').html('')
+                        $('#modal_following_more').addClass('hidden')
+                    } else {
+                        $('#next_id').html(data.next)
+                        $('#modal_following_more').removeClass('hidden')
+                    }
+
+                }
+            })
+        })
+
+        $('#count_following').click(function (e) {
+            $('#modal_following').modal('show')
+        })
+
+
+        $("#modal_follower").on("shown.bs.modal", function () {
+
+                var height = $(window).height();
+    $('.modal_follow_wrapper').css('max-height', height-120);
+    $(window).on('resize', function(){
+
+        if($(window).height() != height){
+            height = $(window).height();
+            $('.modal_follow_wrapper').css('max-height', height-120);
+        }
+    });
+            var chosen_user_id = $('#chosen_user_id').html()
+
+            $.ajax({url:'/re/profile/follower/', type:'post', dataType:'json', cache:false,
+                data:{
+                    user_id: $('#chosen_user_id').html(),
+                    next_id: $('#next_id').html()
+                },
+                success:function (data) {
+                console.log(data)
+                    if (data.res === 1){
+                        $.each(data.set, function (key, value) {
+                            var appender = '<div class="profile_list_wrapper"><a href="/'+value.username+'/">\n' +
+                                '<img class="img_small" src="'+value.photo+'">\n' +
+                                '<span class="profile_list_username">'+value.username+'</span>\n' +
+                                '</a></div>'
+                            $('#modal_follower_list').append(appender)
+                        })
+                    }
+                    if (data.next === null){
+                        $('#next_id').html('')
+                        $('#modal_follower_more').addClass('hidden')
+                    } else {
+                        $('#next_id').html(data.next)
+                        $('#modal_follower_more').removeClass('hidden')
+                    }
+
+                }
+            })
+        }).on("hidden.bs.modal", function () {
+            $('#modal_follower_list').empty()
+            $('#next_id').html('')
+        });
+
+        $('#modal_follower_more').click(function (e) {
+            e.preventDefault()
+            var chosen_user_id = $('#chosen_user_id').html()
+
+            $.ajax({url:'/re/profile/follower/', type:'post', dataType:'json', cache:false,
+                data:{
+                    user_id: $('#chosen_user_id').html(),
+                    next_id: $('#next_id').html()
+                },
+                success:function (data) {
+                console.log(data)
+                    if (data.res === 1){
+                        $.each(data.set, function (key, value) {
+                            var appender = '<div class="profile_list_wrapper"><a href="/'+value.username+'/">\n' +
+                                '<img class="img_small" src="'+value.photo+'">\n' +
+                                '<span class="profile_list_username">'+value.username+'</span>\n' +
+                                '</a></div>'
+                            $('#modal_follower_list').append(appender)
+                        })
+                    }
+                    if (data.next === null){
+                        $('#next_id').html('')
+                        $('#modal_follower_more').addClass('hidden')
+                    } else {
+                        $('#next_id').html(data.next)
+                        $('#modal_follower_more').removeClass('hidden')
+                    }
+
+                }
+            })
+        })
+
+        $('#count_follower').click(function (e) {
+            $('#modal_follower').modal('show')
+        })
+    })
+
+</script>
+
+
+
+</html>

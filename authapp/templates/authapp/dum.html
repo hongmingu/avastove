@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>ChatKaboo</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    {% include 'others/header_static.html' %}
+    {% load static from staticfiles %}
+
+    <script defer src="{% static 'js/validation_create.js' %}"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Tauri" rel="stylesheet">
+    {% if user.is_authenticated %}
+    {% else %}
+    {% endif %}
+
+</head>
+
+
+<body class="light_background_color height_100">
+{% include 'others/bootstrap_tester.html' %}
+
+{% include 'baseapp/_navbar.html' %}
+
+
+<div class="container-fluid margin_top_50" style="">
+
+
+    <div class="row">
+        <div class="desktop_display_none">
+            <div class="padding_10"></div>
+            <div class="padding_10"></div>
+            <div class="padding_10"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+
+            <div class="col-sm-12">
+                <div class="mobile_display_none padding_35"></div>
+                <div class="mobile_display_none padding_35"></div>
+                <p class="h3">Account has been deleted. It takes maybe about 2 weeks. If you login before that 2 weeks are not gone, 'Delete' will be canceled and you can use the account again.</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="padding_10"></div>
+        <div class="col-xs-12 col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8 clickable">
+            <div class="row">
+                <a class="text_link_no_deco" href="#">
+                    <p class="h2 background_light" align="center">Return to main</p>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

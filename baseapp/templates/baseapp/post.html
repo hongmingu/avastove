@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Demo</title>
+    {% include 'others/header_static.html' %}
+    {% include 'others/favicon.html' %}
+
+    {% load static from staticfiles %}
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <script src="{% static 'js/a_selected.js' %}"></script>
+    <script src="{% static 'js/nav_badge.js' %}"></script>
+    <script src="{% static 'js/date_differ.js' %}"></script>
+    <script src="{% static 'js/home_populate.js' %}"></script>
+    <script src="{% static 'js/modal_resize.js' %}"></script>
+    <script src="{% static 'js/modal_feed_menu.js' %}"></script>
+    <script src="{% static 'js/modal_opens.js' %}"></script>
+    <script src="{% static 'js/modal_reading.js' %}"></script>
+    <script src="{% static 'js/nav_badge_populate.js' %}"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Tauri" rel="stylesheet">
+    {% if user.is_authenticated %}
+    {% else %}
+    {% endif %}
+
+    <style>
+    </style>
+
+
+</head>
+<body class="light_background_color height_100">
+<!--navbar start-->
+{% include 'baseapp/_navbar.html' %}
+
+<!--navbar end-->
+<!--page info-->
+{% include 'others/bootstrap_tester.html' %}
+
+<div class="hidden" id="page_kind" data-u="home"></div>
+<div class="hidden" id="last_num" data-u=""></div>
+<div class="hidden" id="post_created">{{ post.created|date:"c" }}</div>
+<div class="hidden" id="post_last_id"></div>
+
+<div class="hidden" id="clicked_post_id"></div>
+
+<div class="hidden" id="reading_post_id"></div>
+<div class="hidden" id="reading_post_profile_photo"></div>
+<div class="hidden" id="reading_post_user_id"></div>
+<div class="hidden" id="reading_post_profile_name"></div>
+<div class="hidden" id="reading_post_chat_last_id"></div>
+<div class="hidden" id="reading_post_chat_before_id"></div>
+<div class="hidden" id="reading_post_chat_next_id"></div>
+<div class="hidden" id="post_liking_next_id"></div>
+<div class="hidden" id="post_follow_next_id"></div>
+<div class="hidden" id="post_chat_liking_next_id"></div>
+<div class="hidden" id="post_chat_rest_liking_next_id"></div>
+<div class="hidden" id="clicked_post_chat_id"></div>
+<div class="hidden" id="clicked_post_chat_rest_id"></div>
+{% if user.is_authenticated %}
+    <div class="hidden" id="user_id" data-u="{{ user.username }}">{{ user.username }}</div>
+{% else %}
+    <div class="hidden" id="user_id" data-u=""></div>
+{% endif %}
+<!--page info end -->
+
+<div class="container-fluid margin_top_50">
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
+            <div class="row">
+                <div id="content">
+                    <div class="row div_base"><span class="post_created"></span></div>
+
+
+                    <div class="row div_base" id="post_div_{{ id_data.id }}">
+                    <script defer>
+                        home_populate("{{ id_data.id }}")
+                    </script>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_menu">
+    <div class="modal-dialog modal-dialog_menu">
+      <div class="modal-content modal-content_menu">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal-body_menu">
+            <div class="row">
+              <p class="h4" align="center"><a href="{% url 'authapp:settings' %}"><span class="clickable padding_5" style="background-color: #00aced">Settings</span></a></p>
+            </div>
+            <div class="row">
+              <p class="h4" align="center"><a href="{% url 'authapp:log_out' %}"><span class="clickable padding_5" style="background-color: #00aced">Log out</span></a></p>
+            </div>
+        </div>
+        <div class="modal-footer modal-footer_menu">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+        </div>
+      </div>
+    </div>
+</div>
+<div class="modal fade" id="modal_feed_menu">
+    <div class="modal-dialog modal-dialog_menu">
+      <div class="modal-content modal-content_menu">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal-body_menu" id="modal_feed_menu_content">
+            <div align="center">
+                <input type="text" id="modal_feed_input" class="modal_feed_menu_input">
+            </div>
+            <div align="center" class="margin_top_15">
+              <a href=""><span class="clickable padding_5 link_copy" id="modal_feed_menu_copy">copy link</span></a>
+            </div>
+            <div align="center" class="margin_top_15">
+              <a href=""><span class="clickable padding_5 link_locate" id="modal_feed_menu_locate">move to link</span></a>
+            </div>
+        </div>
+      </div>
+    </div>
+</div>
+
+  <div class="modal fade" id="modal_reading_post">
+    <div class="modal-dialog modal_dialog_reading_post">
+      <div class="modal-content" id="modal_reading_post_content">
+
+        <div class="modal-body padding_0">
+
+            <button type="button" class="close modal_close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            <div class="modal_top_padder"></div>
+            <div id="modal_reading_contents">
+                <div class="modal_reading_chat">
+                    <a href=""><div class="reading_chat_more_load clickable hidden" id="reading_chat_more_load" align="center">MORE LOAD</div></a>
+                    <div class="reading_chat_started hidden" id="reading_chat_started" align="center">Convo started</div>
+                    <div id="modal_reading_chat">
+
+
+                    </div>
+
+
+                </div>
+                <div class="modal_reading_interaction" id="modal_reading_interaction" align="center">
+                    <a href="">
+                        <div class="clickable reading_chat_interaction_white hidden reading_chat_next reading_chat_play hidden" id="interaction_play_white">
+                            <span class="glyphicon glyphicon-play interaction_play"></span>
+                        </div>
+                    </a>
+
+                    <a href="">
+                        <div class="clickable reading_chat_interaction_green reading_chat_next reading_chat_play hidden" id="interaction_play_green">
+                            <span class="glyphicon glyphicon-play interaction_play"></span>
+                        </div>
+                    </a>
+
+                    <a href="">
+                        <div class="reading_chat_interaction_update reading_chat_next hidden" id="interaction_update">
+                            <a href=""><div class="clickable interaction_choice_update" id="interaction_choice_update">update</div></a>
+                            <a href=""><div class="clickable interaction_choice_interact" id="interaction_choice_interact">interact</div></a>
+                        </div>
+                    </a>
+                    <div class="modal_reading_form_inner_wrapper reading_chat_next hidden" id="interaction_form">
+                        <form class="modal_reading_form">
+                        <div class="input-group input-group-sm modal_reading_form_input_wrapper">
+                            <textarea class="form-control modal_reading_form_textarea" placeholder="message"></textarea>
+                            <div class="input-group-btn">
+                                <button class="btn btn-default modal_reading_form_textarea_button" type="submit"><i
+                                        class="glyphicon glyphicon-send"></i></button>
+                            </div>
+                        </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<div class="modal fade" id="modal_post_liking">
+    <div class="modal-dialog modal-dialog_menu">
+      <div class="modal-content modal-content_menu">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal_follow_wrapper" id="modal_post_liking_wrapper">
+            <div align="center">likes</div>
+            <div id="modal_post_liking_list">
+
+            </div>
+            <a href=""><div class="hidden" align="center" id="modal_post_liking_more">more</div></a>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal_post_chat_liking">
+    <div class="modal-dialog modal-dialog_menu">
+      <div class="modal-content modal-content_menu">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal_follow_wrapper" id="modal_post_chat_liking_wrapper">
+            <div align="center">likes</div>
+            <div id="modal_post_chat_liking_list">
+
+            </div>
+            <a href=""><div class="hidden" align="center" id="modal_post_chat_liking_more">more</div></a>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="modal_post_chat_rest_liking">
+    <div class="modal-dialog modal-dialog_menu">
+      <div class="modal-content modal-content_menu">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal_follow_wrapper" id="modal_post_chat_rest_liking_wrapper">
+            <div align="center">likes</div>
+            <div id="modal_post_chat_rest_liking_list">
+
+            </div>
+            <a href=""><div class="hidden" align="center" id="modal_post_chat_rest_liking_more">more</div></a>
+        </div>
+      </div>
+    </div>
+</div>
+
+<div class="modal fade" id="modal_post_follow">
+    <div class="modal-dialog modal-dialog_menu">
+      <div class="modal-content modal-content_menu">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body modal_follow_wrapper" id="modal_post_follow_wrapper">
+            <div align="center">followers</div>
+            <div id="modal_post_follow_list">
+
+            </div>
+            <a href=""><div class="hidden" align="center" id="modal_post_follow_more">more</div></a>
+        </div>
+      </div>
+    </div>
+</div>
+{% include 'baseapp/_modal_need_login.html' %}
+
+</body>
+<script>
+    $(function () {
+            $('.post_created').html(date_differ($('#post_created').html()))
+    })
+</script>
+
+
+</html>

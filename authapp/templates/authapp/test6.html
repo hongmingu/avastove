@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+{% block extra_head %}<script src='https://www.google.com/recaptcha/api.js'></script>{% endblock %}
+
+{% block contents %}
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-offset-2 col-md-8 col-lg-offset-3 col-lg-6">
+                <div class="row">
+
+                    <form class="form-horizontal" method="post" action=".">
+
+                        {% csrf_token %}
+
+
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="id_username">Username(ID)</label>
+                            <div class="col-sm-10">{{ form.username }}</div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-sm-2" for="id_email">Email</label>
+                            <div class="col-sm-10">
+                                {{ form.email }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2 col-sm-2" for="id_password">Password</label>
+                            <div class="col-sm-10">
+                                {{ form.password }}
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label col-xs-2 col-sm-2" for="id_password_confirm">Password</label>
+                            <div class="col-sm-10">
+                                {{ form.password_confirm }}
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                                <div class="g-recaptcha" data-sitekey="6Ld4Tz4UAAAAAEnsEF3EcBBdGViccpEQNiA1rBcs"></div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-xs-offset-5 col-sm-offset-5">
+                                <button class="btn btn-default" type="submit">Create</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+                    {% if wrong %}
+                        {{ wrong.message }} hello
+                    {% endif %}
+
+        </div>
+    </div>
+
+
+{% endblock %}
+{% block extra_script %}
+<script>
+$(document).ready(function () {
+    var username_regex = /^[a-zA-Z0-9._]+$/;
+    var email_regex = /[^@]+@[^@]+\.[^@]+/;
+
+    $('#id_username').blur(function () {
+        var username = $('#id_username').val();
+        var username_len_test = !(username.length > 30);
+        var username_regex_test = username_regex.test(username);
+        var username_result = username_regex_test && username_len_test;
+        console.log('username result : '+ username_result);
+
+        var email = $('#id_email').val();
+        var email_len_test = !(email.length > 255);
+        var email_regex_test = email_regex.test(email);
+        var email_result = email_regex_test && email_len_test;
+        console.log('email result : '+ email_result);
+
+        var password = $('#id_password').val();
+        var password_confirm = $('#id_password_confirm').val();
+        console.log('password : ' + password + ' password_confirm : ' + password_confirm);
+
+        /*
+        const found = forbidden.find(word => username.includes(word));
+        if(found) {
+            console.log({'result': found + ' banned username'});
+        }
+        */
+
+        const forbidden = ['admin', 'master', 'owner'];
+
+        const found = forbidden.find(function (item, index, array) {
+            return username.includes(item)
+        });
+
+        if(found) {
+            console.log({'result': found + ' banned username'})
+        }
+
+        /*
+        $.ajax({
+            url:'/accounts/create/',
+            type:'post',
+            dataType:'json',
+            cache:false,
+            data:{
+                email_change:'yonginautoland@naver.com'
+            },
+            success:function (data) {
+                console.log('success!')
+            }
+        });
+        */
+    });
+});
+</script>
+{% endblock %}

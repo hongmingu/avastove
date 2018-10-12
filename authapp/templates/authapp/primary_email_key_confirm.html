@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>ChatKaboo Confirmation</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    {% include 'others/header_static.html' %}
+    {% load static from staticfiles %}
+    <link href="https://fonts.googleapis.com/css?family=Tauri" rel="stylesheet">
+
+</head>
+<body>
+{% include 'others/bootstrap_tester.html' %}
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+            <h1>
+                <span class="span_chat">Chat</span><span class="gradation span_kaboo"
+                                                         style="font-family: 'Tauri', sans-serif;">Kaboo</span>
+            </h1>
+        </div>
+    </div>
+    <div class="row">
+        {% if clue %}
+            <p><h2>{{ clue.message }}</h2></p>
+        {% endif %}
+    </div>
+    {% if clue.success %}
+    <div class="row">
+        <p><h4>Thank you, Let's back to Chatkaboo site:</h4></p>
+        <a class="btn btn-default btn-lg" href="https://www.chatkaboo.com">www.chatkaboo.com</a>
+    </div>
+    {% else %}
+    <div class="row">
+        <p><h4>There is something wrong, Please retry your email confirmation:</h4></p>
+        <a class="btn btn-default btn-lg" href="https://www.chatkaboo.com">www.chatkaboo.com</a>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>

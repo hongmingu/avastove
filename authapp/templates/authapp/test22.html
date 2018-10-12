@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- APP CONTENT -->
+
+    <!-- jQuery CDN -->
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>  <!-- jQuery local fallback -->
+    <script>window.jQuery || document.write('<script src="/static_url/js/jquery-3.3.1.js"><\/script>')</script>
+
+
+    <!-- Bootstrap CSS CDN -->
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+    <!-- Bootstrap JS CDN -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+    <!-- Bootstrap JS local fallback -->
+    <script>if(typeof($.fn.modal) === 'undefined') {
+        document.write('<script src="/static_url/bootstrap/js/bootstrap.js"><\/script>')
+
+    }</script>
+    <!-- Bootstrap CSS local fallback -->
+</head>
+<body>
+    <div id="bootstrapCssTest" class="hidden"></div>
+    <button id="btn_test">btn_test</button>
+</body>
+
+    <script>
+    $(function() {
+        if ($('#bootstrapCssTest').is(':visible')) {
+            $("head").prepend('<link rel="stylesheet" href="/static_url/bootstrap/css/bootstrap.css">');
+
+        }
+    });
+    </script>
+    <script>
+            // csrf set
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                 }
+            }
+        });
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("#btn_test").click(function () {
+                for (var i = 0; i < 10; i++) {
+                    console.log(i + 'start');
+                    $.ajax({
+                        type : "POST",
+                        url : "/test/",
+                        data : {
+                            num : i
+                        },
+                        cache:false,
+                        dataType : "json",
+                        error : function(){
+                            alert('통신실패!!');
+                        },
+                        success : function(data){
+                            console.log("통신데이터 값 : " + data.hello) ;
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+
+<script defer>
+    $(function () {
+
+        var namediv;
+        // Hook up send button to send a message
+        var id_num;
+        $('#span_username_change').click(function (e) {
+            e.preventDefault();
+            id_num = Math.floor((Math.random() * 100) + 1)
+            var namediv = $('                    <div class="row">\n'+
+            '                        <div class="col-xs-9 padding_top_5">\n' +
+            '                            <div class="input-group-lg">\n' +
+            '                                <input class="width_100_i" placeholder="current: '+'" type="text">\n' +
+            '                            </div>\n' +
+            '                        </div>\n' +
+            '                        <div class="col-xs-3">\n' +
+            '                            <p class="h4"><a href="#"><span id="span_name_change"\n' +
+            '                                    class="clickable padding_5 pastel_bc3">change</span></a></p> \n' +
+            '                        </div>\n' +
+            '                    </div>');
+
+            $("body").append(namediv);
+            namediv.find('span').on('click', function () {
+                alert(namediv.find("input").val());
+            });
+            alert(namediv.find("input").val());
+        })
+
+        $('#span_name_change').click(function (e) {
+            e.preventDefault();
+            alert(namediv.find("input").val());
+
+        })
+    })
+</script>
+</html>

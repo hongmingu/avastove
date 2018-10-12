@@ -1,0 +1,2 @@
+def length(data):
+    return

@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Demo</title>
+    {% include 'others/header_static.html' %}
+    {% include 'others/favicon.html' %}
+
+    {% load static from staticfiles %}
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <script src="{% static 'js/a_selected.js' %}"></script>
+    <script src="{% static 'js/re_socket.js' %}"></script>
+    <script src="{% static 'js/nav_badge.js' %}"></script>
+
+
+    <link rel="stylesheet" href="{% static 'cropper/cropper.min.css' %}">
+    <script src="{% static 'cropper/cropper.min.js' %}"></script>
+    <link href="https://fonts.googleapis.com/css?family=Tauri" rel="stylesheet">
+    {% if user.is_authenticated %}
+    {% else %}
+    {% endif %}
+
+    <style>
+
+    </style>
+
+
+</head>
+<body class="light_background_color height_100">
+<!--navbar start-->
+{% include 'baseapp/_navbar.html' %}
+
+<!--navbar end-->
+<!--page info-->
+{% include 'others/bootstrap_tester.html' %}
+
+<div class="hidden" id="page_kind" data-u="create_new"></div>
+<div class="hidden" id="last_num" data-u=""></div>
+
+{% if user.is_authenticated %}
+    <div class="hidden" id="num" data-u="{{ user.username }}"></div>
+{% endif %}
+<!--page info end -->
+
+<div class="container-fluid margin_top_50">
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
+            <div class="row" id="content">
+                <!--여기서 modal -->
+
+                <div class="row div_base">
+                    <div align="center"><span class="new_post_heading">New Post</span></div>
+                    <br>
+                    <br>
+                    <br>
+                    <div align="center"><span class="open_or_close">Whose Profile?</span></div>
+                    <br>
+                    <div class="col-xs-6">
+                        <div align="center"><a href="">
+                            <div class="clickable padding_5 main_background_color choice_selected" id="your_profile">
+                                Your Profile
+                            </div>
+                        </a></div>
+                    </div>
+                    <div class="col-xs-6">
+                        <div align="center"><a href="">
+                            <div class="clickable padding_5 main_background_color choice_unselected" id="other_profile">
+                                Other Profile
+                            </div>
+                        </a></div>
+                    </div>
+                    <div class="hidden" id="name_fill">
+                        <br><br><br><br>
+                        <div align="center"><span class="open_or_close">Profile's name?</span></div>
+                        <div align="center"><span class="h5" id="name_clue">name that is to be displayed</span></div>
+                        <div class="col-xs-12 padding_top_5">
+                            <div class="input-group-lg">
+                                <input class="width_100_i" id="input_name" placeholder="name input" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <div align="center"><span class="open_or_close">Title?</span></div>
+                    <br>
+                    <div class="col-xs-6">
+                        <a href="">
+                            <div class="clickable padding_5 choice_selected" id="title_not" align="center">need not
+                            </div>
+                        </a>
+                    </div>
+                    <div class="col-xs-6">
+                        <a href="">
+                            <div class="clickable padding_5 choice_unselected" id="title_add" align="center">add</div>
+                        </a>
+                    </div>
+                    <div class="hidden" id="title_fill">
+                        <br><br><br><br>
+                        <div align="center"><span class="open_or_close" id="title_clue">Fill your title</span></div>
+                        <div class="col-xs-12 padding_top_5">
+                            <div class="input-group-lg">
+                                <input class="width_100_i" id="input_title" placeholder="title input" type="text">
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+                    <div align="center"><span class="open_or_close">Description?</span></div>
+                    <br>
+                    <div class="col-xs-6">
+                        <a href="">
+                            <div class="clickable padding_5 choice_selected" id="desc_not" align="center">need not</div>
+                        </a>
+                    </div>
+                    <div class="col-xs-6">
+                        <a href="">
+                            <div class="clickable padding_5 choice_unselected" id="desc_add" align="center">add</div>
+                        </a>
+                    </div>
+                    <div class="hidden" id="desc_fill">
+                        <br><br><br><br>
+                        <div align="center"><span class="open_or_close" id="desc_clue">Fill your description</span>
+                        </div>
+                        <div class="col-xs-12 padding_top_5">
+                            <div class="input-group-lg">
+                                <textarea class="width_100_i create_description_textarea" id="input_desc"
+                                          placeholder="description input" style=""></textarea>
+                            </div>
+                        </div>
+
+                    </div>
+                    <br>
+                    <br>
+                    <br>
+                    <br>
+
+                    <form method="post" action="." onsubmit="return create_set();">
+                        {% csrf_token %}
+                        <div class="form-group hidden">
+                            {{ form.whose }}
+                        </div>
+                        <div class="form-group hidden">
+                            {{ form.name }}
+                        </div>
+                        <div class="form-group hidden">
+                            {{ form.title }}
+                        </div>
+                        <div class="form-group hidden">
+                            {{ form.title_content }}
+                        </div>
+                        <div class="form-group hidden">
+                            {{ form.description }}
+                        </div>
+                        <div class="form-group hidden">
+                            {{ form.description_content }}
+                        </div>
+                        <div class="col-xs-12">
+                            <div align="center">
+                                <button type="submit" class="btn btn-default main_background_color write_new_post"
+                                        id="create">Create
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!--ajax는 ajax고 websocket은 websocket 이다. 둘을 분리한다. 구버전 브라우저는 포기해 일단 채팅과 알림만 websocket 쓴다.-->
+
+            </div>
+        </div>
+    </div>
+</div>
+  <!-- MODAL TO CROP THE IMAGE -->
+  <div class="modal fade" id="modal_add" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Add Chat</h4>
+        </div>
+        <div class="modal-body padding_0">
+          <img src="" id="img_crop" class="max_width_100p">
+        </div>
+        <div class="modal-footer">
+          <div class="btn-group pull-left" role="group">
+            <button type="button" class="btn btn-default js-zoom-in">
+              <span class="glyphicon glyphicon-zoom-in"></span>
+            </button>
+            <button type="button" class="btn btn-default js-zoom-out">
+              <span class="glyphicon glyphicon-zoom-out"></span>
+            </button>
+          </div>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary js-crop-and-upload">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</body>
+
+
+<script>
+</script>
+<script>
+    $(function () {
+        $('#whose').val('self')
+        $('#title').val('off')
+        $('#description').val('off')
+        $('#title_content').val('')
+        $('#description_content').val('')
+
+        $('#your_profile').click(function (e) {
+            e.preventDefault()
+            if ($(this).hasClass('choice_unselected')) {
+                $(this).toggleClass('choice_selected choice_unselected')
+            }
+            if ($('#other_profile').hasClass('choice_selected')) {
+                $('#other_profile').toggleClass('choice_selected choice_unselected')
+            }
+            if (!$('#name_fill').hasClass('hidden')) {
+                $('#name_fill').toggleClass('hidden')
+            }
+            $('#whose').val('self')
+        });
+        $('#other_profile').click(function (e) {
+            e.preventDefault()
+            if ($(this).hasClass('choice_unselected')) {
+                $(this).toggleClass('choice_selected choice_unselected')
+            }
+            if ($('#your_profile').hasClass('choice_selected')) {
+                $('#your_profile').toggleClass('choice_selected choice_unselected')
+            }
+            if ($('#name_fill').hasClass('hidden')) {
+                $('#name_fill').toggleClass('hidden')
+            }
+            $('#whose').val('other')
+        })
+        $('#title_not').click(function (e) {
+            e.preventDefault()
+            if ($(this).hasClass('choice_unselected')) {
+                $(this).toggleClass('choice_selected choice_unselected')
+            }
+            if ($('#title_add').hasClass('choice_selected')) {
+                $('#title_add').toggleClass('choice_selected choice_unselected')
+            }
+
+            if (!$('#title_fill').hasClass('hidden')) {
+                $('#title_fill').toggleClass('hidden')
+            }
+            $('#title').val('off')
+
+        });
+        $('#title_add').click(function (e) {
+            e.preventDefault()
+            if ($(this).hasClass('choice_unselected')) {
+                $(this).toggleClass('choice_selected choice_unselected')
+            }
+            if ($('#title_not').hasClass('choice_selected')) {
+                $('#title_not').toggleClass('choice_selected choice_unselected')
+            }
+            if ($('#title_fill').hasClass('hidden')) {
+                $('#title_fill').toggleClass('hidden')
+            }
+            $('#title').val('on')
+        })
+        $('#desc_not').click(function (e) {
+            e.preventDefault()
+            if ($(this).hasClass('choice_unselected')) {
+                $(this).toggleClass('choice_selected choice_unselected')
+            }
+            if ($('#desc_add').hasClass('choice_selected')) {
+                $('#desc_add').toggleClass('choice_selected choice_unselected')
+            }
+
+            if (!$('#desc_fill').hasClass('hidden')) {
+                $('#desc_fill').toggleClass('hidden')
+            }
+            $('#description').val('off')
+        });
+        $('#desc_add').click(function (e) {
+            e.preventDefault()
+            if ($(this).hasClass('choice_unselected')) {
+                $(this).toggleClass('choice_selected choice_unselected')
+            }
+            if ($('#desc_not').hasClass('choice_selected')) {
+                $('#desc_not').toggleClass('choice_selected choice_unselected')
+            }
+            if ($('#desc_fill').hasClass('hidden')) {
+                $('#desc_fill').toggleClass('hidden')
+            }
+            $('#description').val('on')
+        })
+
+    })
+
+
+    var create_set = (function create_set() {
+        $('#name').val($('#input_name').val())
+        $('#title_content').val($('#input_title').val())
+        $('#description_content').val($('#input_desc').val())
+        var name = $('#input_name').val()
+        var title = $('#input_title').val()
+        var description = $('#input_desc').val()
+        if ($('#whose').val() === 'other') {
+            if (name.replace(/ /g,'')==='') {
+                $('#name_clue').html('name cannot be empty').css('color', 'red')
+                return false
+            }
+            if (!(1 <= name.length && name.length <= 30)) {
+                $('#name_clue').html('1 < name length < 30').css('color', 'red')
+                $('html, body').animate({
+                    scrollTop: 30
+                }, 500);
+                return false
+            }
+        }
+        if ($('#title').val() === 'on') {
+            if (title.replace(/ /g,'')===''){
+                $('#title_clue').html('title cannot be empty').css('color', 'red')
+            }
+            if (!(1 <= title.length && title.length <= 1000)) {
+                $('#title_clue').html('1 < title length < 1000').css('color', 'red')
+                alert('1 < title length < 1000')
+                return false
+            }
+        }
+        if ($('#description').val() === 'on') {
+            if (description.replace(/ /g,'')===''){
+                $('#title_clue').html('description cannot be empty').css('color', 'red')
+            }
+            if (!(1 <= description.length && description.length <= 2000)) {
+                $('#desc_clue').html('1 < description length < 2000').css('color', 'red')
+                alert('1 < description length < 2000')
+                return false
+            }
+        }
+        return true;
+    });
+
+</script>
+</html>

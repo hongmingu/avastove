@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block extra_head %}
+    <!--<script src='https://www.google.com/recaptcha/api.js'></script>-->
+    <script src="url2img.js"></script>
+
+{% endblock %}
+{% block contents %}
+<!--
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="g-recaptcha" data-sitekey="6Ld4Tz4UAAAAAEnsEF3EcBBdGViccpEQNiA1rBcs"></div>
+
+    <button type="submit" class="btn btn-primary">Post</button>
+  </form>
+-->
+    <button id="btn_test">Test</button>
+    <br>
+    <input type="text" id="input_test"/>
+    <br>
+    <div id="div_test"></div>
+
+{% endblock %}
+{% block extra_script %}
+<script>
+$(document).ready(function () {
+
+    $('#btn_send').click(function () {
+            var text_email = $('#input_send').val();
+            console.log(text_email);
+            $.ajax({
+                url:'/email_send/',
+                type:'post',
+                dataType:'json',
+                cache:false,
+                data:{
+                    email:text_email
+                },
+                success:function (data) {
+                    console.log(data)
+                }
+            });
+        });
+
+        // csrf set
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                 }
+            }
+        });
+
+    $("form").submit(function(event) {
+        var recaptcha = $("#g-recaptcha-response").val();
+        if (recaptcha === "") {
+            event.preventDefault();
+            alert("Please check the recaptcha");
+        }
+    });
+
+    $('#btn_test').click(function () {
+        var array_list = ['list_1', {'1dic_key': '1dic_value', '2dic_key': '2dic_value'}, 'list_2', 'list_3'];
+        var text_test = $('#input_test').val();
+        var regex_test = /^([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)$/;
+        var match_result = regex_test.test(text_test);
+        var regex_numeric_test = /^\d+$/;
+        var match_result_numeric = regex_numeric_test.test(text_test);
+
+        console.log(match_result);
+        console.log('-----------');
+        console.log(match_result_numeric);
+        console.log('-----------');
+
+        $.ajax({
+            url:'/accounts/test/',
+            type:'post',
+            dataType:'html',
+            cache:false,
+            success:function (data) {
+                console.log(data)
+                var headline = $(data.responseText).find('a.tsh').text();
+                alert(headline);
+                $('#div_test').html(headline)
+            }
+        });
+        //console.log($.type(array_list[0]));
+        //console.log($(array_list).size());
+        //$.each(data, function (index, item) {
+        //    console.log('index : ' + index + ', item : ' + item )
+        //    $.each(item, function (index, item) {
+        //    })
+        //});
+    });
+});
+</script>
+{% endblock %}

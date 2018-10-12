@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <title>{% block head_title %}title{% endblock %}</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 부트스트랩 3.3.7로 버전바꾸니 드랍다운에서 인풋클릭시 사라지는거 해결-->
+    <script
+    src="https://code.jquery.com/ui/1.9.2/jquery-ui.min.js"
+    integrity="sha256-eEa1kEtgK9ZL6h60VXwDsJ2rxYCwfxi40VZ9E0XwoEA="
+    crossorigin="anonymous"></script>
+<style>
+
+</style>
+
+
+
+</head>
+<body>
+    <div style="padding: 40px;">
+        <button id="btn_test">test_btn</button>
+            <br>
+            <!--
+            <div class="ui-widget">
+                <input id="tags3">
+            </div>
+            -->
+    </div>
+</body>
+<script>
+$(document).ready(function () {
+
+    var replace_div = '<div class="ui-widget">\n' +
+        '            <input id="tags3">\n' +
+        '        </div>';
+
+    $('#btn_test').click(function () {
+        $('#btn_test').fadeOut('', function () {
+            $('#btn_test').replaceWith(replace_div);
+            $( "#tags3" ).autocomplete({
+                source: availableTags,
+                messages: {
+                    noResults: '',
+                    results: function () {
+                    }
+                }
+            });
+        });
+
+    });
+    var availableTags = [
+        "ActionScript",
+        "AppleScript",
+        "Asp",
+        "BASIC",
+        "C",
+        "C++",
+        "Clojure",
+        "COBOL",
+        "ColdFusion",
+        "Erlang",
+        "Fortran",
+    ];
+
+
+
+});
+
+</script>
+
+</html>

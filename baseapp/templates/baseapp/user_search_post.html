@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Demo</title>
+    {% include 'others/header_static.html' %}
+    {% include 'others/favicon.html' %}
+
+    {% load static from staticfiles %}
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <script src="{% static 'js/a_selected.js' %}"></script>
+    <script src="{% static 'js/nav_badge.js' %}"></script>
+
+    <script src="{% static 'js/date_differ.js' %}"></script>
+    <script src="{% static 'js/profile_populate.js' %}"></script>
+    <script src="{% static 'js/modal_resize.js' %}"></script>
+    <script src="{% static 'js/modal_feed_menu.js' %}"></script>
+    <script src="{% static 'js/modal_opens.js' %}"></script>
+    <script src="{% static 'js/modal_profile_reading.js' %}"></script>
+
+
+    <link href="https://fonts.googleapis.com/css?family=Tauri" rel="stylesheet">
+    {% if user.is_authenticated %}
+    {% else %}
+    {% endif %}
+
+    <style>
+    </style>
+
+
+</head>
+<body class="light_background_color height_100">
+<!--navbar start-->
+{% include 'baseapp/_navbar.html' %}
+
+<!--navbar end-->
+<!--page info-->
+{% include 'others/bootstrap_tester.html' %}
+    <div class="hidden" id="search_word">{{ word.q}}</div>
+    <div class="hidden" id="next_id"></div>
+{% if user.is_authenticated %}
+    <div class="hidden" id="user_id">{{ user.username }}</div>
+{% else %}
+    <div class="hidden" id="user_id"></div>
+{% endif %}
+<!--page info end -->
+<div class="hidden" id="clicked_post_id"></div>
+
+<div class="hidden" id="reading_post_id"></div>
+<div class="hidden" id="reading_post_profile_photo"></div>
+<div class="hidden" id="reading_post_user_id"></div>
+<div class="hidden" id="reading_post_profile_name"></div>
+<div class="hidden" id="reading_post_chat_last_id"></div>
+<div class="hidden" id="reading_post_chat_before_id"></div>
+<div class="hidden" id="reading_post_chat_next_id"></div>
+<div class="hidden" id="post_liking_next_id"></div>
+<div class="hidden" id="post_follow_next_id"></div>
+<div class="hidden" id="post_chat_liking_next_id"></div>
+<div class="hidden" id="post_chat_rest_liking_next_id"></div>
+<div class="hidden" id="clicked_post_chat_id"></div>
+<div class="hidden" id="clicked_post_chat_rest_id"></div>
+<div class="container-fluid margin_top_50">
+    <div class="row">
+        <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
+            <div class="row">
+                <div class="h2">Posts result</div>
+                <div id="content_post"></div>
+                <div class="hidden" align="center" id="more_post_load"><a href=""><span class="clickable padding_5">more load</span></a></div>
+
+            </div>
+        </div>
+    </div>
+</div>
+{% include 'baseapp/_modal_need_login.html' %}
+{% include 'baseapp/_modal_reading.html' %}
+{% include 'baseapp/_modal_post.html' %}
+</body>
+<script>
+    $(function () {
+        if($('#search_word').html()===''){
+            $('#content_post').append('<div class="h3">No results</div>')
+        } else {
+            $.ajax({url:'/re/search/post/', type:'post', dataType:'json', cache:false,
+                data:{
+                    search_word: $('#search_word').html(),
+                    next_id: $('#next_id').html()
+                },
+                success:function (data) {
+                if (data.res === 1){
+                    //post set
+                    if(data.post_set.length === 0){
+                        $('#content_post').append('<div class="h3">No results</div>')
+                    } else {
+                        $.each(data.post_set, function (key, value) {
+                            var appender = '<div class="row div_base" id="post_div_'+value.id+'">' +
+                            '<script defer>' +
+                            '    profile_populate("'+value.id+'")' +
+                            '<'+'/script></div>'
+                            $('#content_post').append(appender)
+                        })
+                    }
+
+                    //여기에 모달들 추가해줘야 포스트 작동함. 그 후 모어로드 후 나머지 서치 구현 예
+                    if (data.post_next === null){
+                        $('#more_post_load').addClass('hidden')
+                        $('#next_id').html('')
+                    } else {
+                        $('#more_post_load').removeClass('hidden')
+                        $('#next_id').html(data.post_next)
+                    }
+                    //user set
+                }
+
+
+
+                }
+            })
+        }
+        $('#more_post_load').on('click', function (e) {
+            e.preventDefault()
+            $.ajax({url:'/re/search/post/', type:'post', dataType:'json', cache:false,
+                data:{
+                    search_word: $('#search_word').html(),
+                    next_id: $('#next_id').html()
+                },
+                success:function (data) {
+                    if (data.res === 1){
+                        //post set
+                        if(data.post_set.length === 0){
+                            $('#content_post').append('<div class="h3">No results</div>')
+                        } else {
+                            $.each(data.post_set, function (key, value) {
+                                var appender = '<div class="row div_base" id="post_div_'+value.id+'">' +
+                                '<script defer>' +
+                                '    profile_populate("'+value.id+'")' +
+                                '<'+'/script></div>'
+                                $('#content_post').append(appender)
+                            })
+                        }
+
+                        //여기에 모달들 추가해줘야 포스트 작동함. 그 후 모어로드 후 나머지 서치 구현 예
+                        if (data.post_next === null){
+                            $('#more_post_load').addClass('hidden')
+                            $('#next_id').html('')
+                        } else {
+                            $('#more_post_load').removeClass('hidden')
+                            $('#next_id').html(data.post_next)
+                        }
+                        //user set
+                    }
+
+                }
+            })
+        })
+
+    })
+</script>
+
+<script>
+</script>
+
+
+</html>

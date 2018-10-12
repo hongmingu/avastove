@@ -1,0 +1,199 @@
+{% extends 'base.html' %}
+{% block extra_head %}
+    <!--<script src='https://www.google.com/recaptcha/api.js'></script>-->
+    <style>
+    .pace {
+  -webkit-pointer-events: none;
+  pointer-events: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+}
+
+.pace-inactive {
+  display: none;
+}
+
+.pace .pace-progress {
+  background: #29d;
+  position: fixed;
+  z-index: 2000;
+  top: 0;
+  left: 0;
+  height: 2px;
+
+  -webkit-transition: width 1s;
+  -moz-transition: width 1s;
+  -o-transition: width 1s;
+  transition: width 1s;
+}
+
+.pace .pace-progress-inner {
+  display: block;
+  position: absolute;
+  right: 0px;
+  width: 100px;
+  height: 100%;
+  box-shadow: 0 0 10px #29d, 0 0 5px #29d;
+  opacity: 1.0;
+  -webkit-transform: rotate(3deg) translate(0px, -4px);
+  -moz-transform: rotate(3deg) translate(0px, -4px);
+  -ms-transform: rotate(3deg) translate(0px, -4px);
+  -o-transform: rotate(3deg) translate(0px, -4px);
+  transform: rotate(3deg) translate(0px, -4px);
+}
+
+.pace .pace-activity {
+  display: block;
+  position: fixed;
+  z-index: 2000;
+  top: 15px;
+  right: 15px;
+  width: 14px;
+  height: 14px;
+  border: solid 2px transparent;
+  border-top-color: #29d;
+  border-left-color: #29d;
+  border-radius: 10px;
+  -webkit-animation: pace-spinner 400ms linear infinite;
+  -moz-animation: pace-spinner 400ms linear infinite;
+  -ms-animation: pace-spinner 400ms linear infinite;
+  -o-animation: pace-spinner 400ms linear infinite;
+  animation: pace-spinner 400ms linear infinite;
+}
+
+@-webkit-keyframes pace-spinner {
+  0% { -webkit-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -webkit-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-moz-keyframes pace-spinner {
+  0% { -moz-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -moz-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-o-keyframes pace-spinner {
+  0% { -o-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -o-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@-ms-keyframes pace-spinner {
+  0% { -ms-transform: rotate(0deg); transform: rotate(0deg); }
+  100% { -ms-transform: rotate(360deg); transform: rotate(360deg); }
+}
+@keyframes pace-spinner {
+  0% { transform: rotate(0deg); transform: rotate(0deg); }
+  100% { transform: rotate(360deg); transform: rotate(360deg); }
+}
+    </style>
+{% endblock %}
+{% block contents %}
+<!--
+  <form method="post">
+    {% csrf_token %}
+
+    <div class="g-recaptcha" data-sitekey="6Ld4Tz4UAAAAAEnsEF3EcBBdGViccpEQNiA1rBcs"></div>
+
+    <button type="submit" class="btn btn-primary">Post</button>
+  </form>
+-->
+    <button id="btn_test">Test</button>
+    <br>
+    <input type="text" id="input_test"/>
+    <br>
+    <div id="div_test"></div>
+
+{% endblock %}
+{% block extra_script %}
+<script>
+$(document).ready(function () {
+
+    $('#btn_send').click(function () {
+            var text_email = $('#input_send').val();
+            console.log(text_email);
+            $.ajax({
+                url:'/accounts/test2/',
+                type:'post',
+                dataType:'json',
+                cache:false,
+                data:{
+                    email:text_email
+                },
+                success:function (data) {
+                    console.log(data)
+                }
+            });
+        });
+
+        // csrf set
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        var csrftoken = getCookie('csrftoken');
+        function csrfSafeMethod(method) {
+        // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                 }
+            }
+        });
+
+    $("form").submit(function(event) {
+        var recaptcha = $("#g-recaptcha-response").val();
+        if (recaptcha === "") {
+            event.preventDefault();
+            alert("Please check the recaptcha");
+        }
+    });
+
+    $('#btn_test').click(function () {
+        var array_list = ['list_1', {'1dic_key': '1dic_value', '2dic_key': '2dic_value'}, 'list_2', 'list_3'];
+        var text_test = $('#input_test').val();
+        var regex_test = /^([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)$/;
+        var match_result = regex_test.test(text_test);
+        var regex_numeric_test = /^\d+$/;
+        var match_result_numeric = regex_numeric_test.test(text_test);
+
+        console.log(match_result);
+        console.log('-----------');
+        console.log(match_result_numeric);
+        console.log('-----------');
+
+        $.ajax({
+            url:'/accounts/test2/',
+            type:'post',
+            dataType:'html',
+            cache:false,
+            success:function (data) {
+                console.log(data)
+                var headline = $(data.responseText).find('a.tsh').text();
+                alert(headline);
+                $('#div_test').html(headline)
+            }
+        });
+        //console.log($.type(array_list[0]));
+        //console.log($(array_list).size());
+        //$.each(data, function (index, item) {
+        //    console.log('index : ' + index + ', item : ' + item )
+        //    $.each(item, function (index, item) {
+        //    })
+        //});
+    });
+});
+</script>
+{% endblock %}

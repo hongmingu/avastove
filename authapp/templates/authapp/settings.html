@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Demo</title>
+    {% include 'others/header_static.html' %}
+    {% load static from staticfiles %}
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <script src="{% static 'js/reconnecting-websocket.min.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'cropper/cropper.min.css' %}">
+    <script src="{% static 'cropper/cropper.min.js' %}"></script>
+
+
+    <link href="https://fonts.googleapis.com/css?family=Tauri" rel="stylesheet">
+    {% if user.is_authenticated %}
+    {% else %}
+    {% endif %}
+
+    <style>
+
+    </style>
+
+
+</head>
+<body class="light_background_color height_100">
+<!--navbar start-->
+{% include 'baseapp/_navbar.html' %}
+<!--popover 유용하게 쓸 수 있을 것 같다-->
+
+<!--navbar for search start jquery로 이 navbar 자체를 지웠다 열었다 함 + affix 설정 알아보기 fixed-top 옵션 때문에 어디에 추가하건 위치는 같게 나올 것이다.-->
+<!--필요한설정:
+
+비밀번호변경
+유저네임변경
+메일변경
+팔로우 항상허용 혹은 비허용-비공개
+
+네임변경
+프로필사진변경
+
+회원정지
+회원탈퇴
+
+-->
+<!--navbar end-->
+
+<div class="container-fluid margin_top_50">
+    <div class="row" style="">
+        <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+            <div class="row">
+                <div class="div_base" style="">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="h4" style="" align="center"><span
+                                    class="padding_5"
+                                    style="">Account settings</span></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <div class="row" align="center">
+                                <img class="img_300_300" id="img_300" src="{{ user.userphoto.file_300_url }}">
+                            </div>
+
+                            <div class="row" align="center">
+                                <p class="h4"><a href="#"><span class="clickable padding_5 chatkaboo_background_color" id="span_change_photo">Change</span></a> <a href="#"><span class="clickable padding_5 chatkaboo_background_color" id="span_base_reset">BaseReset</span></a></p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="h4">Name change</p>
+                            <p class="h5" id="p_name_desc">You can change your name.</p>
+                            <p class="h5"><b>Current: </b><span id="span_current_name" style="white-space: pre-wrap">{{ request.user.usertextname.name }}</span></p>
+                        </div>
+                        <div class="col-xs-9 padding_top_5">
+                            <div class="input-group-lg">
+                                <input class="width_100_i" id="input_name" placeholder="name input" type="text">
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <p class="h4"><a href="#"><span id="span_name"
+                                    class="clickable padding_5 pastel_bc3">change</span></a></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="h4">Username(ID) change</p>
+                            <p class="h5">Username(ID) can be changed.</p>
+                            <p class="h5"><b>Current: </b><span id="span_current_username" style="white-space: pre-wrap">{{ request.user.userusername.username }}</span></p>
+                            <p class="h5" id="p_username_desc">Username is unique</p>
+                        </div>
+                        <div class="col-xs-9 padding_top_5">
+                            <div class="input-group-lg">
+                                <input class="width_100_i" id="input_username" placeholder="username input" type="text">
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <p class="h4"><a href="#"><span id="span_username"
+                                    class="clickable padding_5 pastel_bc2">change</span></a></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="h4">Email change</p>
+                            <p class="h5">After you change your email, confirmation email have to be checked in 10min.</p>
+                            <p class="h5"><b>Current: </b><span id="span_current_email" style="white-space: pre-wrap">{{ request.user.userprimaryemail.email }}</span></p>
+                            <p class="h5" id="p_email_desc">Unless you confirm your email in 10min, It won't be changed.</p>
+                        </div>
+                        <div class="col-xs-9 padding_top_5">
+                            <div class="input-group-lg">
+                                <input class="width_100_i" id="input_email" placeholder="email input" type="text">
+                            </div>
+                        </div>
+                        <div class="col-xs-3">
+                            <p class="h4"><a href="#"><span id="span_email"
+                                    class="clickable padding_5 pastel_bc1">change</span></a></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                        </div>
+                    </div>
+                    {% if not user.userprimaryemail.is_permitted %}
+                    <div class="row email_token_resend" id="email_token_send">
+                        <div class="col-xs-12">
+                            <p class="h4" id="p_resend_desc">Current you are not permitted. You should permit your email.</p>
+                        </div>
+                        <div class="col-xs-9 padding_top_5">
+                            <p class="h4">Email Authentication Token Resend to ({{ user.userprimaryemail.email }})</p>
+                        </div>
+                        <div class="col-xs-3">
+                            <p class="h4"><a href="#"><span
+                                    class="clickable padding_5 pastel_bc1" id="span_resend">Resend</span></a></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                        </div>
+                        <div class="col-xs-12">
+                            <p class="h4 text-danger"></p>
+                        </div>
+                    </div>
+                    {% endif %}
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="h4" style="" align="center"><a href="#"><span
+                                    class="clickable padding_5"
+                                    style="background-color: #eff0ac;">Other Account settings Change</span></a></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="h4" style="" align="center"><a href="{% url 'authapp:password_change' %}"><span
+                                    class="clickable pastel_bc1 padding_5">Password Change</span></a></p>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="h4" style="" align="center"><a href="{% url 'authapp:deactivate_user' %}"><span
+                                    class="clickable pastel_bc2 padding_5">Deactivate account</span></a></p>
+                        </div>
+                        <div class="col-xs-12">
+                            <p class="h4" style="" align="center"><a href="{% url 'authapp:delete_user' %}"><span
+                                    class="clickable pastel_bc3 padding_5">Delete account</span></a></p>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- MODAL TO CROP THE IMAGE -->
+  <div class="modal fade" id="modal_crop" data-backdrop="static">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Crop the photo</h4>
+        </div>
+        <div class="modal-body padding_0">
+          <img src="" id="img_crop" class="max_width_100p">
+        </div>
+        <div class="modal-footer">
+          <div class="btn-group pull-left" role="group">
+            <button type="button" class="btn btn-default js-zoom-in">
+              <span class="glyphicon glyphicon-zoom-in"></span>
+            </button>
+            <button type="button" class="btn btn-default js-zoom-out">
+              <span class="glyphicon glyphicon-zoom-out"></span>
+            </button>
+          </div>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary js-crop-and-upload">Save</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+<div class="modal fade" id="modal_base_reset">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Reset Profile image?</h4>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" id="btn_base_reset_ok">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+<form class="hidden" method="post" enctype="multipart/form-data" id="form_upload">
+    <input type="file" name="file" id="input_file" accept="image/jpeg, image/png" required >
+</form>
+</body>
+
+
+</html>

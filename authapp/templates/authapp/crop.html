@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <title>Demo</title>
+    {% include 'others/header_static.html' %}
+    {% load static from staticfiles %}
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "css/chatkaboo_style.css" %}">
+    <link rel="stylesheet" href="{% static 'cropper/cropper.min.css' %}">
+    <script src="{% static 'cropper/cropper.min.js' %}"></script>
+
+
+
+    <link href="https://fonts.googleapis.com/css?family=Tauri" rel="stylesheet">
+    {% if user.is_authenticated %}
+    {% else %}
+    {% endif %}
+
+    <style>
+
+    </style>
+
+
+</head>
+<body class="light_background_color height_100">
+<!--navbar start-->
+{% include 'baseapp/_navbar.html' %}
+<!--popover 유용하게 쓸 수 있을 것 같다-->
+
+<!--navbar for search start jquery로 이 navbar 자체를 지웠다 열었다 함 + affix 설정 알아보기 fixed-top 옵션 때문에 어디에 추가하건 위치는 같게 나올 것이다.-->
+<!--필요한설정:
+
+비밀번호변경
+유저네임변경
+메일변경
+팔로우 항상허용 혹은 비허용-비공개
+
+네임변경
+프로필사진변경
+
+회원정지
+회원탈퇴
+
+-->
+<!--navbar end-->
+
+<div class="container-fluid" style="margin-top: 50px;">
+    <div class="row" style="">
+        <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-3 col-md-6">
+            <div class="row">
+                <div class="div_base">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <p class="h4" style="" align="center"><a href="#"><span
+                                    class="clickable padding_5 chatkaboo_background_color"
+                                    style="">Account settings</span></a></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                        </div>
+                    </div>
+                    <div class="row">
+                        {% if testphoto.file %}
+                        <img id="profile_img" src="{{ testphoto.file.url }}">
+                        {% else %}
+                        <div style="background-color: #00aced; height: 30px; width: 200px"></div>
+                        {% endif %}
+
+                    </div>
+                    <div class="row">
+                        <p class="h4" style="" align="center"><a href="#"><span id="span_base_image"
+                                    class="clickable padding_5 chatkaboo_background_color"
+                                    style="">base image</span></a></p>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+{% block content %}
+  <h1 class="page-header">Album</h1>
+
+  <!-- FORM TO UPLOAD THE IMAGES -->
+  <form method="post" enctype="multipart/form-data" id="formUpload">
+      <label for="id_file">File:</label>
+      <input type="file" name="file" required id="id_file">
+  </form>
+
+  <!-- MODAL TO CROP THE IMAGE -->
+  <div class="modal fade" id="modalCrop">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+          <h4 class="modal-title">Crop the photo</h4>
+        </div>
+        <div class="modal-body">
+          <img src="" id="image" style="max-width: 100%;">
+        </div>
+        <div class="modal-footer">
+          <div class="btn-group pull-left" role="group">
+            <button type="button" class="btn btn-default js-zoom-in">
+              <span class="glyphicon glyphicon-zoom-in"></span>
+            </button>
+            <button type="button" class="btn btn-default js-zoom-out">
+              <span class="glyphicon glyphicon-zoom-out"></span>
+            </button>
+          </div>
+          <button type="button" class="btn btn-default" data-dismiss="modal">Nevermind</button>
+          <button type="button" class="btn btn-primary js-crop-and-upload">Crop and upload</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<br><br><br><br><br><br>
+    <a><span id="clean">clean</span></a>
+
+{% endblock %}
+
+
+{% block javascript %}
+  <script>
+    $(function () {
+        $('#span_base_image').click(function () {
+            $.ajax({
+            url:'/accounts/crop/',
+            type:'post',
+            dataType:'json',
+            cache:false,
+            data:{
+                base:'base'
+            },
+            success:function (data) {
+                console.log(data)
+
+            }
+        });
+        });
+$('#clean').click(function () {
+    alert('hello')
+    var agent = navigator.userAgent.toLowerCase();
+
+                          if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ){
+                // ie 일때 input[type=file] init.
+                $("#id_file").replaceWith( $("#id_file").clone(true) );
+                } else {
+                //other browser 일때 input[type=file] init.
+                $("#id_file").val("");
+                }
+})
+
+
+
+var input_file;
+      /* SCRIPT TO OPEN THE MODAL WITH THE PREVIEW */
+      $("#id_file").change(function () {
+        if (this.files && this.files[0]) {
+            input_file = $(this)
+            if(this.files[0].size > (1048576 * 10)) {
+                this.value = "";
+                return;
+            }
+          var reader = new FileReader();
+          reader.onload = function (e) {
+            $("#image").attr("src", e.target.result);
+            $("#modalCrop").modal("show");
+          };
+          reader.readAsDataURL(this.files[0]);
+        }
+      });
+
+      /* SCRIPTS TO HANDLE THE CROPPER BOX */
+    var image;
+      var cropper
+      $("#modalCrop").on("shown.bs.modal", function () {
+          image = document.getElementById('image');
+          cropper = new Cropper(image, {
+                viewMode: 1,
+                minCropBoxWidth: 300,
+                minCropBoxHeight: 300,
+                aspectRatio: 1/1,
+                crop: function (event) {
+                    console.log(event.detail.x)
+                    console.log(event.detail.y)
+                    console.log(event.detail.rotate)
+                    console.log(event.detail.width)
+                    console.log(event.detail.height)
+
+                }
+
+          });
+
+      }).on("hidden.bs.modal", function () {
+             // var agent = navigator.userAgent.toLowerCase();
+
+    var agent = navigator.userAgent.toLowerCase();
+
+                          if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ){
+                // ie 일때 input[type=file] init.
+                $("#id_file").replaceWith( $("#id_file").clone(true) );
+                } else {
+                //other browser 일때 input[type=file] init.
+                $("#id_file").val("");
+                }
+        cropper.destroy();
+      });
+
+      $(".js-zoom-in").click(function () {
+        cropper.zoom(0.1);
+      });
+
+      $(".js-zoom-out").click(function () {
+        cropper.zoom(-0.1);
+
+      });
+
+      /* SCRIPT TO COLLECT THE DATA AND POST TO THE SERVER */
+      $(".js-crop-and-upload").click(function () {
+        var cropData = cropper.getData();
+        $("#id_x").val(cropData["x"]);
+        $("#id_y").val(cropData["y"]);
+        $("#id_height").val(cropData["height"]);
+        $("#id_width").val(cropData["width"]);
+
+        var form_upload = $("#formUpload")[0];
+        console.log(form_upload)
+        var form_data = new FormData(form_upload);
+
+        form_data.append('x', cropData["x"]);
+        form_data.append('y', cropData["y"]);
+        form_data.append('height', cropData["height"]);
+        form_data.append('width', cropData["width"]);
+        form_data.append('rotate', cropData["rotate"]);
+
+        console.log('x: '+cropData["x"]+'y: '+cropData["y"]+'width: '+cropData["width"]+'height: '+cropData["height"])
+
+        $.ajax({
+            url:'/accounts/crop/',
+            type:'post',
+            dataType:'json',
+            cache:false,
+            processData: false,
+            contentType: false,
+            data:form_data,
+            success:function (data) {
+                console.log(data)
+
+                $("#modalCrop").modal("hide");
+                var agent = navigator.userAgent.toLowerCase();
+                if ( (navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1) ){
+                // ie 일때 input[type=file] init.
+                $("#id_file").replaceWith( $("#id_file").clone(true) );
+                } else {
+                //other browser 일때 input[type=file] init.
+                $("#id_file").val("");
+                }
+            }
+        });
+      });
+
+    });
+  </script>
+{% endblock %}
+</body>
+<script>
+
+    $(function () {
+
+        var browser_websocket;
+        var websocket_on = false;
+
+        if (window.WebSocket) {
+            browser_websocket = true
+        } else {
+            browser_websocket = false;
+            websocket_on = false
+        }
+
+        // Correctly decide between ws:// and wss://
+        var ws_scheme = window.location.protocol == "https:" ? "wss" : "ws";
+        var ws_path = ws_scheme + '://' + window.location.host + "/re_settings/socket/";
+        console.log("Connecting to " + ws_path);
+        var socket;
+        if (browser_websocket === true) {
+            socket = new ReconnectingWebSocket(ws_path);
+
+            // Helpful debugging
+            socket.onopen = function () {
+                console.log("Connected to chat socket");
+                websocket_on = true;
+            };
+            socket.onclose = function () {
+                console.log("Disconnected from chat socket");
+                websocket_on = false;
+            };
+
+            // Handle incoming messages
+            socket.onmessage = function (message) {
+                // Decode the JSON
+                console.log("Got websocket message " + message.data);
+                var data = JSON.parse(message.data);
+                // Handle errors
+                if (data.error) {
+                    alert(data.error);
+                    return;
+                }
+                if (data.hello) {
+                    alert('hello is on')
+                    return;
+                } else {
+                    alert('hello is off')
+                    return;
+                }
+                // Handle joining
+                if (data.join) {
+                    console.log("Joining room " + data.join);
+                    var roomdiv = $(
+                        "<div class='room' id='room-" + data.join + "'>" +
+                        "<h2>" + data.title + "</h2>" +
+                        "<div class='messages'></div>" +
+                        "<form><input><button>Send</button></form>" +
+                        "</div>"
+                    );
+                    // Hook up send button to send a message
+                    roomdiv.find("form").on("submit", function () {
+                        socket.send(JSON.stringify({
+                            "command": "send",
+                            "room": data.join,
+                            "message": roomdiv.find("input").val()
+                        }));
+                        roomdiv.find("input").val("");
+                        return false;
+                    });
+                    $("#chats").append(roomdiv);
+                    // Handle leaving
+                } else if (data.leave) {
+                    console.log("Leaving room " + data.leave);
+                    $("#room-" + data.leave).remove();
+                    // Handle getting a message
+                } else if (data.message || data.msg_type != 0) {
+                    var msgdiv = $("#room-" + data.room + " .messages");
+                    var ok_msg = "";
+                    // msg types are defined in chat/settings.py
+                    // Only for demo purposes is hardcoded, in production scenarios, consider call a service.
+                    switch (data.msg_type) {
+                        case 0:
+                            // Message
+                            ok_msg = "<div class='message'>" +
+                                "<span class='username'>" + data.username + "</span>" +
+                                "<span class='body'>" + data.message + "</span>" +
+                                "</div>";
+                            break;
+                        case 1:
+                            // Warning / Advice messages
+                            ok_msg = "<div class='contextual-message text-warning'>" + data.message +
+                                "</div>";
+                            break;
+                        default:
+                            console.log("Unsupported message type!");
+                            return;
+                    }
+                    msgdiv.append(ok_msg);
+                    msgdiv.scrollTop(msgdiv.prop("scrollHeight"));
+                } else {
+                    console.log("Cannot handle message!");
+                }
+            };
+
+
+            // Room join/leave
+            $("li.room-link").click(function () {
+                roomId = $(this).attr("data-room-id");
+                if (inRoom(roomId)) {
+                    // Leave room
+                    $(this).removeClass("joined");
+                    socket.send(JSON.stringify({
+                        "command": "leave",
+                        "room": roomId
+                    }));
+                } else {
+                    // Join room
+                    $(this).addClass("joined");
+                    socket.send(JSON.stringify({
+                        "command": "join",
+                        "room": roomId
+                    }));
+                }
+            });
+        }
+    });
+</script>
+</html>

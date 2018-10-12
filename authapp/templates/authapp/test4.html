@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html >
+<head>
+    <meta charset="UTF-8">
+    <title>Animated radial / circular menu</title>
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <!-- 부트스트랩 3.3.7로 버전바꾸니 드랍다운에서 인풋클릭시 사라지는거 해결-->
+    <script
+    src="https://code.jquery.com/ui/1.9.2/jquery-ui.min.js"
+    integrity="sha256-eEa1kEtgK9ZL6h60VXwDsJ2rxYCwfxi40VZ9E0XwoEA="
+    crossorigin="anonymous"></script>
+
+<!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">-->
+
+    <style>
+        /* Demo by http://creative-punch.net */
+
+
+body {
+  background: #39D;
+}
+
+.circular-menu {
+  width: 250px;
+  height: 250px;
+  margin: 0 auto;
+  position: relative;
+}
+
+.circle {
+  width: 250px;
+  height: 250px;
+  opacity: 0;
+
+  -webkit-transform: scale(0);
+  -moz-transform: scale(0);
+  transform: scale(0);
+
+  -webkit-transition: all 0.4s ease-out;
+  -moz-transition: all 0.4s ease-out;
+  transition: all 0.4s ease-out;
+}
+
+.open.circle {
+  opacity: 1;
+
+  -webkit-transform: scale(1);
+  -moz-transform: scale(1);
+  transform: scale(1);
+}
+
+.circle a {
+  text-decoration: none;
+  color: white;
+  display: block;
+  height: 40px;
+  width: 40px;
+  line-height: 40px;
+  margin-left: -20px;
+  margin-top: -20px;
+  position: absolute;
+  text-align: center;
+
+}
+
+.circle a:hover {
+  color: #eef;
+}
+.hey2 :hover {
+  color: #eef;
+  -webkit-transform: scale(3);
+  -moz-transform: scale(3);
+  transform: scale(3);
+}
+    </style>
+</head>
+
+<body style="padding: 80px;">
+
+    <!-- 모바일에선 페이스북처럼 마우스다운후 드래그 + 스캐일로 커지는 효과 + 마우스리브, 여기서 디브 위에서라면 마우스리브 효과 발동, 웹에선 호버및 클릭으로 함
+    +버튼을 누르게 되면 이모티콘창은 작아지되 옆에서 검색창 뜨게 함 -->
+
+    <!--웹인 경우 mouseleave 쓰면 편할 것으로 사료됨 -->
+    <div class="reaction" style="border-radius: 50%; background-color: blue; width: 40px; height:40px; z-index: 0; left:10%">
+
+        <div class="hey" style="position:absolute; border-radius: 50%; background-color: purple; width: 40px; height:40px; z-index: -1;"></div>
+        <div style="position:absolute; border-radius: 50%; background-color: skyblue; width: 40px; height:40px; z-index: -2;"></div>
+        <div style="position:absolute; border-radius: 50%; background-color: pink; width: 40px; height:40px; z-index: -2"></div>
+        <div class="ho" style="position:absolute; border-radius: 50%; background-color: greenyellow; width: 40px; height:40px; z-index: -2"></div>
+        <div class="hey2" style="position:absolute; border-radius: 50%; background-color: coral; width: 40px; height:40px; z-index: -2"></div>
+
+    </div>
+
+</body>
+<script>
+// Demo by http://creative-punch.net
+$(document).ready(function () {
+    $('.reaction').mousedown(function () {
+        var something = $(this).find('div.hey2');
+        something.css({'left': '50%', 'z-index':999,   '-webkit-transform': 'scale(1.5)', '-moz-transform': 'scale(1.5)', 'transform': 'scale(1.5)'});
+
+    });
+
+    $(document).mouseup(function () {
+        $('.reaction').find('div').css('left', '10%');
+        console.log('dddo')
+    });
+    $('.hey2').hover(function(){
+        $(this).css("background-color", "yellow");
+        }, function(){
+        $(this).css("background-color", "pink");
+    });
+
+});
+
+</script>
+</html>

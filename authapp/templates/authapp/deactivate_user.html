@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+
+    <title>ChatKaboo</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    {% include 'others/header_static.html' %}
+    {% load static from staticfiles %}
+
+    <script defer src="{% static 'js/validation_create.js' %}"></script>
+
+    <link href="https://fonts.googleapis.com/css?family=Tauri" rel="stylesheet">
+    {% if user.is_authenticated %}
+    {% else %}
+    {% endif %}
+
+</head>
+
+
+<body class="light_background_color height_100">
+{% include 'others/bootstrap_tester.html' %}
+
+{% include 'baseapp/_navbar.html' %}
+
+
+<div class="container-fluid margin_top_50" style="">
+
+    <div class="row">
+        <div class="desktop_display_none">
+            <div class="padding_10"></div>
+            <div class="padding_10"></div>
+            <div class="padding_10"></div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
+
+            <div class="col-sm-7">
+                <div class="mobile_display_none padding_35"></div>
+                <div class="mobile_display_none padding_35"></div>
+                <p class="h3">Password Check is needed</p>
+            </div>
+            <div class="col-sm-5">
+                <div class="mobile_display_none padding_35"></div>
+                <div class="mobile_display_none padding_35"></div>
+                <div class="desktop_display_none padding_10"></div>
+                <p class="h3">You have to enter your password before deactivate account.</p>
+                <form method="post" action=".">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        {{ form.password }}
+                    </div>
+                    <div class="row">
+                        <div class="col-xs-9">
+                            <p class="text-primary word_wrap_break_word" id="p_clue">{% if clue %}{{ clue.message }}{% endif %}</p>
+                        </div>
+                        <div class="col-xs-3">
+                            <button id="btn_submit" type="submit" class="btn btn-default pull-right" name="type">
+                                deactivate
+                            </button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
