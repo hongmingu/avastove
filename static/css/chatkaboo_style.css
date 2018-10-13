@@ -337,11 +337,11 @@ transform: translateX(10px) translateY(-10px)
         }
 
         .comments {
-            font-size: 12px; white-space:pre-wrap; word-wrap: break-word; max-width: 100%;
+            font-size: 11px; white-space:pre-wrap; word-wrap: break-word; max-width: 100%;
         }
 
         .comments_name {
-            font-size: 12px;
+            font-size: 11px;
             font-weight: bold;
             color: darkslategrey;
         }
@@ -352,7 +352,7 @@ transform: translateX(10px) translateY(-10px)
         }
 
         .home_feed_time {
-            font-size: 12px;
+            font-size: 11px; background-color: #eeeeee; border-radius: 3px; padding: 3px;
         }
         .home_feed_comment_time {
             font-size: 10px; background-color: #c5c5c5; color: black; border-radius: 3px; padding: 2px;
@@ -632,15 +632,15 @@ transform: translateX(10px) translateY(-10px)
         .chat_preview_someone_saying{
             white-space:pre-wrap; word-wrap: break-word; max-width: 100%; padding: 5px;
         }
-        .chat_preview_someone_saying_text{
+        .chat_preview_you_saying_text{
             background-color: white; color: black; border-radius: 3px; white-space:pre-wrap; word-wrap: break-word; padding: 5px;
-            border: 1px solid grey;
+            border: 1px solid orange;
         }
         .chat_preview_you_saying{
             padding: 5px; white-space:pre-wrap; word-wrap: break-word; max-width: 100%;
         }
-        .chat_preview_you_saying_text{
-            background-color: orange; color: white; border-radius: 3px; white-space:pre-wrap; word-wrap: break-word; padding: 5px;
+        .chat_preview_someone_saying_text{
+            background-color: orange; color: black; border-radius: 3px; white-space:pre-wrap; word-wrap: break-word; padding: 5px;
         }
         .chat_preview_delete{
             font-size: 12px; padding: 3px; color: white; background-color: #1b6d85; border-radius: 3px; margin: 5px;
@@ -712,7 +712,7 @@ transform: translateX(10px) translateY(-10px)
             background-color: lightgray; font-size: 12px;
         }
         .home_feed_chat_new{
-            border: #cd4a42 2px solid; border-radius: 3px
+            background-color: #ffd195; border-radius: 3px
         }
         .home_feed_new_comment{
             background-color: lightgoldenrodyellow;
@@ -757,7 +757,10 @@ transform: translateX(10px) translateY(-10px)
             font-weight: bold;
         }
         .reading_chat_text{
-            background-color: orange; padding: 5px; border-radius: 3px; color: black;
+            background-color: orange; padding: 3px; border-radius: 3px; color: black;
+        }
+        .reading_chat_text_left{
+            background-color: white; padding: 3px; border-radius: 3px; color: black; border: 1px solid orange;
         }
         .reading_like_wrapper{
             display: inline-block; vertical-align: bottom; margin: 2px;
@@ -769,6 +772,7 @@ transform: translateX(10px) translateY(-10px)
             font-size: 10px
         }
         .reading_chat_rest{
+            background-color: whitesmoke;
             padding: 3px;
         }
         .reading_chat_rest_name{

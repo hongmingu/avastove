@@ -49,7 +49,7 @@ $(function () {
                                         '<img class="img_small" src="'+ reading_post_profile_photo +'"></div>\n';
                                     chat_content = '<div class="reading_chat_content">' +
                                         '<div class="reading_chat_name">'+reading_post_profile_name+'</div>' +
-                                        '<div class="reading_chat_text">'+value.content+'</div>' +
+                                        '<div class="reading_chat_text_left">'+value.content+'</div>' +
                                         '</div>'
 
                                     // 작업중인부분 ------------------------------------
@@ -464,7 +464,7 @@ if (start === false){
                                         '<img class="img_small" src="'+ reading_post_profile_photo +'"></div>\n';
                                     chat_content = '<div class="reading_chat_content">' +
                                         '<div class="reading_chat_name">'+reading_post_profile_name+'</div>' +
-                                        '<div class="reading_chat_text">'+value.content+'</div>' +
+                                        '<div class="reading_chat_text_left">'+value.content+'</div>' +
                                         '</div>'
 
                                     // 작업중인부분 ------------------------------------
@@ -850,7 +850,7 @@ if (start === false){
                                 '<img class="img_small" src="'+ reading_post_profile_photo +'"></div>\n';
                             chat_content = '<div class="reading_chat_content">' +
                                 '<div class="reading_chat_name">'+reading_post_profile_name+'</div>' +
-                                '<div class="reading_chat_text">'+value.content+'</div>' +
+                                '<div class="reading_chat_text_left">'+value.content+'</div>' +
                                 '</div>'
                             // 작업중인부분 ------------------------------------
                             var heart;
