@@ -430,7 +430,7 @@ def re_home_feed(request):
                 if last_id == '':
                     posts = Post.objects.filter(
                         (Q(user__is_followed__user=request.user) | Q(post_follow__user=request.user)) & Q(
-                            is_open=True)).order_by('-post_chat_created').distinct()[:2]
+                            is_open=True)).order_by('-post_chat_created').distinct()[:30]
                 else:
                     last_post = None
                     try:
@@ -441,7 +441,7 @@ def re_home_feed(request):
 
                     posts = Post.objects.filter(
                         (Q(user__is_followed__user=request.user) | Q(post_follow__user=request.user)) & Q(
-                            is_open=True) & Q(post_chat_created__lte=last_post.post_chat_created)).exclude(pk=last_post.pk).order_by('-post_chat_created').distinct()[:2]
+                            is_open=True) & Q(post_chat_created__lte=last_post.post_chat_created)).exclude(pk=last_post.pk).order_by('-post_chat_created').distinct()[:30]
 
                 ################################
                 output = []
@@ -450,7 +450,7 @@ def re_home_feed(request):
                 post_follow = None
                 for post in posts:
                     count = count + 1
-                    if count == 2:
+                    if count == 30:
                         last = post.uuid
                     post_follow = True
                     if Follow.objects.filter(user=request.user, follow=post.user).exists():
@@ -1983,9 +1983,6 @@ def re_explore_feed(request):
                     count = count + 1
                     if count == 20:
                         last = post.uuid
-                    post_follow = True
-                    if Follow.objects.filter(user=request.user, follow=post.user).exists():
-                        post_follow = False
                     sub_output = {
                         'id': post.uuid,
                     }

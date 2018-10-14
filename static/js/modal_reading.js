@@ -31,7 +31,7 @@ $(function () {
                             } else if (value.rest_count < 1000){
                                 rest_messages = '<div id="rest_wrapper_'+value.id+'" align="right"><a href=""><span class="reading_chat_rest_messages clickable" id="rest_start_'+value.id+'" data-u="'+value.id+'">... '+value.rest_count+'</span></a></div><a href=""><div id="rest_more_'+value.id+'" class="rest_more_load reading_chat_rest_messages hidden" data-u="'+value.id+'" align="center">more</div></a><div class="hidden" id="rest_last_'+value.id+'"></div>'
                             } else if (1000 <= value.rest_count) {
-                                rest_messages = '<div id="rest_wrapper_'+value.id+'"align="right"><a href=""><span class="reading_chat_rest_messages clickable" id="rest_start_'+value.id+'" data-u="'+value.id+'">... '+parseInt(value.like_count / 1000)+'k'+'</span></a></div><a href=""><div id="rest_more_'+value.id+'" class="rest_more_load reading_chat_rest_messages hidden" data-u="'+value.id+'" align="center">more</div></a><div class="hidden" id="rest_last_'+value.id+'"></div>'
+                                rest_messages = '<div id="rest_wrapper_'+value.id+'" align="right"><a href=""><span class="reading_chat_rest_messages clickable" id="rest_start_'+value.id+'" data-u="'+value.id+'">... '+parseInt(value.like_count / 1000)+'k'+'</span></a></div><a href=""><div id="rest_more_'+value.id+'" class="rest_more_load reading_chat_rest_messages hidden" data-u="'+value.id+'" align="center">more</div></a><div class="hidden" id="rest_last_'+value.id+'"></div>'
                             }
 
                             prepender = $(rest_messages)
