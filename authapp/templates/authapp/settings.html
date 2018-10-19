@@ -24,24 +24,6 @@
 <body class="light_background_color height_100">
 <!--navbar start-->
 {% include 'baseapp/_navbar.html' %}
-<!--popover 유용하게 쓸 수 있을 것 같다-->
-
-<!--navbar for search start jquery로 이 navbar 자체를 지웠다 열었다 함 + affix 설정 알아보기 fixed-top 옵션 때문에 어디에 추가하건 위치는 같게 나올 것이다.-->
-<!--필요한설정:
-
-비밀번호변경
-유저네임변경
-메일변경
-팔로우 항상허용 혹은 비허용-비공개
-
-네임변경
-프로필사진변경
-
-회원정지
-회원탈퇴
-
--->
-<!--navbar end-->
 
 <div class="container-fluid margin_top_50">
     <div class="row" style="">
@@ -52,7 +34,7 @@
                         <div class="col-xs-12">
                             <p class="h4" style="" align="center"><span
                                     class="padding_5"
-                                    style="">Account settings</span></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                                    style="">Account settings</span></p>
                         </div>
                     </div>
                     <div class="row">
@@ -70,7 +52,7 @@
                         <div class="col-xs-12">
                             <p class="h4">Name change</p>
                             <p class="h5" id="p_name_desc">You can change your name.</p>
-                            <p class="h5"><b>Current: </b><span id="span_current_name" style="white-space: pre-wrap">{{ request.user.usertextname.name }}</span></p>
+                            <p class="h5"><b>Current: </b><span id="span_current_name" class="current_name">{{ request.user.usertextname.name }}</span></p>
                         </div>
                         <div class="col-xs-9 padding_top_5">
                             <div class="input-group-lg">
@@ -79,14 +61,14 @@
                         </div>
                         <div class="col-xs-3">
                             <p class="h4"><a href="#"><span id="span_name"
-                                    class="clickable padding_5 pastel_bc3">change</span></a></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                                    class="clickable padding_5 pastel_bc3">change</span></a></p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
                             <p class="h4">Username(ID) change</p>
                             <p class="h5">Username(ID) can be changed.</p>
-                            <p class="h5"><b>Current: </b><span id="span_current_username" style="white-space: pre-wrap">{{ request.user.userusername.username }}</span></p>
+                            <p class="h5"><b>Current: </b><span id="span_current_username" class="current_name">{{ request.user.userusername.username }}</span></p>
                             <p class="h5" id="p_username_desc">Username is unique</p>
                         </div>
                         <div class="col-xs-9 padding_top_5">
@@ -96,14 +78,14 @@
                         </div>
                         <div class="col-xs-3">
                             <p class="h4"><a href="#"><span id="span_username"
-                                    class="clickable padding_5 pastel_bc2">change</span></a></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                                    class="clickable padding_5 pastel_bc2">change</span></a></p>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col-xs-12">
                             <p class="h4">Email change</p>
                             <p class="h5">After you change your email, confirmation email have to be checked in 10min.</p>
-                            <p class="h5"><b>Current: </b><span id="span_current_email" style="white-space: pre-wrap">{{ request.user.userprimaryemail.email }}</span></p>
+                            <p class="h5"><b>Current: </b><span id="span_current_email" class="current_name">{{ request.user.userprimaryemail.email }}</span></p>
                             <p class="h5" id="p_email_desc">Unless you confirm your email in 10min, It won't be changed.</p>
                         </div>
                         <div class="col-xs-9 padding_top_5">
@@ -113,7 +95,7 @@
                         </div>
                         <div class="col-xs-3">
                             <p class="h4"><a href="#"><span id="span_email"
-                                    class="clickable padding_5 pastel_bc1">change</span></a></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                                    class="clickable padding_5 pastel_bc1">change</span></a></p>
                         </div>
                     </div>
                     {% if not user.userprimaryemail.is_permitted %}
@@ -126,7 +108,7 @@
                         </div>
                         <div class="col-xs-3">
                             <p class="h4"><a href="#"><span
-                                    class="clickable padding_5 pastel_bc1" id="span_resend">Resend</span></a></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                                    class="clickable padding_5 pastel_bc1" id="span_resend">Resend</span></a></p>
                         </div>
                         <div class="col-xs-12">
                             <p class="h4 text-danger"></p>
@@ -136,8 +118,7 @@
                     <div class="row">
                         <div class="col-xs-12">
                             <p class="h4" style="" align="center"><a href="#"><span
-                                    class="clickable padding_5"
-                                    style="background-color: #eff0ac;">Other Account settings Change</span></a></p> <!--여기 이름, 사진, 유저네임, 이메일, 팔로우차단, 차단유저, 팔로잉공개, (글이 완성된 상황일 경우 - )팔로워공개 혹은 전체공개, 아이디검색, 이름검색, 검색허용  -->
+                                    class="clickable padding_5 other_account_settings">Other Account settings Change</span></a></p>
                         </div>
                     </div>
                     <div class="row">

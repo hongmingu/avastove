@@ -49,7 +49,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-ROOT_URLCONF = 'chatstove.urls'
+ROOT_URLCONF = 'avastove.urls'
 
 TEMPLATES = [
     {

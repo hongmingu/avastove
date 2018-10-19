@@ -750,7 +750,7 @@ def re_user_home_populate(request):
                           'desc': post.description,
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
-                          'name': name,
+                          'name': escape(name),
                           'photo': profile_photo,
                           'created': post.post_chat_created,
                           'last_chat': post_chat_last_chat,
@@ -806,7 +806,7 @@ def re_user_home_populate(request):
                           'desc': post.description,
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
-                          'name': name,
+                          'name': escape(name),
                           'photo': profile_photo,
                           'created': post.created,
                           'last_chat': post_chat_last_chat,
@@ -1170,10 +1170,10 @@ def re_post_chat_add_rest(request):
                 if post_chat_rest_message is not None:
                     sub_output = {
                         'id': post_chat_rest_message.uuid,
-                        'name': post_chat_rest_message.user.usertextname.name,
+                        'name': escape(post_chat_rest_message.user.usertextname.name),
                         'user_id': post_chat_rest_message.user.username,
                         'created': post_chat_rest_message.created,
-                        'text': post_chat_rest_message.text,
+                        'text': escape(post_chat_rest_message.text),
                         'photo': post_chat_rest_message.user.userphoto.file_50_url()
                     }
                 return JsonResponse({'res': 1, 'set': sub_output})
@@ -1216,9 +1216,9 @@ def re_post_chat_rest_more_load(request):
                         sub_output = {
                             'id': post_chat_rest_message.uuid,
                             'user_id': post_chat_rest_message.user.username,
-                            'name': post_chat_rest_message.user.usertextname.name,
+                            'name': escape(post_chat_rest_message.user.usertextname.name),
                             'username': post_chat_rest_message.user.userusername.username,
-                            'text': post_chat_rest_message.text,
+                            'text': escape(post_chat_rest_message.text),
                             'created': post_chat_rest_message.created,
                             'like_count': post_chat_rest_message.postchatrestmessagelikecount.count,
                             'photo': post_chat_rest_message.user.userphoto.file_50_url(),
@@ -1259,9 +1259,9 @@ def re_post_chat_rest_more_load(request):
                         sub_output = {
                             'id': post_chat_rest_message.uuid,
                             'user_id': post_chat_rest_message.user.username,
-                            'name': post_chat_rest_message.user.usertextname.name,
+                            'name': escape(post_chat_rest_message.user.usertextname.name),
                             'username': post_chat_rest_message.user.userusername.username,
-                            'text': post_chat_rest_message.text,
+                            'text': escape(post_chat_rest_message.text),
                             'created': post_chat_rest_message.created,
                             'like_count': post_chat_rest_message.postchatrestmessagelikecount.count,
                             'photo': post_chat_rest_message.user.userphoto.file_50_url(),
@@ -1661,7 +1661,7 @@ def re_profile_populate(request):
                           'desc': post.description,
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
-                          'name': name,
+                          'name': escape(name),
                           'photo': profile_photo,
                           'created': post.post_chat_created,
                           'last_chat': post_chat_last_chat,
@@ -1717,7 +1717,7 @@ def re_profile_populate(request):
                           'desc': post.description,
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
-                          'name': name,
+                          'name': escape(name),
                           'photo': profile_photo,
                           'created': post.created,
                           'last_chat': post_chat_last_chat,
@@ -2071,7 +2071,7 @@ def re_search_all(request):
                 sub_output = {
                     'username': user.userusername.username,
                     'user_photo': user.userphoto.file_50_url(),
-                    'user_text_name': user.usertextname.name,
+                    'user_text_name': escape(user.usertextname.name),
                 }
 
                 user_output.append(sub_output)
@@ -2143,7 +2143,7 @@ def re_search_user(request):
                 sub_output = {
                     'username': user.userusername.username,
                     'user_photo': user.userphoto.file_50_url(),
-                    'user_text_name': user.usertextname.name,
+                    'user_text_name': escape(user.usertextname.name),
                 }
 
                 user_output.append(sub_output)

@@ -19,6 +19,9 @@ class UserUsername(models.Model):
     def __str__(self):
         return "UserUsername for %s" % self.user
 
+    def get_absolute_url(self):
+        from django.urls import reverse
+        return reverse('baseapp:user_profile', kwargs={'user_username': self.username})
 
 class UserBirthday(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)

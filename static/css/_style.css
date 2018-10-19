@@ -273,6 +273,12 @@
   animation: spin 2s linear infinite;
 }
 
+        .current_name{
+            white-space: pre-wrap
+        }
+        .other_account_settings{
+            background-color: #eff0ac;
+        }
 /* Safari */
 @-webkit-keyframes spin {
   0% { -webkit-transform: rotate(0deg); }
@@ -308,7 +314,7 @@
 
         .nav_badge{
             position:absolute; border-radius: 5px;
-background-color: #ed1755;
+background-color: #ed7b1b;
 font-size: 10px; color: white;
 pointer-events: none;
 z-index: 1031;
@@ -318,17 +324,13 @@ transform: translateX(10px) translateY(-10px)
 
                 .heart {
             font-size: 20px;
-            color: red;
+            color: #ff392d;
         }
 
         .img_small {
             height: 50px;
             width: 50px;
             border-radius: 3px;
-        }
-
-        .grey {
-            color: grey;
         }
 
         .comments_title {
@@ -362,49 +364,6 @@ transform: translateX(10px) translateY(-10px)
             border: solid 1px whitesmoke; white-space:pre-wrap; padding:3px; word-wrap: break-word; max-width: 100%;
         }
 
-        .chat_feed_time {
-            font-size: 12px;
-        }
-
-        .chat_feed_chat {
-            font-size: 12px;
-        }
-        .chat_feed_like{
-
-    padding-top: 10px;
-
-        }
-        .chat_feed_like_icon{
-
-    font-size: 14px;
-
-        }
-        .chat_feed_new{
-            padding: 2px;
-            background-color: mediumvioletred;
-            color: white;
-            border-radius: 3px;
-        }
-        .chat_feed_title{
-            font-size: 14px; font-weight: bold
-        }
-        .chat_detail_others{
-            white-space:pre-wrap; word-wrap: break-word; max-width: 100%; border-radius: 5px; border: solid 1px lightgray; padding: 5px;
-        }
-        .chat_detail_others_time{
-            position: absolute;
-            font-size: 10px;
-        }
-            .chat_detail_others_wrapper{
-                padding-right:0px; padding-left:0px;
-            }
-        .chat_detail_like {
-            color: red; font-size: 10px
-        }
-
-        .chat_detail_form{
-            position: absolute; bottom: 30px; padding-top: 20px;
-        }
         .chat_detail_textarea{
             height: 50px!important;
             resize: none;
@@ -419,35 +378,11 @@ transform: translateX(10px) translateY(-10px)
             height: 50px!important;
         }
 
-        .chat_detail_like_wrapper{
-            position: absolute; top:14px
-        }
-        chat_detail_like_wrapper_mine{
-            position: absolute; top:0px
-        }
-        .chat_detail_others_name{
-            font-size: 14px; font-weight: bold
-        }
-        .chat_detail_like_count{
-            font-size: 10px; background-color: red; color: white; border-radius: 5px
-        }
 
-        .chat_detail_mine {
-            background-color: #2ac31b;
-            border-radius: 5px;
-            padding: 5px;
-            white-space:pre-wrap; word-wrap: break-word; max-width: 100%;
-            color: white;
-        }
-        .chat_detail_like_div_mine{
-            padding-right: 0px;
-        }
         .margin_top_20{
             margin-top: 20px;
         }
-        .user_friend_title{
-            font-weight: bold; font-size: 14px;
-        }
+
         .user_name{
             font-size: 16px; font-weight: bold
         }

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
 
-    <title>ChatKaboo Confirmation</title>
+    {% include 'authapp/_header_title.html' %}
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     {% include 'others/header_static.html' %}
@@ -16,10 +16,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-sm-offset-1 col-sm-10 col-md-offset-2 col-md-8">
-            <h1>
-                <span class="span_chat">Chat</span><span class="gradation span_kaboo"
-                                                         style="font-family: 'Tauri', sans-serif;">Kaboo</span>
-            </h1>
+            {% include 'authapp/_logo.html' %}
         </div>
     </div>
     <div class="row">

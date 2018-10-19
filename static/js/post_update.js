@@ -8,6 +8,11 @@
     var recent_post_chat;
 
 $(function () {
+
+    $('#go_to_main').click(function (e) {
+        e.preventDefault()
+        location.href='/'
+    })
     var open;
     if ($('#just_created').attr('data-u') === 'on') {
         if ($('#open').hasClass('choice_unselected')) {

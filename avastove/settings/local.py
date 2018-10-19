@@ -9,6 +9,8 @@ SETTINGS_FILE = os.path.join(SETTINGS_DIR, 'local_settings.json')
 with open(SETTINGS_FILE) as f:
     settings_json = json.loads(f.read())
 
+SECRET_KEY = settings_json['django_settings']['key']
+
 DEBUG = True
 
 ALLOWED_HOSTS = []
@@ -23,6 +25,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',
+    'django.contrib.sitemaps',
     'storages',
     'imagekit',
     'authapp',
@@ -78,18 +82,16 @@ SMTPpassword = settings_json['django']['SMTPpassword']
 
 
 # Email-backend
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'email-smtp.us-west-2.amazonaws.com'
+EMAIL_BACKEND = settings_json['django']['email_backend']
+EMAIL_HOST = settings_json['django']['email_host']
 EMAIL_PORT = 587
 EMAIL_HOST_USER = SMTPusername
 EMAIL_HOST_PASSWORD = SMTPpassword
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'test-username@moneycurry.com'
+DEFAULT_FROM_EMAIL = settings_json['django']['default_from_email']
 
 # aws workmail 사용
 #########################reCAPTCHA#############################
-
-GOOGLE_RECAPTCHA_SECRET_KEY = '6Ld4Tz4UAAAAALpirKbseTu8m01Afd6Fr-fW5OBy'
 
 #---------------------channels-----------------------
 # Channel layer definitions
@@ -104,8 +106,6 @@ CHANNEL_LAYERS = {
         },
     },
 }
-
-
 
 # ASGI_APPLICATION should be set to your outermost router
 ASGI_APPLICATION = 'avastove.routing.application'
