@@ -32,7 +32,6 @@ from .utils import *
 from django.contrib.auth import update_session_auth_hash
 
 
-
 def main_create_log_in(request):
     if request.method == 'POST':
         if request.POST['type'] == 'create_first':
@@ -50,8 +49,6 @@ def main_create_log_in(request):
             username = username.lower()
 
             # Integrity UserEmail and UserUsername
-
-
 
             user_username_exist = UserUsername.objects.filter(username=username).exists()
             if user_username_exist:

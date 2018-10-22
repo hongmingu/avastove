@@ -8,12 +8,13 @@ class PostCreateForm(forms.ModelForm):
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'name'}), required=False)
     title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'title'}))
     description = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'description'}))
+    open_close = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'open_close'}))
     title_content = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'title_content'}), required=False)
     description_content = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'description_content'}), required=False)
 
     class Meta:
         model = Post
-        fields = ['whose', 'name', 'description', 'title_content', 'description_content']
+        fields = ['whose', 'name', 'description', 'open_close', 'title_content', 'description_content']
 
 
 class PostProfilePhotoForm(forms.ModelForm):

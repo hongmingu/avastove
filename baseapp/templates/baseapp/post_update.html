@@ -32,7 +32,6 @@
 
 <div class="hidden" id="page_kind" data-u="create_new"></div>
 <div class="hidden" id="last_num" data-u=""></div>
-<div class="hidden" id="just_created" data-u="{{ just_created.ok }}"></div>
 
 {% if user.is_authenticated %}
     <div class="hidden" id="user_id">{{ user.username }}</div>
@@ -62,6 +61,12 @@
     {% else %}
         <div class="hidden" id="current_open" data-u="close"></div>
     {% endif %}
+{% endif %}
+
+{% if post.is_open %}
+    <div class="hidden" id="open_close_change">open</div>
+{% else %}
+    <div class="hidden" id="open_close_change">close</div>
 {% endif %}
 
 <div class="container-fluid margin_top_50">
@@ -141,18 +146,34 @@
                             <div><span class="now_open_close_explain">now this post is: </span><span class="now_open_close">{% if post.is_open %}opened{% else %}closed{% endif %}</span></div>
                         </div>
                     </div>
-                    <div>
-                        <div class="col-xs-6">
-                            <a href="">
-                                <div class="clickable padding_5 choice_selected" id="open" align="center">open</div>
-                            </a>
+                    {% if post.is_open %}
+                        <div>
+                            <div class="col-xs-6">
+                                <a href="">
+                                    <div class="clickable padding_5 choice_selected" id="open" align="center">open</div>
+                                </a>
+                            </div>
+                            <div class="col-xs-6">
+                                <a href="">
+                                    <div class="clickable padding_5 choice_unselected" id="close" align="center">close</div>
+                                </a>
+                            </div>
                         </div>
-                        <div class="col-xs-6">
-                            <a href="">
-                                <div class="clickable padding_5 choice_unselected" id="close" align="center">close</div>
-                            </a>
+                    {% else %}
+                        <div>
+                            <div class="col-xs-6">
+                                <a href="">
+                                    <div class="clickable padding_5 choice_unselected" id="open" align="center">open</div>
+                                </a>
+                            </div>
+                            <div class="col-xs-6">
+                                <a href="">
+                                    <div class="clickable padding_5 choice_selected" id="close" align="center">close</div>
+                                </a>
+                            </div>
                         </div>
-                    </div>
+                    {% endif %}
+
 
                     <br>
                     <br>

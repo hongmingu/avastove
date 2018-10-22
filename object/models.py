@@ -69,16 +69,6 @@ class Post(models.Model):
         return output
 
 
-class PostFirstCheck(models.Model):
-    post = models.OneToOneField("Post", on_delete=models.CASCADE, null=True, blank=True)
-    first_checked = models.BooleanField(default=False)
-    updated = models.DateTimeField(auto_now=True)
-    created = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return "Post pk: %s" % self.post.pk
-
-
 class PostProfile(models.Model):
     post = models.OneToOneField("Post", on_delete=models.CASCADE, null=True, blank=True)
 

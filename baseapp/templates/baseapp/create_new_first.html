@@ -130,8 +130,19 @@
                     <br>
                     <br>
                     <br>
-                    <br>
+                    <div class="col-xs-6">
+                        <a href="">
+                            <div class="clickable padding_5 choice_selected" id="open_close_open" align="center">open</div>
+                        </a>
+                    </div>
+                    <div class="col-xs-6">
+                        <a href="">
+                            <div class="clickable padding_5 choice_unselected" id="open_close_close" align="center">close</div>
+                        </a>
+                    </div>
 
+                    <br>
+                    <br>
                     <form method="post" action="." onsubmit="return create_set();">
                         {% csrf_token %}
                         <div class="form-group hidden">
@@ -142,6 +153,9 @@
                         </div>
                         <div class="form-group hidden">
                             {{ form.title }}
+                        </div>
+                        <div class="form-group hidden">
+                            {{ form.open_close }}
                         </div>
                         <div class="form-group hidden">
                             {{ form.title_content }}
@@ -207,6 +221,7 @@
         $('#whose').val('self')
         $('#title').val('off')
         $('#description').val('off')
+        $('#open_close').val('open')
         $('#title_content').val('')
         $('#description_content').val('')
 
@@ -290,6 +305,28 @@
                 $('#desc_fill').toggleClass('hidden')
             }
             $('#description').val('on')
+        })
+
+        $('#open_close_open').click(function (e) {
+            e.preventDefault()
+            if ($(this).hasClass('choice_unselected')) {
+                $(this).toggleClass('choice_selected choice_unselected')
+            }
+            if ($('#open_close_close').hasClass('choice_selected')) {
+                $('#open_close_close').toggleClass('choice_selected choice_unselected')
+            }
+            $('#open_close').val('open')
+        });
+        $('#open_close_close').click(function (e) {
+            e.preventDefault()
+            if ($(this).hasClass('choice_unselected')) {
+                $(this).toggleClass('choice_selected choice_unselected')
+            }
+            if ($('#open_close_open').hasClass('choice_selected')) {
+                $('#open_close_open').toggleClass('choice_selected choice_unselected')
+            }
+
+            $('#open_close').val('close')
         })
 
     })

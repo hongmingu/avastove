@@ -559,7 +559,7 @@ transform: translateX(10px) translateY(-10px)
             margin-top: 15px;
         }
         .chat_preview_size {
-            width: 80%;
+            display:inline-block; max-width: 80%;
         }
         .chat_preview_name{
             font-size: 14px; font-weight: bold;
@@ -568,11 +568,12 @@ transform: translateX(10px) translateY(-10px)
             white-space:pre-wrap; word-wrap: break-word; max-width: 100%; padding: 5px;
         }
         .chat_preview_you_saying_text{
-            background-color: white; color: black; border-radius: 3px; white-space:pre-wrap; word-wrap: break-word; padding: 5px;
-            border: 1px solid orange;
+
         }
         .chat_preview_you_saying{
-            padding: 5px; white-space:pre-wrap; word-wrap: break-word; max-width: 100%;
+            padding: 5px;
+            background-color: white; color: black; border-radius: 3px; white-space:pre-wrap; word-wrap: break-word; padding: 5px;
+            border: 1px solid orange;
         }
         .chat_preview_someone_saying_text{
             background-color: orange; color: black; border-radius: 3px; white-space:pre-wrap; word-wrap: break-word; padding: 5px;

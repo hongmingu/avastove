@@ -46,6 +46,7 @@ def create_new(request):
                 description = None
                 has_another_profile = False
                 profile_name = None
+                open_close = False
 
                 if form.cleaned_data['whose'] == 'other':
                     has_another_profile = True
@@ -57,16 +58,18 @@ def create_new(request):
                 if form.cleaned_data['description'] == 'on':
                     description = form.cleaned_data['description_content']
                     description = description.strip()
+                if form.cleaned_data['open_close'] == 'open':
+                    open_close = True
+
                 uuid_made = uuid.uuid4().hex
                 post = Post.objects.create(user=request.user,
                                            title=title,
                                            description=description,
                                            has_another_profile=has_another_profile,
                                            uuid=uuid_made,
-                                           is_open=False)
+                                           is_open=open_close)
                 if has_another_profile:
                     PostProfile.objects.create(post=post, name=profile_name)
-                post_first_check = PostFirstCheck.objects.create(post=post)
                 post_like_count = PostLikeCount.objects.create(post=post)
                 post_comment_count = PostCommentCount.objects.create(post=post)
                 post_follow_count = PostFollowCount.objects.create(post=post)
@@ -89,20 +92,8 @@ def post_update(request, uuid):
 
             except Post.DoesNotExist:
                 return render(request, '404.html')
-            just_created = {}
-            if not post.postfirstcheck.first_checked:
-                just_created['ok'] = 'on'
-                post_first_check = post.postfirstcheck
-                post_first_check.first_checked = True
-                post_first_check.save()
-            else:
-                just_created['ok'] = 'off'
-                if post.is_open:
-                    just_created['current'] = 'open'
-                else:
-                    just_created['current'] = 'close'
 
-            return render(request, 'baseapp/post_update.html', {'post': post, 'just_created': just_created})
+            return render(request, 'baseapp/post_update.html', {'post': post})
 
 def post(request, uuid):
     if request.method == "GET":
