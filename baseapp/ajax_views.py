@@ -1550,7 +1550,7 @@ def re_profile_post(request):
                 post_follow = None
                 for post in posts:
                     count = count + 1
-                    if count == 20:
+                    if count == 21:
                         last = post.uuid
                     post_follow = True
                     if Follow.objects.filter(user=request.user, follow=post.user).exists():

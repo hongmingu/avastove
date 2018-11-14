@@ -1,6 +1,6 @@
 var validate_base = (function validate_base() {
 
-        var banned_username_list = ['avastove'];
+        var banned_username_list = ['chatkaboo'];
         var banned_password_list = [
             'password', 'qwerty', 'superman', '123456', '1234567', '12345678', '123456789', '1234567890', '012345', '0123456',
             '01234567', '012345678', '0123456789', '111111', 'aaaaaa'

@@ -103,7 +103,12 @@
                             <span class="user_change_profile clickable">change profile</span>
                         </div>
                     </a>
+
+                    <div id="post_list"></div>
+                    <div class="hidden" align="center" id="profile_more_load"><a href=""><div class="clickable padding_5 main_background_color write_new_post">more load</div></a></div>
+
                 </div>
+
             </div>
         </div>
     </div>
@@ -205,15 +210,52 @@
                         $('#post_to_delete').html(value.id)
                         $('#modal_post_delete').modal('show')
                     })
-                    $('#content').append(jq_appender)
+                    $('#post_list').append(jq_appender)
                 })
-                    if (data.next === null){
+                    if (data.last === null){
                         $('#profile_post_more_load').addClass('hidden')
                     } else {
                         $('#profile_post_more_load').removeClass('hidden')
                     }
 
             }
+        })
+
+        $('#profile_more_load').click(function (e) {
+            e.preventDefault()
+            $.ajax({url:'/re/profile/post/', type:'post', dataType:'json', cache:false,
+                data:{
+                    chosen_user_id: $('#chosen_user_id').html(),
+                    last_post_id: $('#last_post_id').html()
+                },
+                success:function (data) {
+                    var _modifier = ''
+                    $.each(data.set, function (key, value) {
+
+                        if (data.master === true){
+                            _modifier = '<div align="right"><a href="/post/update/'+value.id+'/"><span class="profile_update">update</span></a><span>  </span><a href=""><span class="profile_delete">delete</span></a></div>'
+                        }
+                        var appender = '<div id="post_wrapper_'+value.id+'"><div class="row div_base profile_post_div" id="post_div_'+value.id+'">' +
+                            '<script defer>' +
+                            '    profile_populate("'+value.id+'")' +
+                            '<'+'/script></div>' + _modifier + '</div>'
+                            //'console.log($("#post_div_'+value.id+'").attr("data-u"))' +
+                        var jq_appender = $(appender)
+                        jq_appender.find('.profile_delete').on('click', function (e) {
+                            e.preventDefault()
+                            $('#post_to_delete').html(value.id)
+                            $('#modal_post_delete').modal('show')
+                        })
+                        $('#post_list').append(jq_appender)
+                    })
+                        if (data.last === null){
+                            $('#profile_post_more_load').addClass('hidden')
+                        } else {
+                            $('#profile_post_more_load').removeClass('hidden')
+                        }
+
+                }
+            })
         })
     })
 
