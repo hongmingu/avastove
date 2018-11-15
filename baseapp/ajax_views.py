@@ -524,7 +524,7 @@ def re_comment_delete(request):
 
                 comment = None
                 try:
-                    comment = PostComment.objects.get(uuid=comment_id, user=request.user)
+                    comment = PostComment.objects.get(uuid=comment_id, post=post, user=request.user)
                 except Exception as e:
                     try:
                         comment = PostComment.objects.get(uuid=comment_id, post=post, post__user=request.user)
