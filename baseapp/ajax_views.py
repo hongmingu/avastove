@@ -515,18 +515,21 @@ def re_comment_delete(request):
             if request.is_ajax():
                 comment_id = request.POST.get('comment_id', None)
                 post_id = request.POST.get('post_id', None)
+                post = None
                 try:
                     # post = Post.objects.last()
                     post = Post.objects.get(uuid=post_id)
-                except:
+                except Exception as e:
                     return JsonResponse({'res': 0})
 
+                comment = None
                 try:
                     comment = PostComment.objects.get(uuid=comment_id, user=request.user)
-                except:
+                except Exception as e:
                     try:
                         comment = PostComment.objects.get(uuid=comment_id, post=post, post__user=request.user)
-                    except:
+                    except Exception as e:
+                        print(e)
                         return JsonResponse({'res': 0})
 
                 try:
