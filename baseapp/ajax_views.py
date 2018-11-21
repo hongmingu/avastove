@@ -222,9 +222,6 @@ def re_create_new_text(request):
         return JsonResponse({'res': 2})'''
 
 
-# 2018-07-28 해야 할 일: postchatphoto 업로드 테스트.
-
-
 @ensure_csrf_cookie
 def re_create_new_chat_photo(request):
     if request.method == "POST":
@@ -332,6 +329,7 @@ def re_post_update(request):
 
         return JsonResponse({'res': 2})
 
+
 @ensure_csrf_cookie
 def re_post_update_profile_name(request):
     if request.method == "POST":
@@ -359,6 +357,7 @@ def re_post_update_profile_name(request):
                 return JsonResponse({'res': 1})
 
         return JsonResponse({'res': 2})
+
 @ensure_csrf_cookie
 def re_post_chat_remove(request):
     if request.method == "POST":
@@ -1010,6 +1009,40 @@ def re_post_reading_more_load(request):
                         output.append(sub_output)
 
                 return JsonResponse({'res': 1, 'set': output})
+        else:
+            if request.is_ajax():
+                last_id = request.POST.get('post_chat_before_id', None)
+                post_id = request.POST.get('post_id', None)
+                try:
+                    last_post_chat = PostChat.objects.get(uuid=last_id)
+                except:
+                    return JsonResponse({'res': 0})
+
+                post_chats = PostChat.objects.filter(Q(post__uuid=post_id) & Q(pk__lt=last_post_chat.pk)).order_by('-created')[:11]
+
+                output = []
+                if post_chats:
+                    for post_chat in post_chats:
+                        try:
+                            count = post_chat.postchatlikecount.count
+                        except:
+                            count = None
+                        # 여기서 you_like 부터 시작해야한다.
+                        you_like = False
+                        sub_output = {
+                            'id': post_chat.uuid,
+                            'kind': post_chat_kind_converter(post_chat.kind),
+                            'like_count': count,
+                            'created': post_chat.created,
+                            'you_say': post_chat.you_say,
+                            'content': post_chat.get_raw_value(),
+                            'rest_count': post_chat.postchatrestmessagecount.count,
+                            'you_like': you_like
+                        }
+
+                        output.append(sub_output)
+
+                return JsonResponse({'res': 1, 'set': output})
         return JsonResponse({'res': 2})
 
 
@@ -1567,7 +1600,57 @@ def re_profile_post(request):
                     output.append(sub_output)
 
                 return JsonResponse({'res': 1, 'set': output, 'last': last, 'master': master})
+        else:
+            if request.is_ajax():
+                chosen_user_id = request.POST.get('chosen_user_id', None)
+                last_id = request.POST.get('last_post_id', None)
+                user = None
+                try:
+                    user = User.objects.get(username=chosen_user_id)
+                except User.DoesNotExist:
+                    pass
+                master = False
+                posts = None
 
+                if master:
+                    pass
+                else:
+                    if last_id == '':
+                        posts = Post.objects.filter((Q(user=user) & Q(is_open=True))).order_by('-post_chat_created').distinct()[:21]
+                    else:
+                        last_post = None
+                        try:
+                            last_post = Post.objects.get(uuid=last_id)
+                        except Exception as e:
+                            print(e)
+                            pass
+                        if last_post is not None:
+                            posts = Post.objects.filter((Q(user=user)) & Q(is_open=True) & Q(post_chat_created__lte=last_post.post_chat_created)).exclude(pk=last_post.pk).order_by('-post_chat_created').distinct()[:21]
+                        else:
+                            posts = Post.objects.filter(Q(user=user) & Q(is_open=True)).order_by('-post_chat_created').distinct()[:21]
+                # 이제 리스트 만드는 코드가 필요하다. #########
+
+                # filter(Q(post__uuid=post_id) & Q(pk__lt=last_post_chat.pk))
+                ################################
+                output = []
+                count = 0
+                last = None
+                sub_output = None
+                post_follow = None
+                for post in posts:
+                    count = count + 1
+                    if count == 21:
+                        last = post.uuid
+                    post_follow = True
+                    sub_output = {
+                        'id': post.uuid,
+                        'created': post.created,
+                        'post_follow': post_follow
+                    }
+
+                    output.append(sub_output)
+
+                return JsonResponse({'res': 1, 'set': output, 'last': last, 'master': master})
         return JsonResponse({'res': 2})
 
 
@@ -1589,6 +1672,7 @@ def re_profile_post_delete(request):
                 return JsonResponse({'res': 1})
 
         return JsonResponse({'res': 2})
+
 @ensure_csrf_cookie
 def re_profile_populate(request):
     if request.method == "POST":
@@ -1738,6 +1822,7 @@ def re_profile_populate(request):
                 return JsonResponse({'res': 1, 'set': output})
 
         return JsonResponse({'res': 2})
+
 
 @ensure_csrf_cookie
 def re_post_like_list(request):
@@ -1911,6 +1996,7 @@ def re_post_follow(request):
                 return JsonResponse({'res': 1, 'follow': follow})
 
         return JsonResponse({'res': 2})
+
 
 @ensure_csrf_cookie
 def re_post_follow_list(request):
