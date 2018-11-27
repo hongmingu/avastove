@@ -139,6 +139,8 @@ def note_all(request):
 def search_all(request):
     if request.method == "GET":
         q = request.GET.get('q', None)
+        if q is None:
+            q = ''
         word = {}
         word['q'] = q
         return render(request, 'baseapp/user_search_all.html', {'word': word})
@@ -146,6 +148,8 @@ def search_all(request):
 def search_user(request):
     if request.method == "GET":
         q = request.GET.get('q', None)
+        if q is None:
+            q = ''
         word = {}
         word['q'] = q
         return render(request, 'baseapp/user_search_user.html', {'word': word})
@@ -153,6 +157,8 @@ def search_user(request):
 def search_post(request):
     if request.method == "GET":
         q = request.GET.get('q', None)
+        if q is None:
+            q = ''
         word = {}
         word['q'] = q
         return render(request, 'baseapp/user_search_post.html', {'word': word})
