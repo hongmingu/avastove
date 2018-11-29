@@ -2264,10 +2264,10 @@ def re_search_post(request):
                     print(e)
                     return JsonResponse({'res': 0})
 
-                posts = Post.objects.filter((Q(user__userusername__username__icontains=search_word)
+                posts = Post.objects.filter(((Q(user__userusername__username__icontains=search_word)
                                             | Q(title__icontains=search_word)
                                             | Q(description__icontains=search_word)
-                                            | Q(user__usertextname__name__icontains=search_word))
+                                            | Q(user__usertextname__name__icontains=search_word)))
                                             & Q(post_chat_created__lte=next_post.post_chat_created)).order_by('-post_chat_created').distinct()[:2]
 
             post_output = []
