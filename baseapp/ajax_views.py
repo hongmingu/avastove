@@ -483,10 +483,7 @@ def re_comment_add(request):
                     with transaction.atomic():
                         post_comment = PostComment.objects.create(post=post, user=request.user, uuid=uuid.uuid4().hex,
                                                                   text=text)
-                        from django.db.models import F
-                        post_comment_count = post.postcommentcount
-                        post_comment_count.count = F('count') + 1
-                        post_comment_count.save()
+
                         # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                 except Exception:
                     return JsonResponse({'res': 0})
@@ -534,10 +531,7 @@ def re_comment_delete(request):
                 try:
                     with transaction.atomic():
                         comment.delete()
-                        from django.db.models import F
-                        post_comment_count = post.postcommentcount
-                        post_comment_count.count = F('count') - 1
-                        post_comment_count.save()
+
                 except Exception:
                     return JsonResponse({'res': 0})
                 return JsonResponse({'res': 1})
@@ -652,10 +646,7 @@ def re_post_like(request):
                     try:
                         with transaction.atomic():
                             post_like.delete()
-                            from django.db.models import F
-                            post_like_count = post.postlikecount
-                            post_like_count.count = F('count') - 1
-                            post_like_count.save()
+
                             liked = False
                             # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                     except Exception:
@@ -665,9 +656,7 @@ def re_post_like(request):
                         with transaction.atomic():
                             post_like = PostLike.objects.create(post=post, user=request.user)
                             from django.db.models import F
-                            post_like_count = post.postlikecount
-                            post_like_count.count = F('count') + 1
-                            post_like_count.save()
+
                             liked = True
                             # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                     except Exception:
@@ -1153,10 +1142,7 @@ def re_post_chat_like(request):
                     try:
                         with transaction.atomic():
                             post_chat_like.delete()
-                            from django.db.models import F
-                            post_chat_like_count = post_chat.postchatlikecount
-                            post_chat_like_count.count = F('count') - 1
-                            post_chat_like_count.save()
+
                             liked = False
                             # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                     except Exception as e:
@@ -1166,10 +1152,7 @@ def re_post_chat_like(request):
                     try:
                         with transaction.atomic():
                             post_chat_like = PostChatLike.objects.create(post_chat=post_chat, user=request.user)
-                            from django.db.models import F
-                            post_chat_like_count = post_chat.postchatlikecount
-                            post_chat_like_count.count = F('count') + 1
-                            post_chat_like_count.save()
+
                             liked = True
                             # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                     except Exception as e:
@@ -1197,11 +1180,6 @@ def re_post_chat_add_rest(request):
                 sub_output = None
                 if post_chat is not None:
                     post_chat_rest_message = PostChatRestMessage.objects.create(text=text, user=request.user, uuid=uuid.uuid4().hex, post_chat=post_chat)
-
-                    from django.db.models import F
-                    post_chat_rest_message_count = post_chat.postchatrestmessagecount
-                    post_chat_rest_message_count.count = F('count') + 1
-                    post_chat_rest_message_count.save()
 
                 if post_chat_rest_message is not None:
                     sub_output = {
@@ -1329,10 +1307,6 @@ def re_post_chat_rest_like(request):
                     try:
                         with transaction.atomic():
                             post_chat_rest_message_like.delete()
-                            from django.db.models import F
-                            post_chat_rest_message_like_count = post_chat_rest_message.postchatrestmessagelikecount
-                            post_chat_rest_message_like_count.count = F('count') - 1
-                            post_chat_rest_message_like_count.save()
                             liked = False
                             # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                     except Exception:
@@ -1341,10 +1315,7 @@ def re_post_chat_rest_like(request):
                     try:
                         with transaction.atomic():
                             post_chat_rest_message_like = PostChatRestMessageLike.objects.create(post_chat_rest_message=post_chat_rest_message, user=request.user)
-                            from django.db.models import F
-                            post_chat_rest_message_like_count = post_chat_rest_message.postchatrestmessagelikecount
-                            post_chat_rest_message_like_count.count = F('count') + 1
-                            post_chat_rest_message_like_count.save()
+
                             liked = True
                             # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                     except Exception:
@@ -1371,10 +1342,7 @@ def re_post_chat_rest_delete(request):
                         try:
                             with transaction.atomic():
                                 rest_message.delete()
-                                from django.db.models import F
-                                rest_count = rest_message.post_chat.postchatrestmessagecount
-                                rest_count.count = F('count') - 1
-                                rest_count.save()
+
                                 # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                         except Exception:
                             return JsonResponse({'res': 0})
@@ -1412,13 +1380,6 @@ def re_profile_follow(request):
                             with transaction.atomic():
                                 follow.delete()
 
-                                from django.db.models import F
-                                following_count = request.user.followingcount
-                                following_count.count = F('count') - 1
-                                following_count.save()
-                                follower_count = chosen_user.followercount
-                                follower_count.count = F('count') - 1
-                                follower_count.save()
                                 result = False
 
                                 # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
@@ -1428,13 +1389,6 @@ def re_profile_follow(request):
                         try:
                             with transaction.atomic():
                                 follow = Follow.objects.create(follow=chosen_user, user=request.user)
-                                from django.db.models import F
-                                following_count = request.user.followingcount
-                                following_count.count = F('count') + 1
-                                following_count.save()
-                                follower_count = chosen_user.followercount
-                                follower_count.count = F('count') + 1
-                                follower_count.save()
                                 result = True
 
                                 # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
@@ -1972,10 +1926,6 @@ def re_post_follow(request):
                     try:
                         with transaction.atomic():
                             post_follow.delete()
-                            from django.db.models import F
-                            post_follow_count = post.postfollowcount
-                            post_follow_count.count = F('count') - 1
-                            post_follow_count.save()
                             follow = False
                             # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                     except Exception:
@@ -1984,10 +1934,6 @@ def re_post_follow(request):
                     try:
                         with transaction.atomic():
                             post_follow = PostFollow.objects.create(post=post, user=request.user)
-                            from django.db.models import F
-                            post_follow_count = post.postfollowcount
-                            post_follow_count.count = F('count') + 1
-                            post_follow_count.save()
                             follow = True
                             # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                     except Exception:

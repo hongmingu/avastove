@@ -41,16 +41,35 @@ def created_follow(sender, instance, created, **kwargs):
             return
         try:
             with transaction.atomic():
-                print('1')
                 notice = Notice.objects.create(user=instance.follow, kind=FOLLOW)
                 notice_follow = NoticeFollow.objects.create(notice=notice, follow=instance)
                 notice_count = instance.follow.noticecount
                 notice_count.count = F('count') + 1
                 notice_count.save()
+
+                following_count = instance.user.followingcount
+                following_count.count = F('count') + 1
+                following_count.save()
+                follower_count = instance.follow.followercount
+                follower_count.count = F('count') + 1
+                follower_count.save()
         except Exception as e:
             print(e)
             pass
 
+@receiver(post_delete, sender=Follow)#이걸 pre_delete로 해야하나?
+def deleted_follow(sender, instance, **kwargs):
+    try:
+        with transaction.atomic():
+            following_count = instance.user.followingcount
+            following_count.count = F('count') - 1
+            following_count.save()
+            follower_count = instance.follow.followercount
+            follower_count.count = F('count') - 1
+            follower_count.save()
+    except Exception as e:
+        print(e)
+        pass
 
 @receiver(post_delete, sender=NoticeFollow)#이걸 pre_delete로 해야하나?
 def deleted_notice_follow(sender, instance, **kwargs):
@@ -85,9 +104,23 @@ def created_post_follow(sender, instance, created, **kwargs):
                 notice_count = instance.post.user.noticecount
                 notice_count.count = F('count') + 1
                 notice_count.save()
+
+                post_follow_count = instance.post.postfollowcount
+                post_follow_count.count = F('count') + 1
+                post_follow_count.save()
         except Exception:
             pass
 
+
+@receiver(post_delete, sender=PostFollow)#이걸 pre_delete로 해야하나?
+def deleted_post_follow(sender, instance, **kwargs):
+    try:
+        with transaction.atomic():
+            post_follow_count = instance.post.postfollowcount
+            post_follow_count.count = F('count') - 1
+            post_follow_count.save()
+    except Exception:
+        pass
 
 @receiver(post_delete, sender=NoticePostFollow)#이걸 pre_delete로 해야하나?
 def deleted_notice_post_follow(sender, instance, **kwargs):
@@ -119,8 +152,24 @@ def created_post_comment(sender, instance, created, **kwargs):
                 notice_count = instance.post.user.noticecount
                 notice_count.count = F('count') + 1
                 notice_count.save()
+
+                post_comment_count = instance.post.postcommentcount
+                post_comment_count.count = F('count') + 1
+                post_comment_count.save()
         except Exception:
             pass
+
+
+@receiver(post_delete, sender=PostComment)  # 이걸 pre_delete로 해야하나?
+def deleted_post_comment(sender, instance, **kwargs):
+    try:
+        with transaction.atomic():
+            post_comment_count = instance.post.postcommentcount
+            post_comment_count.count = F('count') - 1
+            post_comment_count.save()
+
+    except Exception:
+        pass
 
 
 @receiver(post_delete, sender=NoticePostComment)#이걸 pre_delete로 해야하나?
@@ -134,6 +183,8 @@ def deleted_notice_post_comment(sender, instance, **kwargs):
                         notice_count.count = F('count') - 1
                         notice_count.save()
                     instance.notice.delete()
+
+
             except Exception:
                 pass
     except:
@@ -153,9 +204,26 @@ def created_post_like(sender, instance, created, **kwargs):
                 notice_count = instance.post.user.noticecount
                 notice_count.count = F('count') + 1
                 notice_count.save()
+
+                post_like_count = instance.post.postlikecount
+                post_like_count.count = F('count') + 1
+                post_like_count.save()
         except Exception as e:
             print(e)
             pass
+
+
+@receiver(post_delete, sender=PostLike)#이걸 pre_delete로 해야하나?
+def deleted_post_like(sender, instance, **kwargs):
+    try:
+        with transaction.atomic():
+            from django.db.models import F
+            post_like_count = instance.post.postlikecount
+            post_like_count.count = F('count') - 1
+            post_like_count.save()
+    except Exception as e:
+        print(e)
+        pass
 
 
 @receiver(post_delete, sender=NoticePostLike)#이걸 pre_delete로 해야하나?
@@ -189,10 +257,26 @@ def created_post_chat_like(sender, instance, created, **kwargs):
                 notice_count = instance.post_chat.post.user.noticecount
                 notice_count.count = F('count') + 1
                 notice_count.save()
+
+                post_chat_like_count = instance.post_chat.postchatlikecount
+                post_chat_like_count.count = F('count') + 1
+                post_chat_like_count.save()
         except Exception as e:
             print(e)
             pass
 
+
+@receiver(post_delete, sender=PostChatLike)#이걸 pre_delete로 해야하나?
+def deleted_post_chat_like(sender, instance, **kwargs):
+    try:
+        with transaction.atomic():
+            from django.db.models import F
+            post_chat_like_count = instance.post_chat.postchatlikecount
+            post_chat_like_count.count = F('count') - 1
+            post_chat_like_count.save()
+    except Exception as e:
+        print(e)
+        pass
 
 @receiver(post_delete, sender=NoticePostChatLike)#이걸 pre_delete로 해야하나?
 def deleted_notice_post_chat_like(sender, instance, **kwargs):
@@ -225,9 +309,25 @@ def created_post_chat_rest(sender, instance, created, **kwargs):
                 notice_count = instance.post_chat.post.user.noticecount
                 notice_count.count = F('count') + 1
                 notice_count.save()
+
+                post_chat_rest_message_count = instance.post_chat.postchatrestmessagecount
+                post_chat_rest_message_count.count = F('count') + 1
+                post_chat_rest_message_count.save()
         except Exception as e:
             print(e)
             pass
+
+@receiver(post_delete, sender=PostChatRestMessage)#이걸 pre_delete로 해야하나?
+def deleted_post_chat_rest(sender, instance, **kwargs):
+    try:
+        with transaction.atomic():
+            from django.db.models import F
+            rest_count = instance.post_chat.postchatrestmessagecount
+            rest_count.count = F('count') - 1
+            rest_count.save()
+    except Exception as e:
+        print(e)
+        pass
 
 
 @receiver(post_delete, sender=NoticePostChatRest)#이걸 pre_delete로 해야하나?
@@ -261,10 +361,24 @@ def created_post_chat_rest_like(sender, instance, created, **kwargs):
                 notice_count = instance.post_chat_rest_message.user.noticecount
                 notice_count.count = F('count') + 1
                 notice_count.save()
+
+                post_chat_rest_message_like_count = instance.post_chat_rest_message.postchatrestmessagelikecount
+                post_chat_rest_message_like_count.count = F('count') + 1
+                post_chat_rest_message_like_count.save()
         except Exception as e:
             print(e)
             pass
 
+@receiver(post_delete, sender=PostChatRestMessageLike)#이걸 pre_delete로 해야하나?
+def deleted_post_chat_rest_like(sender, instance, **kwargs):
+    try:
+        with transaction.atomic():
+            post_chat_rest_message_like_count = instance.post_chat_rest_message.postchatrestmessagelikecount
+            post_chat_rest_message_like_count.count = F('count') - 1
+            post_chat_rest_message_like_count.save()
+    except Exception as e:
+        print(e)
+        pass
 
 @receiver(post_delete, sender=NoticePostChatRestLike)#이걸 pre_delete로 해야하나?
 def deleted_notice_post_chat_rest_like(sender, instance, **kwargs):
