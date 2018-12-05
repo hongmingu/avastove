@@ -1177,8 +1177,11 @@ def re_post_chat_add_rest(request):
                 post_chat = None
                 try:
                     post_chat = PostChat.objects.get(uuid=post_chat_id)
-                except:
+                except Exception as e:
                     return JsonResponse({'res': 0})
+                if request.user == post_chat.post.user:
+                    return JsonResponse({'res': 0})
+
                 post_chat_rest_message = None
                 sub_output = None
                 if post_chat is not None:
