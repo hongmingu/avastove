@@ -405,10 +405,9 @@ def re_post_chat_more_load(request):
             if request.is_ajax():
                 post_id = request.POST.get('post_id', None)
                 post_chat_id = request.POST.get('post_chat_id', None)
-
                 try:
                     post = Post.objects.get(uuid=post_id)
-                except:
+                except Exception as e:
                     return JsonResponse({'res': 0})
                 from django.db.models import Q
                 standard_post_chat = PostChat.objects.get(uuid=post_chat_id)
