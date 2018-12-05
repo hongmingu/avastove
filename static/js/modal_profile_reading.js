@@ -811,7 +811,7 @@ $(function () {
     $('#interaction_choice_interact').click(function (e) {
         e.preventDefault()
         $('.reading_chat_next').addClass('hidden')
-        $('#interaction_form').removeClass('hidden')
+        $('#you_say_form').removeClass('hidden')
     })
     $('#interaction_choice_update').click(function (e) {
         e.preventDefault()
@@ -1209,14 +1209,14 @@ $(function () {
         })
     })
 
-    $('.modal_reading_form_textarea').on("keypress", function (e) {
+    $('#interaction_form_textarea').on("keypress", function (e) {
         if ($('#user_id').html() === '') {
             $('#modal_need_login').modal('show')
             return false;
         }
         /* ENTER PRESSED*/
         if (e.keyCode == 13 && !e.shiftKey) {
-            var text = $('.modal_reading_form_textarea').val()
+            var text = $('#interaction_form_textarea').val()
             if (text === '') {
                 return false;
             }
@@ -1289,7 +1289,7 @@ $(function () {
 
                     $('#modal_reading_chat').append(rest_appender)
 
-                    $('.modal_reading_form_textarea').val('')
+                    $('#interaction_form_textarea').val('')
                 }
             })
             return false;
@@ -1298,14 +1298,14 @@ $(function () {
 
     })
 
-    $('.modal_reading_form_textarea_button').click(function (e) {
+    $('#interaction_form_btn').click(function (e) {
         e.preventDefault()
         if ($('#user_id').html() === '') {
             $('#modal_need_login').modal('show')
             return false;
         }
 
-        var text = $('.modal_reading_form_textarea').val()
+        var text = $('#interaction_form_textarea').val()
         if (text === '') {
             return false;
         }
@@ -1378,9 +1378,238 @@ $(function () {
 
                 $('#modal_reading_chat').append(rest_appender)
 
-                $('.modal_reading_form_textarea').val('')
+                $('#interaction_form_textarea').val('')
             }
         })
         return false;
     })
+
+
+
+    $('#you_say_form_textarea').on("keypress", function (e) {
+        if ($('#user_id').html() === '') {
+            $('#modal_need_login').modal('show')
+            return false;
+        }
+        /* ENTER PRESSED*/
+        if (e.keyCode == 13 && !e.shiftKey) {
+            var reading_post_id = $('#reading_post_id').html()
+            var reading_post_profile_photo = $('#reading_post_profile_photo').html()
+            var reading_post_profile_name = $('#reading_post_profile_name').html()
+
+            var text = $('#you_say_form_textarea').val()
+            if (text.trim() === '') {
+                return false;
+            }
+            $.ajax({
+                url: '/re/post/chat/add/say/', type: 'post', dataType: 'json', cache: false,
+                data: {
+                    post_id: reading_post_id,
+                    post_chat_id: $('#reading_post_chat_last_id').html(),
+                    text: text,
+                },
+                success: function (data) {
+                    if (data.res === 1) {
+                        var prepender, align, profile_photo, chat_content, like, like_count, rest_messages;
+                        $('#reading_post_chat_last_id').html(data.post_chat_id)
+
+                        align = 'left';
+
+                        like_count = 0
+
+                        profile_photo = '<div class="reading_chat_img">\n' +
+                            '<img class="img_small" src="' + reading_post_profile_photo + '"></div>\n';
+                        chat_content = '<div class="reading_chat_content">' +
+                            '<div class="reading_chat_name">' + reading_post_profile_name + '</div>' +
+                            '<div class="reading_chat_text">' + data.text + '</div>' +
+                            '</div>'
+                        // 작업중인부분 ------------------------------------
+                        var heart;
+                        heart = 'glyphicon-heart-empty'
+
+                        like = '<div class="reading_like_wrapper">' +
+                            '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + data.post_chat_id + '" data-u="' + data.post_chat_id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + data.post_chat_id + '">' + like_count + '</span></a>' +
+                            '</div>'
+
+
+                        rest_messages = ''
+
+
+                        prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
+                            '</div>\n')
+                        var last_id;
+
+                        prepender.find('#reading_like_count_' + data.post_chat_id).on('click', function (e) {
+                            e.preventDefault()
+                            if ($('#user_id').html() === '') {
+                                $('#modal_need_login').modal('show')
+                                return false;
+                            }
+                            $('#clicked_post_chat_id').html(data.post_chat_id)
+                            $('#modal_post_chat_liking').modal('show')
+                        });
+
+                        prepender.find('.reading_like').on('click', function (e) {
+
+                            e.preventDefault()
+                            if ($('#user_id').html() === '') {
+                                $('#modal_need_login').modal('show')
+                                return false;
+                            }
+                            var post_chat_id = $(this).attr('data-u')
+
+                            $.ajax({
+                                url: '/re/post/chat/like/', type: 'post', dataType: 'json', cache: false,
+                                data: {
+                                    post_chat_id: post_chat_id,
+                                },
+                                success: function (data) {
+                                    if (data.res === 1) {
+                                        var has_k = $('#reading_like_count_' + post_chat_id).html()
+
+                                        if (data.liked === true) {
+                                            if (!(has_k.includes('k'))) {
+                                                $('#reading_like_count_' + post_chat_id).html(parseInt(has_k) + 1)
+                                            }
+                                            $('#reading_like_span_' + post_chat_id).removeClass('glyphicon-heart-empty')
+                                            $('#reading_like_span_' + post_chat_id).addClass('glyphicon-heart')
+                                        } else {
+                                            if (!(has_k.includes('k'))) {
+                                                $('#reading_like_count_' + post_chat_id).html(parseInt(has_k) - 1)
+                                            }
+                                            $('#reading_like_span_' + post_chat_id).removeClass('glyphicon-heart')
+                                            $('#reading_like_span_' + post_chat_id).addClass('glyphicon-heart-empty')
+                                        }
+                                    }
+                                }
+                            })
+
+                        });
+
+
+                        $('#modal_reading_chat').append(prepender)
+                        $(".modal_reading_chat").animate({scrollTop: $('.modal_reading_chat').prop("scrollHeight")}, 500);
+                    }
+
+
+                }
+            })
+            return false;
+
+        }
+
+    })
+
+    $('#you_say_form_btn').click(function (e) {
+        e.preventDefault()
+        if ($('#user_id').html() === '') {
+            $('#modal_need_login').modal('show')
+            return false;
+        }
+
+        var reading_post_id = $('#reading_post_id').html()
+        var reading_post_profile_photo = $('#reading_post_profile_photo').html()
+        var reading_post_profile_name = $('#reading_post_profile_name').html()
+
+        var text = $('#you_say_form_textarea').val()
+        if (text.trim() === '') {
+            return false;
+        }
+        $.ajax({
+            url: '/re/post/chat/add/say/', type: 'post', dataType: 'json', cache: false,
+            data: {
+                post_id: reading_post_id,
+                post_chat_id: $('#reading_post_chat_last_id').html(),
+                text: text,
+            },
+            success: function (data) {
+                if (data.res === 1) {
+                    var prepender, align, profile_photo, chat_content, like, like_count, rest_messages;
+                    $('#reading_post_chat_last_id').html(data.post_chat_id)
+
+                    align = 'left';
+
+                    like_count = 0
+
+                    profile_photo = '<div class="reading_chat_img">\n' +
+                        '<img class="img_small" src="' + reading_post_profile_photo + '"></div>\n';
+                    chat_content = '<div class="reading_chat_content">' +
+                        '<div class="reading_chat_name">' + reading_post_profile_name + '</div>' +
+                        '<div class="reading_chat_text">' + data.text + '</div>' +
+                        '</div>'
+                    // 작업중인부분 ------------------------------------
+                    var heart;
+                    heart = 'glyphicon-heart-empty'
+
+                    like = '<div class="reading_like_wrapper">' +
+                        '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + data.post_chat_id + '" data-u="' + data.post_chat_id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + data.post_chat_id + '">' + like_count + '</span></a>' +
+                        '</div>'
+
+
+                    rest_messages = ''
+
+
+                    prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
+                        '</div>\n')
+                    var last_id;
+
+                    prepender.find('#reading_like_count_' + data.post_chat_id).on('click', function (e) {
+                        e.preventDefault()
+                        if ($('#user_id').html() === '') {
+                            $('#modal_need_login').modal('show')
+                            return false;
+                        }
+                        $('#clicked_post_chat_id').html(data.post_chat_id)
+                        $('#modal_post_chat_liking').modal('show')
+                    });
+
+                    prepender.find('.reading_like').on('click', function (e) {
+
+                        e.preventDefault()
+                        if ($('#user_id').html() === '') {
+                            $('#modal_need_login').modal('show')
+                            return false;
+                        }
+                        var post_chat_id = $(this).attr('data-u')
+
+                        $.ajax({
+                            url: '/re/post/chat/like/', type: 'post', dataType: 'json', cache: false,
+                            data: {
+                                post_chat_id: post_chat_id,
+                            },
+                            success: function (data) {
+                                if (data.res === 1) {
+                                    var has_k = $('#reading_like_count_' + post_chat_id).html()
+
+                                    if (data.liked === true) {
+                                        if (!(has_k.includes('k'))) {
+                                            $('#reading_like_count_' + post_chat_id).html(parseInt(has_k) + 1)
+                                        }
+                                        $('#reading_like_span_' + post_chat_id).removeClass('glyphicon-heart-empty')
+                                        $('#reading_like_span_' + post_chat_id).addClass('glyphicon-heart')
+                                    } else {
+                                        if (!(has_k.includes('k'))) {
+                                            $('#reading_like_count_' + post_chat_id).html(parseInt(has_k) - 1)
+                                        }
+                                        $('#reading_like_span_' + post_chat_id).removeClass('glyphicon-heart')
+                                        $('#reading_like_span_' + post_chat_id).addClass('glyphicon-heart-empty')
+                                    }
+                                }
+                            }
+                        })
+
+                    });
+
+
+                    $('#modal_reading_chat').append(prepender)
+                    $(".modal_reading_chat").animate({scrollTop: $('.modal_reading_chat').prop("scrollHeight")}, 500);
+                }
+
+
+            }
+        })
+        return false;
+
+    })
+
 })

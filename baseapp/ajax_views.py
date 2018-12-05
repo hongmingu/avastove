@@ -317,12 +317,16 @@ def re_post_update(request):
                 elif title_command == 'add':
                     title_add = request.POST.get('title', None)
                     title_add = title_add.strip()
+                    if title_add == '':
+                        title_add = None
                     post.title = title_add
                 if desc_command == 'removed':
                     post.description = None
                 elif desc_command == 'add':
                     desc_add = request.POST.get('description', None)
                     desc_add = desc_add.strip()
+                    if desc_add == '':
+                        desc_add = None
                     post.description = desc_add
                 post.save()
                 return JsonResponse({'res': 1})
@@ -1134,7 +1138,7 @@ def re_post_chat_like(request):
                     return JsonResponse({'res': 0})
                 try:
                     post_chat_like = PostChatLike.objects.get(post_chat=post_chat, user=request.user)
-                except PostChatLike.DoesNotExist:
+                except Exception as e:
                     post_chat_like = None
 
                 liked = None
@@ -1192,6 +1196,36 @@ def re_post_chat_add_rest(request):
                     }
                 return JsonResponse({'res': 1, 'set': sub_output})
         return JsonResponse({'res': 2})
+
+
+@ensure_csrf_cookie
+def re_post_chat_add_say(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            if request.is_ajax():
+                post_id = request.POST.get('post_id', None)
+                post_chat_id = request.POST.get('post_chat_id', None)
+                text = request.POST.get('text', None)
+                try:
+                    post = Post.objects.get(uuid=post_id)
+                except Exception as e:
+                    return JsonResponse({'res': 0})
+
+                try:
+                    post_chat_last = PostChat.objects.filter(post=post).last()
+
+                except PostChat.DoesNotExist:
+                    return JsonResponse({'res': 0})
+
+                you_say = True
+
+                post_chat = PostChat.objects.create(post=post, kind=POSTCHAT_TEXT, before=post_chat_last,
+                                                    you_say=you_say, uuid=uuid.uuid4().hex)
+                post_chat_text = PostChatText.objects.create(post_chat=post_chat, text=text)
+                return JsonResponse({'res': 1, 'text': escape(text), 'post_chat_id': post_chat.uuid})
+
+        return JsonResponse({'res': 2})
+
 
 @ensure_csrf_cookie
 def re_post_chat_rest_more_load(request):

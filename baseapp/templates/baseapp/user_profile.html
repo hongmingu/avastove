@@ -99,7 +99,7 @@
                     {% else %}
                         <a href="">
                             <div class="margin_top_20 light_background_color hidden" align="center" id="follow">
-                                <span class="user_change_profile clickable" id="follow_text">now following <span
+                                <span class="user_change_profile clickable" id="follow_text">following <span
                                         class="glyphicon glyphicon-ok"></span></span>
                             </div>
                         </a>
@@ -309,7 +309,7 @@
                 success: function (data) {
                     console.log(data)
                     if (data.result === true) {
-                        $('#follow_text').html('now following <span class="glyphicon glyphicon-ok"></span>')
+                        $('#follow_text').html('following <span class="glyphicon glyphicon-ok"></span>')
                         var count_follower = parseInt($('#count_follower').html()) + 1
                         $('#count_follower').html(count_follower)
                     } else {

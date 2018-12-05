@@ -1,34 +1,5 @@
 $(function () {
     var open;
-    if ($('#just_created').attr('data-u') === 'on') {
-        if ($('#open').hasClass('choice_unselected')) {
-            $('#open').toggleClass('choice_selected choice_unselected')
-        }
-        if ($('#close').hasClass('choice_selected')) {
-            $('#close').toggleClass('choice_selected choice_unselected')
-        }
-        open = 'open'
-
-    } else {
-        if ($('#current_open').attr('data-u') === 'open') {
-            if ($('#open').hasClass('choice_unselected')) {
-                $('#open').toggleClass('choice_selected choice_unselected')
-            }
-            if ($('#close').hasClass('choice_selected')) {
-                $('#close').toggleClass('choice_selected choice_unselected')
-            }
-            open = 'open'
-
-        } else {
-            if ($('#close').hasClass('choice_unselected')) {
-                $('#close').toggleClass('choice_selected choice_unselected')
-            }
-            if ($('#open').hasClass('choice_selected')) {
-                $('#open').toggleClass('choice_selected choice_unselected')
-            }
-            open = 'close'
-        }
-    }
     $('#open').click(function (e) {
         e.preventDefault()
         if ($(this).hasClass('choice_unselected')) {

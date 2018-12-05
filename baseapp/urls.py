@@ -77,6 +77,9 @@ urlpatterns = [
     re_path(r'^re/post/chat/add/rest/$', base_ajax_views.re_post_chat_add_rest,
             name='re_post_chat_add_rest'),
 
+    re_path(r'^re/post/chat/add/say/$', base_ajax_views.re_post_chat_add_say,
+            name='re_post_chat_add_say'),
+
     re_path(r'^re/post/chat/rest/more/load/$', base_ajax_views.re_post_chat_rest_more_load,
             name='re_post_chat_more_load'),
 

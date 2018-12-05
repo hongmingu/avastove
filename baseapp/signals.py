@@ -85,8 +85,6 @@ def deleted_notice_follow(sender, instance, **kwargs):
 @receiver(post_save, sender=PostFollow)
 def created_post_follow(sender, instance, created, **kwargs):
     if created:
-        if instance.user == instance.post.user:
-            return
         try:
             with transaction.atomic():
                 notice = Notice.objects.create(user=instance.post.user, kind=POST_FOLLOW, uuid=uuid.uuid4().hex)
@@ -122,8 +120,6 @@ def deleted_notice_post_follow(sender, instance, **kwargs):
 @receiver(post_save, sender=PostComment)
 def created_post_comment(sender, instance, created, **kwargs):
     if created:
-        if instance.user == instance.post.user:
-            return
         try:
             with transaction.atomic():
                 notice = Notice.objects.create(user=instance.post.user, kind=POST_COMMENT, uuid=uuid.uuid4().hex)
@@ -161,8 +157,6 @@ def deleted_notice_post_comment(sender, instance, **kwargs):
 @receiver(post_save, sender=PostLike)
 def created_post_like(sender, instance, created, **kwargs):
     if created:
-        if instance.user == instance.post.user:
-            return
         try:
             with transaction.atomic():
                 notice = Notice.objects.create(user=instance.post.user, kind=POST_LIKE, uuid=uuid.uuid4().hex)
@@ -204,8 +198,6 @@ def deleted_notice_post_like(sender, instance, **kwargs):
 @receiver(post_save, sender=PostChatLike)
 def created_post_chat_like(sender, instance, created, **kwargs):
     if created:
-        if instance.user == instance.post_chat.post.user:
-            return
         try:
             with transaction.atomic():
                 notice = Notice.objects.create(user=instance.post_chat.post.user, kind=POST_CHAT_LIKE, uuid=uuid.uuid4().hex)
@@ -245,8 +237,6 @@ def deleted_notice_post_chat_like(sender, instance, **kwargs):
 @receiver(post_save, sender=PostChatRestMessage)
 def created_post_chat_rest(sender, instance, created, **kwargs):
     if created:
-        if instance.user == instance.post_chat.post.user:
-            return
         try:
             with transaction.atomic():
                 notice = Notice.objects.create(user=instance.post_chat.post.user, kind=POST_CHAT_REST, uuid=uuid.uuid4().hex)
@@ -285,8 +275,6 @@ def deleted_notice_post_chat_rest(sender, instance, **kwargs):
 @receiver(post_save, sender=PostChatRestMessageLike)
 def created_post_chat_rest_like(sender, instance, created, **kwargs):
     if created:
-        if instance.user == instance.post_chat_rest_message.user:
-            return
         try:
             with transaction.atomic():
                 notice = Notice.objects.create(user=instance.user, kind=POST_CHAT_REST_LIKE, uuid=uuid.uuid4().hex)
