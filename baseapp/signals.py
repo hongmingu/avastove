@@ -84,6 +84,8 @@ def deleted_notice_follow(sender, instance, **kwargs):
 
 @receiver(post_save, sender=PostFollow)
 def created_post_follow(sender, instance, created, **kwargs):
+    if instance.user == instance.post.user:
+        return
     if created:
         try:
             with transaction.atomic():

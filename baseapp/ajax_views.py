@@ -179,6 +179,9 @@ def re_create_new_text(request):
                 post_chat = PostChat.objects.create(post=post, kind=POSTCHAT_TEXT, before=post_chat_last,
                                                     you_say=you_say, uuid=uuid.uuid4().hex)
                 post_chat_text = PostChatText.objects.create(post_chat=post_chat, text=request.POST.get('text', None))
+                post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat,
+                                                             user=request.user)
+
                 return JsonResponse({'res': 1, 'content': post_chat.get_value()})
 
         return JsonResponse({'res': 2})
@@ -244,6 +247,7 @@ def re_create_new_chat_photo(request):
                     post_chat = PostChat.objects.create(kind=POSTCHAT_PHOTO, post=post, before=post_chat_last,
                                                         you_say=you_say, uuid=uuid.uuid4().hex)
                     post_chat_photo = PostChatPhoto.objects.create(post_chat=post_chat)
+                    post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat, user=request.user)
 
                     DJANGO_TYPE = request.FILES['file'].content_type
 
@@ -733,7 +737,7 @@ def re_user_home_populate(request):
                         new = True
 
                 user_follow = False
-                if Follow.objects.filter(user=request.user, follow=post.user).exists():
+                if Follow.objects.filter(user=request.user, follow=post.user).exists() or request.user == post.user:
                     user_follow = True
 
                 post_follow = False
@@ -1224,6 +1228,9 @@ def re_post_chat_add_say(request):
                 post_chat = PostChat.objects.create(post=post, kind=POSTCHAT_TEXT, before=post_chat_last,
                                                     you_say=you_say, uuid=uuid.uuid4().hex)
                 post_chat_text = PostChatText.objects.create(post_chat=post_chat, text=text)
+                post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat,
+                                                             user=request.user)
+
                 return JsonResponse({'res': 1, 'text': escape(text), 'post_chat_id': post_chat.uuid})
 
         return JsonResponse({'res': 2})
@@ -1727,7 +1734,7 @@ def re_profile_populate(request):
                         new = True
 
                 user_follow = False
-                if Follow.objects.filter(user=request.user, follow=post.user).exists():
+                if Follow.objects.filter(user=request.user, follow=post.user).exists() or request.user == post.user:
                     user_follow = True
 
                 post_follow = False
@@ -1949,8 +1956,12 @@ def re_post_follow(request):
                 post = None
                 try:
                     post = Post.objects.get(uuid=post_id)
-                except:
+                except Exception as e:
                     return JsonResponse({'res': 0})
+
+                if request.user == post.user:
+                    return JsonResponse({'res': 0})
+
                 post_follow = None
                 try:
                     post_follow = PostFollow.objects.get(post=post, user=request.user)
