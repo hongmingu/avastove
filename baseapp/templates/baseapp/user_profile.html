@@ -217,7 +217,6 @@
                         '<script defer>' +
                         '    profile_populate("' + value.id + '")' +
                         '<' + '/script></div>' + _modifier + '</div>'
-                    //'console.log($("#post_div_'+value.id+'").attr("data-u"))' +
                     var jq_appender = $(appender)
                     jq_appender.find('.profile_delete').on('click', function (e) {
                         e.preventDefault()
@@ -228,8 +227,10 @@
                 })
                 if (data.last === null) {
                     $('#profile_post_more_load').addClass('hidden')
+                    $('#last_post_id').html('')
                 } else {
                     $('#profile_post_more_load').removeClass('hidden')
+                    $('#last_post_id').html(data.last)
                 }
 
             }
@@ -254,7 +255,6 @@
                             '<script defer>' +
                             '    profile_populate("' + value.id + '")' +
                             '<' + '/script></div>' + _modifier + '</div>'
-                        //'console.log($("#post_div_'+value.id+'").attr("data-u"))' +
                         var jq_appender = $(appender)
                         jq_appender.find('.profile_delete').on('click', function (e) {
                             e.preventDefault()
@@ -265,8 +265,11 @@
                     })
                     if (data.last === null) {
                         $('#profile_post_more_load').addClass('hidden')
+                        $('#last_post_id').html('')
+
                     } else {
                         $('#profile_post_more_load').removeClass('hidden')
+                        $('#last_post_id').html(data.last)
                     }
 
                 }
