@@ -37,12 +37,12 @@ def created_post_rest_message(sender, instance, created, **kwargs):
 @receiver(post_save, sender=Follow)
 def created_follow(sender, instance, created, **kwargs):
     if created:
-        if instance.user == instance.follow:
-            return
+
         try:
             with transaction.atomic():
-                notice = Notice.objects.create(user=instance.follow, kind=FOLLOW, uuid=uuid.uuid4().hex)
-                notice_follow = NoticeFollow.objects.create(notice=notice, follow=instance)
+                if not instance.user == instance.follow:
+                    notice = Notice.objects.create(user=instance.follow, kind=FOLLOW, uuid=uuid.uuid4().hex)
+                    notice_follow = NoticeFollow.objects.create(notice=notice, follow=instance)
 
                 following_count = instance.user.followingcount
                 following_count.count = F('count') + 1
@@ -53,6 +53,7 @@ def created_follow(sender, instance, created, **kwargs):
         except Exception as e:
             print(e)
             pass
+
 
 @receiver(post_delete, sender=Follow)#이걸 pre_delete로 해야하나?
 def deleted_follow(sender, instance, **kwargs):
@@ -67,6 +68,7 @@ def deleted_follow(sender, instance, **kwargs):
     except Exception as e:
         print(e)
         pass
+
 
 @receiver(post_delete, sender=NoticeFollow)#이걸 pre_delete로 해야하나?
 def deleted_notice_follow(sender, instance, **kwargs):
@@ -84,13 +86,13 @@ def deleted_notice_follow(sender, instance, **kwargs):
 
 @receiver(post_save, sender=PostFollow)
 def created_post_follow(sender, instance, created, **kwargs):
-    if instance.user == instance.post.user:
-        return
     if created:
+
         try:
             with transaction.atomic():
-                notice = Notice.objects.create(user=instance.post.user, kind=POST_FOLLOW, uuid=uuid.uuid4().hex)
-                notice_post_follow = NoticePostFollow.objects.create(notice=notice, post_follow=instance)
+                if not instance.user == instance.post.user:
+                    notice = Notice.objects.create(user=instance.post.user, kind=POST_FOLLOW, uuid=uuid.uuid4().hex)
+                    notice_post_follow = NoticePostFollow.objects.create(notice=notice, post_follow=instance)
 
                 post_follow_count = instance.post.postfollowcount
                 post_follow_count.count = F('count') + 1
@@ -124,8 +126,10 @@ def created_post_comment(sender, instance, created, **kwargs):
     if created:
         try:
             with transaction.atomic():
-                notice = Notice.objects.create(user=instance.post.user, kind=POST_COMMENT, uuid=uuid.uuid4().hex)
-                notice_post_comment = NoticePostComment.objects.create(notice=notice, post_comment=instance)
+
+                if not instance.user == instance.post.user:
+                    notice = Notice.objects.create(user=instance.post.user, kind=POST_COMMENT, uuid=uuid.uuid4().hex)
+                    notice_post_comment = NoticePostComment.objects.create(notice=notice, post_comment=instance)
 
                 post_comment_count = instance.post.postcommentcount
                 post_comment_count.count = F('count') + 1
@@ -159,10 +163,12 @@ def deleted_notice_post_comment(sender, instance, **kwargs):
 @receiver(post_save, sender=PostLike)
 def created_post_like(sender, instance, created, **kwargs):
     if created:
+
         try:
             with transaction.atomic():
-                notice = Notice.objects.create(user=instance.post.user, kind=POST_LIKE, uuid=uuid.uuid4().hex)
-                notice_post_like = NoticePostLike.objects.create(notice=notice, post_like=instance)
+                if not instance.user == instance.post.user:
+                    notice = Notice.objects.create(user=instance.post.user, kind=POST_LIKE, uuid=uuid.uuid4().hex)
+                    notice_post_like = NoticePostLike.objects.create(notice=notice, post_like=instance)
 
                 post_like_count = instance.post.postlikecount
                 post_like_count.count = F('count') + 1
@@ -202,8 +208,9 @@ def created_post_chat_like(sender, instance, created, **kwargs):
     if created:
         try:
             with transaction.atomic():
-                notice = Notice.objects.create(user=instance.post_chat.post.user, kind=POST_CHAT_LIKE, uuid=uuid.uuid4().hex)
-                notice_post_chat_like = NoticePostChatLike.objects.create(notice=notice, post_chat_like=instance)
+                if not instance.user == instance.post_chat.post.user:
+                    notice = Notice.objects.create(user=instance.post_chat.post.user, kind=POST_CHAT_LIKE, uuid=uuid.uuid4().hex)
+                    notice_post_chat_like = NoticePostChatLike.objects.create(notice=notice, post_chat_like=instance)
 
                 post_chat_like_count = instance.post_chat.postchatlikecount
                 post_chat_like_count.count = F('count') + 1
@@ -241,8 +248,9 @@ def created_post_chat_rest(sender, instance, created, **kwargs):
     if created:
         try:
             with transaction.atomic():
-                notice = Notice.objects.create(user=instance.post_chat.post.user, kind=POST_CHAT_REST, uuid=uuid.uuid4().hex)
-                notice_post_chat_rest = NoticePostChatRest.objects.create(notice=notice, post_chat_rest=instance)
+                if not instance.user == instance.post_chat.post.user:
+                    notice = Notice.objects.create(user=instance.post_chat.post.user, kind=POST_CHAT_REST, uuid=uuid.uuid4().hex)
+                    notice_post_chat_rest = NoticePostChatRest.objects.create(notice=notice, post_chat_rest=instance)
 
                 post_chat_rest_message_count = instance.post_chat.postchatrestmessagecount
                 post_chat_rest_message_count.count = F('count') + 1
@@ -279,8 +287,9 @@ def created_post_chat_rest_like(sender, instance, created, **kwargs):
     if created:
         try:
             with transaction.atomic():
-                notice = Notice.objects.create(user=instance.user, kind=POST_CHAT_REST_LIKE, uuid=uuid.uuid4().hex)
-                notice_post_chat_rest_like = NoticePostChatRestLike.objects.create(notice=notice, post_chat_rest_like=instance)
+                if not instance.user == instance.post_chat_rest_message.user:
+                    notice = Notice.objects.create(user=instance.user, kind=POST_CHAT_REST_LIKE, uuid=uuid.uuid4().hex)
+                    notice_post_chat_rest_like = NoticePostChatRestLike.objects.create(notice=notice, post_chat_rest_like=instance)
 
                 post_chat_rest_message_like_count = instance.post_chat_rest_message.postchatrestmessagelikecount
                 post_chat_rest_message_like_count.count = F('count') + 1
