@@ -29,24 +29,24 @@ $(function () {
                     appender.on('keypress', function (e) {
                         if (e.keyCode === 13) {
                             var passed_value = $('#search_mobile_input').val()
-                            if (passed_value === '') {
+                            if (passed_value.trim() === '') {
                                 return false;
                             }
                             //need ajax
                             var path = '/search/all/?q=' + passed_value
-                                location.href = path
+                            location.href = path
                             return false;
                         }
                     })
                     appender.find('#search_mobile_btn').on('click', function (e) {
                         e.preventDefault()
                         var passed_value = $('#search_mobile_input').val()
-                            if (passed_value === '') {
-                                return false;
+                        if (passed_value.trim() === '') {
+                            return false;
                         }
                         //need ajax
                         var path = '/search/all/?q=' + passed_value
-                                location.href = path
+                        location.href = path
                     })
 
                     $('body').append(appender)
@@ -91,19 +91,19 @@ $(function () {
                             appender.on('keypress', function (e) {
                                 if (e.keyCode === 13) {
                                     var passed_value = $('#search_mobile_input').val()
-                                    if (passed_value === '') {
+                                    if (passed_value.trim() === '') {
                                         return false;
                                     }
                                     //need locate
                                     var path = '/search/all/?q=' + passed_value
-                                location.href = path
+                                    location.href = path
                                     return false;
                                 }
                             })
                             appender.find('#search_mobile_btn').on('click', function (e) {
                                 e.preventDefault()
                                 var passed_value = $('#search_mobile_input').val()
-                                if (passed_value === '') {
+                                if (passed_value.trim() === '') {
                                     return false;
                                 }
                                 var path = '/search/all/?q=' + passed_value
@@ -121,11 +121,11 @@ $(function () {
     $('#search_desktop_input').on('keypress', function (e) {
         if (e.keyCode === 13) {
             var passed_value = $('#search_desktop_input').val()
-            if (passed_value === '') {
+            if (passed_value.trim() === '') {
                 return false;
             }
-var path = '/search/all/?q=' + passed_value
-                                location.href = path
+            var path = '/search/all/?q=' + passed_value
+            location.href = path
             //need ajax
             return false;
         }
@@ -133,11 +133,11 @@ var path = '/search/all/?q=' + passed_value
     $('#search_desktop_btn').on('click', function (e) {
         e.preventDefault()
         var passed_value = $('#search_desktop_input').val()
-            if (passed_value === '') {
-                return false;
+        if (passed_value.trim() === '') {
+            return false;
         }
         var path = '/search/all/?q=' + passed_value
-                                location.href = path
+        location.href = path
         //need ajax
 
     })
