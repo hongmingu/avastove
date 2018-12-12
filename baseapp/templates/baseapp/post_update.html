@@ -27,1009 +27,323 @@
 </head>
 <body class="light_background_color height_100">
 {% autoescape on %}
-<!--navbar start-->
-{% include 'baseapp/_navbar.html' %}
+    <!--navbar start-->
+    {% include 'baseapp/_navbar.html' %}
 
-<!--navbar end-->
-<!--page info-->
-{% include 'others/bootstrap_tester.html' %}
+    <!--navbar end-->
+    <!--page info-->
+    {% include 'others/bootstrap_tester.html' %}
 
-<div class="hidden" id="page_kind" data-u="create_new"></div>
-<div class="hidden" id="last_num" data-u=""></div>
-<div class="hidden" id="just_created" data-u="{{ just_created.ok }}"></div>
+    <div class="hidden" id="page_kind" data-u="create_new"></div>
+    <div class="hidden" id="last_num" data-u=""></div>
 
-{% if user.is_authenticated %}
-    <div class="hidden" id="num" data-u="{{ user.username }}"></div>
-{% endif %}
-{% if post %}
-    <div class="hidden" id="post_id" data-u="{{ post.uuid }}"></div>
-{% endif %}
-<!--page info end -->
-{% if post.has_title %}
-    <div class="hidden" id="post_title" data-u="{{ post.posttitle.title }}"></div>
-{% endif %}
-
-{% if post.has_description %}
-    <div class="hidden" id="post_description" data-u="{{ post.postdescription.description}}"></div>
-{% endif %}
-
-{% if just_created.ok == "on" %}
-    <div class="hidden" id="just_created" data-u="on"></div>
-{% else %}
-    <div class="hidden" id="just_created" data-u="off"></div>
-
-    {% if just_created.current == "open" %}
-        <div class="hidden" id="current_open" data-u="open"></div>
-    {% else %}
-        <div class="hidden" id="current_open" data-u="close"></div>
+    {% if user.is_authenticated %}
+        <div class="hidden" id="num" data-u="{{ user.username }}"></div>
     {% endif %}
-{% endif %}
+    {% if post %}
+        <div class="hidden" id="post_id" data-u="{{ post.uuid }}">{{ post.uuid }}</div>
+    {% endif %}
+    <!--page info end -->
+    {% if post.has_title %}
+        <div class="hidden" id="post_title" data-u="{{ post.posttitle.title }}"></div>
+    {% endif %}
 
-<div class="container-fluid margin_top_50">
-    <div class="row">
-        <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
-            <div class="row" id="content">
-                <!--여기서 modal -->
+    {% if post.has_description %}
+        <div class="hidden" id="post_description" data-u="{{ post.postdescription.description }}"></div>
+    {% endif %}
 
-                <div class="row div_base">
-                    <br>
-                    <br>
-                    {% if post.title is not None %}
-                        <div class="div_title" id="title_discriminant">
-                            <div align="left"><span class="padding_5 created_title">title: </span></div>
-                            <div><input class="width_100_i" id="title_input" type="text" value="{{ post.title }}"></div>
-                            <br/>
-                            <div align="right">
-                                <a href=""><span class="padding_5 clickable remove_add_t_d title_toggle" id="remove_title">remove title</span></a>
-                            </div>
-                        </div>
-                        <div class="div_title hidden">
-                            <div align="right">
-                                <a href=""><span class="padding_5 clickable remove_add_t_d title_toggle" id="add_title">add title</span></a>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="div_title hidden" id="title_discriminant">
-                            <div align="left"><span class="padding_5 created_title">title: </span></div>
-                            <div><input class="width_100_i" id="title_input" type="text" value=""></div>
-                            <br/>
-                            <div align="right">
-                                <a href=""><span class="padding_5 clickable remove_add_t_d title_toggle" id="remove_title">remove title</span></a>
-                            </div>
-                        </div>
-                        <div class="div_title">
-                            <div align="right">
-                                <a href=""><span class="padding_5 clickable remove_add_t_d title_toggle" id="add_title">add title</span></a>
-                            </div>
-                        </div>
-                    {% endif %}
-                <br/>
-                    {% if post.description is not None %}
-                        <div class="div_desc" id="desc_discriminant">
-                            <div align="left"><span class="padding_5 created_description">description: </span></div>
-                            <div><textarea class="width_100_i create_description_textarea" id="desc_input">{{ post.description }}</textarea></div>
-                            <br/>
-                            <div align="right">
-                                <a href=""><span class="padding_5 clickable remove_add_t_d desc_toggle" id="remove_description">remove description</span></a>
-                            </div>
-                        </div>
-                        <div class="div_desc hidden">
-                            <div align="right">
-                                <a href=""><span class="padding_5 clickable remove_add_t_d desc_toggle" id="add_description">add description</span></a>
-                            </div>
-                        </div>
-                    {% else %}
-                        <div class="div_desc hidden" id="desc_discriminant">
-                            <div align="left"><span class="padding_5 created_description">description: </span></div>
-                            <div><textarea class="width_100_i create_description_textarea" id="desc_input"></textarea></div>
-                            <br/>
-                            <div align="right">
-                                <a href=""><span class="padding_5 clickable remove_add_t_d desc_toggle" id="remove_description">remove description</span></a>
-                            </div>
-                        </div>
-                        <div class="div_desc">
-                            <div align="right">
-                                <a href=""><span class="padding_5 clickable remove_add_t_d desc_toggle" id="add_description">add description</span></a>
-                            </div>
-                        </div>
-                    {% endif %}
-                    <!--여기는 프로필 사진 -->
-                    <br>
-                    <br>
-                    <br>
-                    <div class="col-xs-12">
-                        <div>
-                            <div><span class="now_open_close_explain">now this post is: </span><span class="now_open_close">{% if post.is_open %}opened{% else %}closed{% endif %}</span></div>
-                        </div>
+    {% if just_created.ok == "on" %}
+        <div class="hidden" id="just_created" data-u="on"></div>
+    {% else %}
+        <div class="hidden" id="just_created" data-u="off"></div>
 
-                    </div>
+        {% if just_created.current == "open" %}
+            <div class="hidden" id="current_open" data-u="open"></div>
+        {% else %}
+            <div class="hidden" id="current_open" data-u="close"></div>
+        {% endif %}
+    {% endif %}
 
-                    <div class="col-xs-6">
-                        <a href="">
-                            <div class="clickable padding_5 choice_selected" id="open" align="center">open</div>
-                        </a>
-                    </div>
-                    <div class="col-xs-6">
-                        <a href="">
-                            <div class="clickable padding_5 choice_unselected" id="close" align="center">close</div>
-                        </a>
-                    </div>
-                    <br>
-                    <br>
-                    <br>
-                    <div class="col-xs-12">
-                        <div align="center"><a href="">
-                            <div class="clickable padding_5 main_background_color write_new_post" id="ok">Change</div>
-                        </a></div>
+    <div class="container-fluid margin_top_50">
+        <div class="row">
+            <div class="col-xs-12 col-sm-offset-3 col-sm-6 col-md-offset-4 col-md-4">
+                <div class="row" id="content">
+                    <!--여기서 modal -->
 
-                    </div>
-
-                    <br/><br/><br/><br/>
-                    {% if post.has_another_profile %}
-
-                        <div align="left"><span class="padding_5 created_description">Profile name: </span>
-                            <span class="created_description_content">{{ post.postprofile.name }}</span></div>
+                    <div class="row div_base">
                         <br>
                         <br>
-                        <div align="center">
-                            <img class="img_300_300" id="img_300" src="{{ post.postprofile.file_300_url }}">
+
+                        {% if post.has_another_profile %}
+
+                            <div align="left"><span class="h4">Profile name: </span>
+                                <span class="h3">{{ post.postprofile.name }}</span></div>
+                            <br>
+                            <br>
+                            <div align="center">
+                                <img class="img_300_300" id="img_300" src="{{ post.postprofile.file_300_url }}">
+                            </div>
+                            <div align="center">
+                                <p class="h4"><a href="#"><span class="clickable padding_5 main_background_color"
+                                                                id="span_change_photo">Change</span></a> <a
+                                        href="#"><span
+                                        class="clickable padding_5 main_background_color"
+                                        id="span_base_reset">BaseReset</span></a></p>
+                            </div>
+                        {% endif %}
+                        <br/><br/>
+                        <br/>
+                        <div align="center"><span class="open_or_close">Add your chat?</span></div>
+
+                        <div class="chat_preview" id="chat_preview_wrapper">
+                            <div class="chat_preview_wrapper hidden" id="more_load" align="center">
+                                <a href="">
+                                    <div class="chat_preview_more_load clickable">More Load</div>
+                                </a>
+                            </div>
+                            <div id="chat_preview">
+
+                            </div>
+
+                            <script>
+
+                            </script>
+                        </div>
+                        <br><br>
+                        <div class="col-xs-6">
+                            <div align="center">
+                                <a href="">
+                                    <div class="clickable padding_5 main_background_color choice_selected" id="you_say">
+                                        You Says
+                                    </div>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="col-xs-6">
+                            <div align="center">
+                                <a href="">
+                                    <div class="clickable padding_5 main_background_color choice_unselected"
+                                         id="someone_says">
+                                        Someone Says
+                                    </div>
+                                </a>
+                            </div>
                         </div>
                         <div align="center">
-                            <p class="h4"><a href="#"><span class="clickable padding_5 main_background_color"
-                                                            id="span_change_photo">Change</span></a> <a href="#"><span
-                                    class="clickable padding_5 main_background_color"
-                                    id="span_base_reset">BaseReset</span></a></p>
-                        </div>
-                    {% endif %}
-                    <br/><br/>
-                    <br/>
-                    <div align="center"><span class="open_or_close">Add your chat?</span></div>
-
-                    <div class="chat_preview" id="chat_preview_wrapper">
-                        <div class="chat_preview_wrapper hidden" id="more_load" align="center">
-                            <a href=""><div class="chat_preview_more_load clickable">More Load</div></a>
-                        </div>
-                        <div id="chat_preview">
-
-                        </div>
-
-                        <script>
-                            var recent_post_chat;
-                            $(function () {
-                                $.ajax({
-                                    url: '/re/post/chat/modify/populate/', type: 'post', dataType:'json', cache: false,
-                                    data: {
-                                        post_id: $('#post_id').attr('data-u')
-                                    },
-                                    success: function (data) {
-                                        var object = data.set
-                                        if (data.res === 1) {
-                                            var there_were_starting = false;
-                                            $.each(JSON.parse(object), function (key, value) {
-                                                recent_post_chat = value.id
-                                                switch (value.kind) {
-                                                    case 'start':
-
-                                                        $('#chat_preview').prepend('<div class="chat_preview_wrapper" align="center">\n' +
-                                                            '<div class="chat_preview_first_chat">Conversation begin</div>\n' +
-                                                            '</div>\n');
-                                                        there_were_starting = true
-                                                        break;
-                                                    case 'text':
-                                                        if (value.you_say === false) {
-                                                            var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '"align="right">\n' +
-                                                                '<div class="chat_preview_size">\n' +
-                                                                '<div><span class="chat_preview_name">someone</span></div>\n' +
-                                                                '<div class="chat_preview_you_saying">' + value.text + '</div>\n' +
-                                                                '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
-                                                                '</div>\n' +
-                                                                '</div>')
-                                                            chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                                                e.preventDefault()
-                                                                var id = $(this).attr('data-u')
-                                                                $.ajax({
-                                                                    url: '/re/post/chat/remove/',
-                                                                    type: 'post',
-                                                                    dataType: 'json',
-                                                                    cache: false,
-                                                                    data: {
-                                                                        post_chat_id: id,
-                                                                    },
-                                                                    success: function (data) {
-                                                                        if (data.res === 1) {
-                                                                            $('#chat_' + id).remove()
-                                                                            $.when($('#chat_' + id).remove()).then(modify_last_delete());
-                                                                        }
-                                                                    }
-                                                                })
-                                                            })
-                                                            $('#chat_preview').prepend(chat_preview)
-                                                            modify_last_delete()
-
-                                                        } else {
-                                                            var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '">\n' +
-                                                                '<div class="chat_preview_size">\n' +
-                                                                '<div><span class="chat_preview_name">you</span></div>\n' +
-                                                                '<div class="chat_preview_someone_saying">' + value.text + '</div>\n' +
-                                                                '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
-                                                                '</div>\n' +
-                                                                '</div>')
-                                                            chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                                                e.preventDefault()
-                                                                var id = $(this).attr('data-u')
-                                                                $.ajax({
-                                                                    url: '/re/post/chat/remove/',
-                                                                    type: 'post',
-                                                                    dataType: 'json',
-                                                                    cache: false,
-                                                                    data: {
-                                                                        post_chat_id: id,
-                                                                    },
-                                                                    success: function (data) {
-                                                                        if (data.res === 1) {
-                                                                            $('#chat_' + id).remove()
-                                                                            $.when($('#chat_' + id).remove()).then(modify_last_delete());
-                                                                        }
-                                                                    }
-                                                                })
-                                                            })
-                                                            $('#chat_preview').prepend(chat_preview)
-                                                            modify_last_delete()
-
-                                                        }
-                                                        $('#chat_preview')
-                                                        break;
-                                                    case 'photo':
-                                                        if (value.you_say === false) {
-                                                            var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '"align="right">\n' +
-                                                                '<div class="chat_preview_size">\n' +
-                                                                '<div><span class="chat_preview_name">someone</span></div>\n' +
-                                                                '<div align="right"><img class="chat_preview_img" src="' + value.url + '"></div>' +
-                                                                '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
-                                                                '</div>\n' +
-                                                                '</div>')
-                                                            chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                                                e.preventDefault()
-                                                                var id = $(this).attr('data-u')
-                                                                $.ajax({
-                                                                    url: '/re/post/chat/remove/',
-                                                                    type: 'post',
-                                                                    dataType: 'json',
-                                                                    cache: false,
-                                                                    data: {
-                                                                        post_chat_id: id,
-                                                                    },
-                                                                    success: function (data) {
-                                                                        if (data.res === 1) {
-                                                                            $('#chat_' + id).remove()
-                                                                            $.when($('#chat_' + id).remove()).then(modify_last_delete());
-                                                                        }
-                                                                    }
-                                                                })
-                                                            })
-                                                            $('#chat_preview').prepend(chat_preview)
-                                                            modify_last_delete()
-
-                                                        } else {
-                                                            var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '">\n' +
-                                                                '<div class="chat_preview_size">\n' +
-                                                                '<div><span class="chat_preview_name">you</span></div>\n' +
-                                                                '<div align="left"><img class="chat_preview_img" src="' + value.url + '"></div>' +
-                                                                '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
-                                                                '</div>\n' +
-                                                                '</div>')
-                                                            chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                                                e.preventDefault()
-                                                                var id = $(this).attr('data-u')
-                                                                $.ajax({
-                                                                    url: '/re/post/chat/remove/',
-                                                                    type: 'post',
-                                                                    dataType: 'json',
-                                                                    cache: false,
-                                                                    data: {
-                                                                        post_id: $('#post_id').attr('data-u'),
-                                                                    },
-                                                                    success: function (data) {
-                                                                        if (data.res === 1) {
-                                                                            $('#chat_' + id).remove()
-                                                                            $.when($('#chat_' + id).remove()).then(modify_last_delete());
-                                                                        }
-                                                                    }
-                                                                })
-                                                            })
-                                                            $('#chat_preview').prepend(chat_preview)
-                                                            modify_last_delete()
-
-                                                        }
-                                                        break;
-                                                    default:
-                                                        return;
-                                                }
-
-                                            })
-                                            if (!(there_were_starting)){
-                                                if($('#more_load').hasClass('hidden')){
-                                                    $('#more_load').removeClass('hidden')
-                                                }
-                                            } else {
-                                                if(!($('#more_load').hasClass('hidden'))){
-                                                    $('#more_load').addClass('hidden')
-                                                }
-                                            }
-                                        }
-                                    }
-                                })
-                                $('#more_load').click(function (e) {
-                                    e.preventDefault()
-                                    $.ajax({
-                                        url: '/re/post/chat/more/load/', type: 'post', dataType: 'json', cache: false,
-                                        data: {
-                                            post_id: $('#post_id').attr('data-u'),
-                                            post_chat_id: recent_post_chat,
-                                        },
-                                        success: function (data) {
-                                            var object = data.set
-                                            if (data.res === 1) {
-                                                var there_were_starting = false;
-                                                $.each(JSON.parse(object), function (key, value) {
-                                                    recent_post_chat = value.id
-                                                    switch (value.kind) {
-                                                        case 'start':
-
-                                                            $('#chat_preview').prepend('<div class="chat_preview_wrapper" align="center">\n' +
-                                                                '<div class="chat_preview_first_chat">Conversation begin</div>\n' +
-                                                                '</div>\n');
-                                                            there_were_starting = true
-                                                            break;
-                                                        case 'text':
-                                                            if (value.you_say === false) {
-                                                                var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '"align="right">\n' +
-                                                                    '<div class="chat_preview_size">\n' +
-                                                                    '<div><span class="chat_preview_name">someone</span></div>\n' +
-                                                                    '<div class="chat_preview_you_saying">' + value.text + '</div>\n' +
-                                                                    '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
-                                                                    '</div>\n' +
-                                                                    '</div>')
-                                                                chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                                                    e.preventDefault()
-                                                                    var id = $(this).attr('data-u')
-                                                                    $.ajax({
-                                                                        url: '/re/post/chat/remove/',
-                                                                        type: 'post',
-                                                                        dataType: 'json',
-                                                                        cache: false,
-                                                                        data: {
-                                                                            post_chat_id: id,
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if (data.res === 1) {
-                                                                                $('#chat_' + id).remove()
-                                                                                $.when($('#chat_' + id).remove()).then(modify_last_delete());
-                                                                            }
-                                                                        }
-                                                                    })
-                                                                })
-                                                                $('#chat_preview').prepend(chat_preview)
-                                                                modify_last_delete()
-
-                                                            } else {
-                                                                var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '">\n' +
-                                                                    '<div class="chat_preview_size">\n' +
-                                                                    '<div><span class="chat_preview_name">you</span></div>\n' +
-                                                                    '<div class="chat_preview_someone_saying">' + value.text + '</div>\n' +
-                                                                    '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
-                                                                    '</div>\n' +
-                                                                    '</div>')
-                                                                chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                                                    e.preventDefault()
-                                                                    var id = $(this).attr('data-u')
-                                                                    $.ajax({
-                                                                        url: '/re/post/chat/remove/',
-                                                                        type: 'post',
-                                                                        dataType: 'json',
-                                                                        cache: false,
-                                                                        data: {
-                                                                            post_chat_id: id,
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if (data.res === 1) {
-                                                                                $('#chat_' + id).remove()
-                                                                                $.when($('#chat_' + id).remove()).then(modify_last_delete());
-                                                                            }
-                                                                        }
-                                                                    })
-                                                                })
-                                                                $('#chat_preview').prepend(chat_preview)
-                                                                modify_last_delete()
-
-                                                            }
-                                                            break;
-                                                        case 'photo':
-                                                            if (value.you_say === false) {
-                                                                var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '"align="right">\n' +
-                                                                    '<div class="chat_preview_size">\n' +
-                                                                    '<div><span class="chat_preview_name">someone</span></div>\n' +
-                                                                    '<div align="right"><img class="chat_preview_img" src="' + value.url + '"></div>' +
-                                                                    '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
-                                                                    '</div>\n' +
-                                                                    '</div>')
-                                                                chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                                                    e.preventDefault()
-                                                                    var id = $(this).attr('data-u')
-                                                                    $.ajax({
-                                                                        url: '/re/post/chat/remove/',
-                                                                        type: 'post',
-                                                                        dataType: 'json',
-                                                                        cache: false,
-                                                                        data: {
-                                                                            post_chat_id: id,
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if (data.res === 1) {
-                                                                                $('#chat_' + id).remove()
-                                                                                $.when($('#chat_' + id).remove()).then(modify_last_delete());
-                                                                            }
-                                                                        }
-                                                                    })
-                                                                })
-                                                                $('#chat_preview').prepend(chat_preview)
-                                                                modify_last_delete()
-
-
-                                                            } else {
-                                                                var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '">\n' +
-                                                                    '<div class="chat_preview_size">\n' +
-                                                                    '<div><span class="chat_preview_name">you</span></div>\n' +
-                                                                    '<div align="left"><img class="chat_preview_img" src="' + value.url + '"></div>' +
-                                                                    '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
-                                                                    '</div>\n' +
-                                                                    '</div>')
-                                                                chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                                                    e.preventDefault()
-                                                                    var id = $(this).attr('data-u')
-                                                                    $.ajax({
-                                                                        url: '/re/post/chat/remove/',
-                                                                        type: 'post',
-                                                                        dataType: 'json',
-                                                                        cache: false,
-                                                                        data: {
-                                                                            post_chat_id: id,
-                                                                        },
-                                                                        success: function (data) {
-                                                                            if (data.res === 1) {
-                                                                                $('#chat_' + id).remove()
-                                                                                $.when($('#chat_' + id).remove()).then(modify_last_delete());
-                                                                            }
-                                                                        }
-                                                                    })
-                                                                })
-                                                                $('#chat_preview').prepend(chat_preview)
-                                                                modify_last_delete()
-
-                                                            }
-                                                            break;
-                                                        default:
-                                                            return;
-                                                    }
-
-                                                })
-                                                console.log(there_were_starting)
-                                                if (!(there_were_starting)){
-                                                    if($('#more_load').hasClass('hidden')){
-                                                        $('#more_load').removeClass('hidden')
-                                                    }
-                                                } else {
-                                                    if(!($('#more_load').hasClass('hidden'))){
-                                                        $('#more_load').addClass('hidden')
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    })
-                                })
-                            });
-                        </script>
-                    </div>
-                    <br><br>
-                    <div class="col-xs-6">
-                        <div align="center">
-                            <a href="">
-                                <div class="clickable padding_5 main_background_color choice_selected" id="you_say">
-                                    You Says
+                            <form class="padding_top_5">
+                                <div align="center"><a href="#"><span class="glyphicon glyphicon-picture add_photo"
+                                                                      id="add_photo"></span></a></div>
+                                <div class="input-group input-group-sm chat_detail_wrapper">
+                                    <textarea class="form-control chat_detail_textarea" placeholder="Message"
+                                              id="post_chat_textarea"></textarea>
+                                    <div class="input-group-btn">
+                                        <button class="btn btn-default chat_detail_send" id="btn_add"><i
+                                                class="glyphicon glyphicon-send"></i></button>
+                                    </div>
                                 </div>
-                            </a>
+                            </form>
                         </div>
-                    </div>
-                    <div class="col-xs-6">
-                        <div align="center">
-                            <a href="">
-                                <div class="clickable padding_5 main_background_color choice_unselected"
-                                     id="someone_says">
-                                    Someone Says
+
+                        <br>
+                        <br/>
+                        <div align="center"><span class="h3">other details</span></div>
+
+                        <br/>
+                        {% if post.title is not None %}
+                            <div class="div_title" id="title_discriminant">
+                                <div align="left"><span class="padding_5 created_title">title: </span></div>
+                                <div><input class="width_100_i" id="title_input" type="text" value="{{ post.title }}">
                                 </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div align="center">
-                        <form class="padding_top_5">
-                            <div align="center"><a href="#"><span class="glyphicon glyphicon-picture add_photo" id="add_photo"></span></a></div>
-                            <div class="input-group input-group-sm chat_detail_wrapper">
-                                <textarea class="form-control chat_detail_textarea" placeholder="Message" id="post_chat_textarea"></textarea>
-                                <div class="input-group-btn">
-                                    <button class="btn btn-default chat_detail_send" id="btn_add"><i
-                                            class="glyphicon glyphicon-send"></i></button>
+                                <br/>
+                                <div align="right">
+                                    <a href=""><span class="padding_5 clickable remove_add_t_d title_toggle"
+                                                     id="remove_title">remove title</span></a>
                                 </div>
                             </div>
-                        </form>
+                            <div class="div_title hidden">
+                                <div align="right">
+                                    <a href=""><span class="padding_5 clickable remove_add_t_d title_toggle"
+                                                     id="add_title">add title</span></a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="div_title hidden" id="title_discriminant">
+                                <div align="left"><span class="padding_5 created_title">title: </span></div>
+                                <div><input class="width_100_i" id="title_input" type="text" value=""></div>
+                                <br/>
+                                <div align="right">
+                                    <a href=""><span class="padding_5 clickable remove_add_t_d title_toggle"
+                                                     id="remove_title">remove title</span></a>
+                                </div>
+                            </div>
+                            <div class="div_title">
+                                <div align="right">
+                                    <a href=""><span class="padding_5 clickable remove_add_t_d title_toggle"
+                                                     id="add_title">add title</span></a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <br/>
+                        {% if post.description is not None %}
+                            <div class="div_desc" id="desc_discriminant">
+                                <div align="left"><span class="padding_5 created_description">description: </span></div>
+                                <div><textarea class="width_100_i create_description_textarea"
+                                               id="desc_input">{{ post.description }}</textarea></div>
+                                <br/>
+                                <div align="right">
+                                    <a href=""><span class="padding_5 clickable remove_add_t_d desc_toggle"
+                                                     id="remove_description">remove description</span></a>
+                                </div>
+                            </div>
+                            <div class="div_desc hidden">
+                                <div align="right">
+                                    <a href=""><span class="padding_5 clickable remove_add_t_d desc_toggle"
+                                                     id="add_description">add description</span></a>
+                                </div>
+                            </div>
+                        {% else %}
+                            <div class="div_desc hidden" id="desc_discriminant">
+                                <div align="left"><span class="padding_5 created_description">description: </span></div>
+                                <div><textarea class="width_100_i create_description_textarea"
+                                               id="desc_input"></textarea></div>
+                                <br/>
+                                <div align="right">
+                                    <a href=""><span class="padding_5 clickable remove_add_t_d desc_toggle"
+                                                     id="remove_description">remove description</span></a>
+                                </div>
+                            </div>
+                            <div class="div_desc">
+                                <div align="right">
+                                    <a href=""><span class="padding_5 clickable remove_add_t_d desc_toggle"
+                                                     id="add_description">add description</span></a>
+                                </div>
+                            </div>
+                        {% endif %}
+                        <!--여기는 프로필 사진 -->
+                        <br>
+                        <br>
+                        <br>
+                        <div class="col-xs-12">
+                            <div>
+                                <div><span class="h4">now this post is: </span><span
+                                        class="now_open_close">{% if post.is_open %}opened{% else %}
+                                    closed{% endif %}</span></div>
+                            </div>
+
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="">
+                                <div class="clickable padding_5 choice_selected" id="open" align="center">open</div>
+                            </a>
+                        </div>
+                        <div class="col-xs-6">
+                            <a href="">
+                                <div class="clickable padding_5 choice_unselected" id="close" align="center">close</div>
+                            </a>
+                        </div>
+                        <br>
+                        <br>
+                        <div class="col-xs-12">
+                            <div align="center"><a href="">
+                                <div class="clickable padding_5 main_background_color write_new_post" id="ok">Change
+                                </div>
+                            </a></div>
+
+                        </div>
+
                     </div>
-
-                    <br>
-                    <br>
-                    <br/>
-                <br/>
-                <br/>
-                <br/>
+                    <!--ajax는 ajax고 websocket은 websocket 이다. 둘을 분리한다. 구버전 브라우저는 포기해 일단 채팅과 알림만 websocket 쓴다.-->
 
                 </div>
-                <!--ajax는 ajax고 websocket은 websocket 이다. 둘을 분리한다. 구버전 브라우저는 포기해 일단 채팅과 알림만 websocket 쓴다.-->
-
             </div>
         </div>
     </div>
-</div>
 
-<!-- MODAL TO CROP THE IMAGE -->
-<div class="modal fade" id="modal_crop" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">Crop the photo</h4>
-            </div>
-            <div class="modal-body padding_0">
-                <img src="" id="img_crop" class="max_width_100p">
-            </div>
-            <div class="modal-footer">
-                <div class="btn-group pull-left" role="group">
-                    <button type="button" class="btn btn-default js-zoom-in">
-                        <span class="glyphicon glyphicon-zoom-in"></span>
+    <!-- MODAL TO CROP THE IMAGE -->
+    <div class="modal fade" id="modal_crop" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
                     </button>
-                    <button type="button" class="btn btn-default js-zoom-out">
-                        <span class="glyphicon glyphicon-zoom-out"></span>
-                    </button>
+                    <h4 class="modal-title">Crop the photo</h4>
                 </div>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary js-crop-and-upload">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
-<!-- MODAL TO CROP THE IMAGE -->
-<div class="modal fade" id="modal_chat" data-backdrop="static">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">Crop the photo</h4>
-            </div>
-            <div class="modal-body padding_0" align="center">
-                <img src="" id="img_chat" class="max_width_100p">
-            </div>
-            <div class="modal-footer">
-                <div class="btn-group pull-left" role="group">
-                    <button type="button" class="btn btn-default js-zoom-in">
-                        <span class="glyphicon glyphicon-zoom-in"></span>
-                    </button>
-                    <button type="button" class="btn btn-default js-zoom-out">
-                        <span class="glyphicon glyphicon-zoom-out"></span>
-                    </button>
+                <div class="modal-body padding_0">
+                    <img src="" id="img_crop" class="max_width_100p">
                 </div>
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary chat-upload">Save</button>
+                <div class="modal-footer">
+                    <div class="btn-group pull-left" role="group">
+                        <button type="button" class="btn btn-default js-zoom-in">
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                        </button>
+                        <button type="button" class="btn btn-default js-zoom-out">
+                            <span class="glyphicon glyphicon-zoom-out"></span>
+                        </button>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary js-crop-and-upload">Save</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
-<img src="" id="img_chat_hidden" class="max_width_100p hidden">
-
-<div class="modal fade" id="modal_base_reset">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-                <h4 class="modal-title">Reset Profile image?</h4>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-                <button type="button" class="btn btn-primary" id="btn_base_reset_ok">OK</button>
+    <!-- MODAL TO CROP THE IMAGE -->
+    <div class="modal fade" id="modal_chat" data-backdrop="static">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Crop the photo</h4>
+                </div>
+                <div class="modal-body padding_0" align="center">
+                    <img src="" id="img_chat" class="max_width_100p">
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group pull-left" role="group">
+                        <button type="button" class="btn btn-default js-zoom-in">
+                            <span class="glyphicon glyphicon-zoom-in"></span>
+                        </button>
+                        <button type="button" class="btn btn-default js-zoom-out">
+                            <span class="glyphicon glyphicon-zoom-out"></span>
+                        </button>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary chat-upload">Save</button>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <img src="" id="img_chat_hidden" class="max_width_100p hidden">
 
-<form class="hidden" method="post" enctype="multipart/form-data" id="form_upload">
-    <input type="file" name="file" id="input_file" accept="image/jpeg, image/png" required>
-</form>
+    <div class="modal fade" id="modal_base_reset">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                    <h4 class="modal-title">Reset Profile image?</h4>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-primary" id="btn_base_reset_ok">OK</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-<form class="hidden" method="post" enctype="multipart/form-data" id="chat_upload">
-    <input type="file" name="file" id="input_chat_file" accept="image/jpeg, image/png" required>
-</form>
+    <form class="hidden" method="post" enctype="multipart/form-data" id="form_upload">
+        <input type="file" name="file" id="input_file" accept="image/jpeg, image/png" required>
+    </form>
+
+    <form class="hidden" method="post" enctype="multipart/form-data" id="chat_upload">
+        <input type="file" name="file" id="input_chat_file" accept="image/jpeg, image/png" required>
+    </form>
 {% endautoescape %}
 </body>
 <script>
-    var modify_last_delete = function modify_last_delete(){
-        $('.chat_preview_delete').addClass('hidden')
-        if ($('.chat_preview_delete').last().hasClass('hidden')){
-            console.log($('.chat_preview_delete').last().attr('data-u')+'has hidden')
-            $('.chat_preview_delete').last().removeClass('hidden')
-        }
-    }
-    $(function () {
 
-        var you_say = 'you';
-        $('#you_say').click(function (e) {
-            e.preventDefault()
-            if ($(this).hasClass('choice_unselected')) {
-                $(this).toggleClass('choice_selected choice_unselected')
-            }
-            if ($('#someone_says').hasClass('choice_selected')) {
-                $('#someone_says').toggleClass('choice_selected choice_unselected')
-            }
-            you_say = 'you'
-        });
-        $('#someone_says').click(function (e) {
-            e.preventDefault()
-            if ($(this).hasClass('choice_unselected')) {
-                $(this).toggleClass('choice_selected choice_unselected')
-            }
-            if ($('#you_say').hasClass('choice_selected')) {
-                $('#you_say').toggleClass('choice_selected choice_unselected')
-            }
-            you_say = 'someone'
-        })
-
-
-        $('#post_chat_textarea').on("keypress", function (e) {
-            /* ENTER PRESSED*/
-            if (e.keyCode == 13 && !e.shiftKey) {
-                var text = $('#post_chat_textarea').val()
-                if(text === ''){
-                    return false;
-                }
-
-                $.ajax({
-                    url: '/re/create/new/text/',
-                    type: 'post',
-                    dataType: 'json',
-                    cache: false,
-                    data: {
-                        you_say: you_say,
-                        text: text,
-                        post_id: $('#post_id').attr('data-u')
-                    },
-                    success: function (data) {
-                        if (data.res === 1) {
-                            if (data.content.you_say === false) {
-                                var chat_preview = $('<div class="chat_preview_wrapper" id="chat_'+data.content.id+'"align="right">\n' +
-                                    '<div class="chat_preview_size">\n' +
-                                    '<div><span class="chat_preview_name">someone</span></div>\n' +
-                                    '<div class="chat_preview_you_saying">' + data.content.text + '</div>\n' +
-                                    '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="'+data.content.id+'" >delete</span></a></div>\n' +
-                                    '</div>\n' +
-                                    '</div>')
-                                chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                    e.preventDefault()
-                                    var id = $(this).attr('data-u')
-                                    $.ajax({
-                                        url: '/re/post/chat/remove/', type: 'post', dataType:'json', cache: false,
-                                        data: {
-                                            post_chat_id: id,
-                                        },
-                                        success: function (data) {
-                                            if (data.res === 1){
-                                                $('#chat_'+id).remove()
-                                                $.when($('#chat_'+id).remove()).then(modify_last_delete());
-                                            }
-                                        }
-                                    })
-                                })
-                                $('#chat_preview').append(chat_preview)
-                                modify_last_delete()
-
-                            } else {
-                                var chat_preview = $('<div class="chat_preview_wrapper" id="chat_'+data.content.id+'">\n' +
-                                    '<div class="chat_preview_size">\n' +
-                                    '<div><span class="chat_preview_name">you</span></div>\n' +
-                                    '<div class="chat_preview_someone_saying">' + data.content.text + '</div>\n' +
-                                    '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="'+data.content.id+'" >delete</span></a></div>\n' +
-                                    '</div>\n' +
-                                    '</div>')
-                                chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                    e.preventDefault()
-                                    var id = $(this).attr('data-u')
-                                    $.ajax({
-                                        url: '/re/post/chat/remove/', type: 'post', dataType:'json', cache: false,
-                                        data: {
-                                            post_chat_id: id,
-                                        },
-                                        success: function (data) {
-                                            if (data.res === 1){
-                                                $('#chat_'+id).remove()
-                                                $.when($('#chat_'+id).remove()).then(modify_last_delete());
-                                            }
-                                        }
-                                    })
-                                })
-                                $('#chat_preview').append(chat_preview)
-                                modify_last_delete()
-
-                            }
-                        }
-
-                        var objDiv = document.getElementById("chat_preview_wrapper");
-                        objDiv.scrollTop = objDiv.scrollHeight;
-                    }
-                });
-
-                $('#post_chat_textarea').val('');
-                return false;
-            }
-        });
-        $('#btn_add ').click(function (e) {
-            e.preventDefault()
-            var text = $('#post_chat_textarea').val()
-            if(text === ''){
-                return false;
-            }
-
-            $.ajax({
-                url: '/re/create/new/text/',
-                type: 'post',
-                dataType: 'json',
-                cache: false,
-                data: {
-                    you_say: you_say,
-                    text: text,
-                    post_id: $('#post_id').attr('data-u')
-                },
-                success: function (data) {
-                    if (data.res === 1) {
-                        if (data.content.you_say === false) {
-                            var chat_preview = $('<div class="chat_preview_wrapper" id="chat_'+data.content.id+'"align="right">\n' +
-                                '<div class="chat_preview_size">\n' +
-                                '<div><span class="chat_preview_name">someone</span></div>\n' +
-                                '<div class="chat_preview_you_saying">' + data.content.text + '</div>\n' +
-                                '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="'+data.content.id+'" >delete</span></a></div>\n' +
-                                '</div>\n' +
-                                '</div>')
-                            chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                e.preventDefault()
-                                var id = $(this).attr('data-u')
-                                $.ajax({
-                                    url: '/re/post/chat/remove/', type: 'post', dataType:'json', cache: false,
-                                    data: {
-                                        post_chat_id: id,
-                                    },
-                                    success: function (data) {
-                                        if (data.res === 1){
-                                            $('#chat_'+id).remove()
-                                            $.when($('#chat_'+id).remove()).then(modify_last_delete());
-                                        }
-                                    }
-                                })
-                            })
-                            $('#chat_preview').append(chat_preview)
-                            modify_last_delete()
-
-                        } else {
-                            var chat_preview = $('<div class="chat_preview_wrapper" id="chat_'+data.content.id+'">\n' +
-                                '<div class="chat_preview_size">\n' +
-                                '<div><span class="chat_preview_name">you</span></div>\n' +
-                                '<div class="chat_preview_someone_saying">' + data.content.text + '</div>\n' +
-                                '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="'+data.content.id+'" >delete</span></a></div>\n' +
-                                '</div>\n' +
-                                '</div>')
-                            chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                e.preventDefault()
-                                var id = $(this).attr('data-u')
-                                $.ajax({
-                                    url: '/re/post/chat/remove/', type: 'post', dataType:'json', cache: false,
-                                    data: {
-                                        post_chat_id: id,
-                                    },
-                                    success: function (data) {
-                                        if (data.res === 1){
-                                            $('#chat_'+id).remove()
-                                            $.when($('#chat_'+id).remove()).then(modify_last_delete());
-                                        }
-                                    }
-                                })
-                            })
-                            $('#chat_preview').append(chat_preview)
-                            modify_last_delete()
-
-                        }
-                    }
-
-                    var objDiv = document.getElementById("chat_preview_wrapper");
-                    objDiv.scrollTop = objDiv.scrollHeight;
-                }
-            });
-
-            $('#post_chat_textarea').val('');
-            return false;
-
-        });
-
-
-        $('#add_photo').click(function (e) {
-            e.preventDefault();
-            $('#input_chat_file').click()
-        })
-
-        $('#input_chat_file').change(function () {
-            if (this.files && this.files[0]) {
-                if (this.files[0].size > (1048576 * 10)) {
-                    var agent = navigator.userAgent.toLowerCase();
-
-                    if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
-                        // ie 일때 input[type=file] init.
-                        $('#input_chat_file').replaceWith($('#input_chat_file').clone(true));
-                    } else {
-                        //other browser 일때 input[type=file] init.
-                        $('#input_chat_file').val("");
-                    }
-                    alert('File size can\'t exceed 10m');
-                    return;
-                }
-                var reader = new FileReader();
-                reader.onload = function (e) {
-                    $("#img_chat").attr("src", e.target.result);
-                    $("#img_chat_hidden").attr("src", e.target.result);
-                    $("#modal_chat").modal("show");
-                };
-                reader.readAsDataURL(this.files[0]);
-            }
-        });
-
-        var image;
-        var cropper
-        var save_this;
-        $("#modal_chat").on("shown.bs.modal", function () {
-            image = document.getElementById('img_chat_hidden');
-            cropper = new Cropper(image,);
-            var rotate_from = cropper.getData()
-            $('#img_chat').each(function () {
-                var deg = rotate_from['rotate'];
-                var rotate = 'rotate(' + deg + 'deg)';
-                save_this = $(this)
-
-                alert('rotate: ' + deg + 'height: ' + save_this.height() + 'width: ' + save_this.width())
-                if (deg % 180 === 90 || deg % 180 === -90) {
-                    if (save_this.parent().height() !== save_this.width()) {
-                        save_this.parent().css('height', save_this.width())
-                        save_this.css('margin-top', (save_this.width() - save_this.height()) / 2)
-                    }
-                } else {
-                    if (save_this.parent().height() !== save_this.height()) {
-                        save_this.parent().css('height', save_this.height())
-                        save_this.css('margin-top', 0)
-                    }
-                }
-                save_this.css({
-                    '-webkit-transform': rotate,
-                    '-moz-transform': rotate,
-                    '-o-transform': rotate,
-                    '-ms-transform': rotate,
-                    'transform': rotate
-                });
-                //사소한 에러는 나중에 신경쓰고 우선 이걸 포스트해서 받아와서 챗 창에 띄우는 걸 짜자.
-            });
-
-        }).on("hidden.bs.modal", function () {
-
-            cropper.destroy();
-            var agent = navigator.userAgent.toLowerCase();
-
-            if ((navigator.appName == 'Netscape' && navigator.userAgent.search('Trident') != -1) || (agent.indexOf("msie") != -1)) {
-                // ie 일때 input[type=file] init.
-                $('#input_chat_file').replaceWith($('#input_chat_file').clone(true));
-            } else {
-                //other browser 일때 input[type=file] init.
-                $('#input_chat_file').val("");
-            }
-        });
-
-        $(".chat-upload").click(function () {
-            var cropData = cropper.getData();
-
-            var form_file = $('#chat_upload')[0];
-            var form_data = new FormData(form_file);
-            form_data.append('rotate', cropData["rotate"]);
-            form_data.append('you_say', you_say);
-            form_data.append('post_id', $('#post_id').attr('data-u'));
-
-            $.ajax({
-                url: '/re/create/new/chat_photo/',
-                type: 'post',
-                dataType: 'json',
-                cache: false,
-                processData: false,
-                contentType: false,
-                data: form_data,
-                success: function (data) {
-                    if (data.res === 1) {
-                        if (data.content.you_say === false) {
-                            var chat_preview = $('<div class="chat_preview_wrapper" id="chat_'+data.content.id+'"align="right">\n' +
-                                '<div class="chat_preview_size">\n' +
-                                '<div><span class="chat_preview_name">someone</span></div>\n' +
-                                '<div align="right"><img class="chat_preview_img" src="'+data.content.url+'"></div>' +
-                                '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="'+data.content.id+'" >delete</span></a></div>\n' +
-                                '</div>\n' +
-                                '</div>')
-                            chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                e.preventDefault()
-                                var id = $(this).attr('data-u')
-                                $.ajax({
-                                    url: '/re/post/chat/remove/', type: 'post', dataType:'json', cache: false,
-                                    data: {
-                                        post_chat_id: id,
-                                    },
-                                    success: function (data) {
-                                        if (data.res === 1) {
-                                            $('#chat_' + id).remove()
-                                            $.when($('#chat_' + id).remove()).then(modify_last_delete());
-                                        }
-                                    }
-                                })
-                            })
-                            $('#chat_preview').append(chat_preview)
-                            modify_last_delete()
-
-                        } else {
-                            var chat_preview = $('<div class="chat_preview_wrapper" id="chat_'+data.content.id+'">\n' +
-                                '<div class="chat_preview_size">\n' +
-                                '<div><span class="chat_preview_name">you</span></div>\n' +
-                                '<div align="left"><img class="chat_preview_img" src="'+data.content.url+'"></div>' +
-                                '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="'+data.content.id+'" >delete</span></a></div>\n' +
-                                '</div>\n' +
-                                '</div>')
-                            chat_preview.find('.chat_preview_delete').on('click', function (e) {
-                                e.preventDefault()
-                                var id = $(this).attr('data-u')
-                                $.ajax({
-                                    url: '/re/post/chat/remove/', type: 'post', dataType:'json', cache: false,
-                                    data: {
-                                        post_chat_id: id,
-                                    },
-                                    success: function (data) {
-                                        if (data.res === 1){
-                                            $('#chat_'+id).remove()
-                                            $.when($('#chat_'+id).remove()).then(modify_last_delete());
-                                        }
-                                    }
-                                })
-                            })
-                            $('#chat_preview').append(chat_preview)
-                            modify_last_delete()
-
-                        }
-                    }
-
-                    var objDiv = document.getElementById("chat_preview_wrapper");
-                    objDiv.scrollTop = objDiv.scrollHeight;
-                    $("#modal_chat").modal("hide");
-                    return false;
-                }
-            });
-        });
-
-    })
 </script>
 </html>

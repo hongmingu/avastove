@@ -30,9 +30,9 @@ $(function () {
                                 if (value.rest_count === 0) {
                                     rest_messages = ''
                                 } else if (value.rest_count < 1000) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 } else if (1000 <= value.rest_count) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
 
                                 prepender = $(rest_messages)
@@ -68,9 +68,9 @@ $(function () {
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
                                     } else if (value.rest_count < 1000) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
                                     prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
@@ -85,7 +85,7 @@ $(function () {
                                         like_count = like_count + 'k'
                                     }
                                     chat_content = '<div class="reading_chat_content">' +
-                                        '<div class="reading_chat_text">' + value.content + '</div>' +
+                                        '<div class="reading_chat_text_someone">' + value.content + '</div>' +
                                         '</div>'
                                     // 작업중인부분 ------------------------------------
                                     var heart;
@@ -103,9 +103,9 @@ $(function () {
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
                                     } else if (value.rest_count < 1000) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
                                     prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
@@ -147,9 +147,9 @@ $(function () {
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
                                     } else if (value.rest_count < 1000) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
                                     prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
@@ -181,9 +181,9 @@ $(function () {
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
                                     } else if (value.rest_count < 1000) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
                                     prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
@@ -409,6 +409,7 @@ $(function () {
                 }
             }
         })
+        $(".modal_reading_chat").animate({scrollTop: $('.modal_reading_chat').prop("scrollHeight")}, 500);
 
     }).on("hidden.bs.modal", function () {
         var post_id = $('#reading_post_id').html()
@@ -451,9 +452,9 @@ $(function () {
                                 if (value.rest_count === 0) {
                                     rest_messages = ''
                                 } else if (value.rest_count < 1000) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 } else if (1000 <= value.rest_count) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
 
                                 prepender = $(rest_messages)
@@ -489,9 +490,9 @@ $(function () {
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
                                     } else if (value.rest_count < 1000) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
                                     prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
@@ -506,7 +507,7 @@ $(function () {
                                         like_count = like_count + 'k'
                                     }
                                     chat_content = '<div class="reading_chat_content">' +
-                                        '<div class="reading_chat_text">' + value.content + '</div>' +
+                                        '<div class="reading_chat_text_someone">' + value.content + '</div>' +
                                         '</div>'
                                     // 작업중인부분 ------------------------------------
                                     var heart;
@@ -524,9 +525,9 @@ $(function () {
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
                                     } else if (value.rest_count < 1000) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
                                     prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
@@ -568,9 +569,9 @@ $(function () {
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
                                     } else if (value.rest_count < 1000) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
                                     prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
@@ -602,9 +603,9 @@ $(function () {
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
                                     } else if (value.rest_count < 1000) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
                                     prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
@@ -843,9 +844,9 @@ $(function () {
                             if (value.rest_count === 0) {
                                 rest_messages = ''
                             } else if (value.rest_count < 1000) {
-                                rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                             } else if (1000 <= value.rest_count) {
-                                rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                             }
 
                             prepender = $(rest_messages)
@@ -881,9 +882,9 @@ $(function () {
                                 if (value.rest_count === 0) {
                                     rest_messages = ''
                                 } else if (value.rest_count < 1000) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 } else if (1000 <= value.rest_count) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
 
 
@@ -899,7 +900,7 @@ $(function () {
                                     like_count = like_count + 'k'
                                 }
                                 chat_content = '<div class="reading_chat_content">' +
-                                    '<div class="reading_chat_text">' + value.content + '</div>' +
+                                    '<div class="reading_chat_text_someone">' + value.content + '</div>' +
                                     '</div>'
                                 // 작업중인부분 ------------------------------------
                                 var heart;
@@ -916,9 +917,9 @@ $(function () {
                                 if (value.rest_count === 0) {
                                     rest_messages = ''
                                 } else if (value.rest_count < 1000) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 } else if (1000 <= value.rest_count) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
                                 prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
                                     '</div>\n')
@@ -959,11 +960,10 @@ $(function () {
                                 if (value.rest_count === 0) {
                                     rest_messages = ''
                                 } else if (value.rest_count < 1000) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 } else if (1000 <= value.rest_count) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
-
                                 prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
                                     '</div>\n')
                             } else if (value.you_say === false) {
@@ -993,9 +993,9 @@ $(function () {
                                 if (value.rest_count === 0) {
                                     rest_messages = ''
                                 } else if (value.rest_count < 1000) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '" align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + value.rest_count + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 } else if (1000 <= value.rest_count) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"align="right"><a href=""><span class="glyphicon glyphicon-comment reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '">' + parseInt(value.like_count / 1000) + 'k' + '</span></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
+                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
 
                                 prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
@@ -1290,6 +1290,7 @@ $(function () {
                     })
 
                     $('#modal_reading_chat').append(rest_appender)
+                    $(".modal_reading_chat").animate({scrollTop: $('.modal_reading_chat').prop("scrollHeight")}, 500);
 
                     $('#interaction_form_textarea').val('')
                 }
@@ -1379,6 +1380,7 @@ $(function () {
                 })
 
                 $('#modal_reading_chat').append(rest_appender)
+                $(".modal_reading_chat").animate({scrollTop: $('.modal_reading_chat').prop("scrollHeight")}, 500);
 
                 $('#interaction_form_textarea').val('')
             }

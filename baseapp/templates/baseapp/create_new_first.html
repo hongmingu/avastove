@@ -130,14 +130,19 @@
                     <br>
                     <br>
                     <br>
+                    <div align="center"><span class="open_or_close">open or close</span></div>
+
                     <div class="col-xs-6">
                         <a href="">
-                            <div class="clickable padding_5 choice_selected" id="open_close_open" align="center">open</div>
+                            <div class="clickable padding_5 choice_selected" id="open_close_open" align="center">open
+                            </div>
                         </a>
                     </div>
                     <div class="col-xs-6">
                         <a href="">
-                            <div class="clickable padding_5 choice_unselected" id="open_close_close" align="center">close</div>
+                            <div class="clickable padding_5 choice_unselected" id="open_close_close" align="center">
+                                close
+                            </div>
                         </a>
                     </div>
 
@@ -181,41 +186,39 @@
         </div>
     </div>
 </div>
-  <!-- MODAL TO CROP THE IMAGE -->
-  <div class="modal fade" id="modal_add" data-backdrop="static">
+<!-- MODAL TO CROP THE IMAGE -->
+<div class="modal fade" id="modal_add" data-backdrop="static">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h4 class="modal-title">Add Chat</h4>
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <h4 class="modal-title">Add Chat</h4>
+            </div>
+            <div class="modal-body padding_0">
+                <img src="" id="img_crop" class="max_width_100p">
+            </div>
+            <div class="modal-footer">
+                <div class="btn-group pull-left" role="group">
+                    <button type="button" class="btn btn-default js-zoom-in">
+                        <span class="glyphicon glyphicon-zoom-in"></span>
+                    </button>
+                    <button type="button" class="btn btn-default js-zoom-out">
+                        <span class="glyphicon glyphicon-zoom-out"></span>
+                    </button>
+                </div>
+                <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary js-crop-and-upload">Save</button>
+            </div>
         </div>
-        <div class="modal-body padding_0">
-          <img src="" id="img_crop" class="max_width_100p">
-        </div>
-        <div class="modal-footer">
-          <div class="btn-group pull-left" role="group">
-            <button type="button" class="btn btn-default js-zoom-in">
-              <span class="glyphicon glyphicon-zoom-in"></span>
-            </button>
-            <button type="button" class="btn btn-default js-zoom-out">
-              <span class="glyphicon glyphicon-zoom-out"></span>
-            </button>
-          </div>
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="button" class="btn btn-primary js-crop-and-upload">Save</button>
-        </div>
-      </div>
     </div>
-  </div>
+</div>
 
 
 </body>
 
 
-<script>
-</script>
 <script>
     $(function () {
         $('#whose').val('self')
@@ -340,37 +343,26 @@
         var title = $('#input_title').val()
         var description = $('#input_desc').val()
         if ($('#whose').val() === 'other') {
-            if (name.replace(/ /g,'')==='') {
+            if (name.replace(/ /g, '') === '') {
                 $('#name_clue').html('name cannot be empty').css('color', 'red')
+                $('html, body').animate({scrollTop: 0}, 400);
                 return false
             }
             if (!(1 <= name.length && name.length <= 30)) {
                 $('#name_clue').html('1 < name length < 30').css('color', 'red')
-                $('html, body').animate({
-                    scrollTop: 30
-                }, 500);
+                $('html, body').animate({scrollTop: 0}, 400);
                 return false
             }
         }
         if ($('#title').val() === 'on') {
-            if (title.replace(/ /g,'')===''){
-                $('#title_clue').html('title cannot be empty').css('color', 'red')
-                return false
-
-            }
-            if (!(1 <= title.length && title.length <= 1000)) {
-                $('#title_clue').html('1 < title length < 1000').css('color', 'red')
+            if (title.length > 1000) {
+                $('#title_clue').html('title cannot over 1000 characters').css('color', 'red')
                 return false
             }
         }
         if ($('#description').val() === 'on') {
-            if (description.replace(/ /g,'')===''){
-                $('#desc_clue').html('description cannot be empty').css('color', 'red')
-                return false
-
-            }
-            if (!(1 <= description.length && description.length <= 2000)) {
-                $('#desc_clue').html('1 < description length < 2000').css('color', 'red')
+            if (description.length > 2000) {
+                $('#desc_clue').html('description cannot ver 2000 characters').css('color', 'red')
                 return false
             }
         }

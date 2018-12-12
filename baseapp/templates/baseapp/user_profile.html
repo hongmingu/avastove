@@ -80,11 +80,11 @@
                             class="user_username">{{ chosen_user.userusername.username }}</span></div>
 
                     <div class="row margin_top_20">
-                        <div class="col-xs-6" align="right"><span class="user_fellowship_title">Following: </span><a
+                        <div class="col-xs-6" align="right"><span class="user_fellowship_title">following: </span><a
                                 href="#"><span
                                 class="user_fellowship_count"
                                 id="count_following">{{ chosen_user.followingcount.count }}</span></a></div>
-                        <div class="col-xs-6" align="left"><span class="user_fellowship_title">Followers: </span><a
+                        <div class="col-xs-6" align="left"><span class="user_fellowship_title">follower: </span><a
                                 href="#"><span
                                 class="user_fellowship_count"
                                 id="count_follower">{{ chosen_user.followercount.count }}</span></a></div>
@@ -105,11 +105,6 @@
                         </a>
 
                     {% endif %}
-                    <a href="/accounts/settings/">
-                        <div class="margin_top_20 light_background_color hidden" align="center" id="change_profile">
-                            <span class="user_change_profile clickable">change profile</span>
-                        </div>
-                    </a>
 
 
                 </div>
@@ -295,10 +290,8 @@
     })
     $(function () {
         if ($('#user_id').html() === $('#chosen_user_id').html()) {
-            $('#change_profile').removeClass('hidden')
             $('#follow').addClass('hidden')
         } else {
-            $('#change_profile').addClass('hidden')
             $('#follow').removeClass('hidden')
         }
         $('#follow').click(function (e) {

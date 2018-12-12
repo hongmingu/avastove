@@ -55,7 +55,7 @@ def created_follow(sender, instance, created, **kwargs):
             pass
 
 
-@receiver(post_delete, sender=Follow)#이걸 pre_delete로 해야하나?
+@receiver(post_delete, sender=Follow)
 def deleted_follow(sender, instance, **kwargs):
     try:
         with transaction.atomic():
@@ -70,7 +70,7 @@ def deleted_follow(sender, instance, **kwargs):
         pass
 
 
-@receiver(post_delete, sender=NoticeFollow)#이걸 pre_delete로 해야하나?
+@receiver(post_delete, sender=NoticeFollow)
 def deleted_notice_follow(sender, instance, **kwargs):
     if instance.notice:
         try:
@@ -101,7 +101,7 @@ def created_post_follow(sender, instance, created, **kwargs):
             pass
 
 
-@receiver(post_delete, sender=PostFollow)#이걸 pre_delete로 해야하나?
+@receiver(post_delete, sender=PostFollow)
 def deleted_post_follow(sender, instance, **kwargs):
     try:
         with transaction.atomic():
@@ -111,7 +111,8 @@ def deleted_post_follow(sender, instance, **kwargs):
     except Exception:
         pass
 
-@receiver(post_delete, sender=NoticePostFollow)#이걸 pre_delete로 해야하나?
+
+@receiver(post_delete, sender=NoticePostFollow)
 def deleted_notice_post_follow(sender, instance, **kwargs):
     try:
         with transaction.atomic():
@@ -178,7 +179,7 @@ def created_post_like(sender, instance, created, **kwargs):
             pass
 
 
-@receiver(post_delete, sender=PostLike)#이걸 pre_delete로 해야하나?
+@receiver(post_delete, sender=PostLike)
 def deleted_post_like(sender, instance, **kwargs):
     try:
         with transaction.atomic():
@@ -191,7 +192,7 @@ def deleted_post_like(sender, instance, **kwargs):
         pass
 
 
-@receiver(post_delete, sender=NoticePostLike)#이걸 pre_delete로 해야하나?
+@receiver(post_delete, sender=NoticePostLike)
 def deleted_notice_post_like(sender, instance, **kwargs):
     try:
         with transaction.atomic():
@@ -220,7 +221,7 @@ def created_post_chat_like(sender, instance, created, **kwargs):
             pass
 
 
-@receiver(post_delete, sender=PostChatLike)#이걸 pre_delete로 해야하나?
+@receiver(post_delete, sender=PostChatLike)
 def deleted_post_chat_like(sender, instance, **kwargs):
     try:
         with transaction.atomic():
@@ -232,7 +233,7 @@ def deleted_post_chat_like(sender, instance, **kwargs):
         print(e)
         pass
 
-@receiver(post_delete, sender=NoticePostChatLike)#이걸 pre_delete로 해야하나?
+@receiver(post_delete, sender=NoticePostChatLike)
 def deleted_notice_post_chat_like(sender, instance, **kwargs):
     try:
         with transaction.atomic():
@@ -259,7 +260,7 @@ def created_post_chat_rest(sender, instance, created, **kwargs):
             print(e)
             pass
 
-@receiver(post_delete, sender=PostChatRestMessage)#이걸 pre_delete로 해야하나?
+@receiver(post_delete, sender=PostChatRestMessage)
 def deleted_post_chat_rest(sender, instance, **kwargs):
     try:
         with transaction.atomic():
@@ -272,7 +273,7 @@ def deleted_post_chat_rest(sender, instance, **kwargs):
         pass
 
 
-@receiver(post_delete, sender=NoticePostChatRest)#이걸 pre_delete로 해야하나?
+@receiver(post_delete, sender=NoticePostChatRest)
 def deleted_notice_post_chat_rest(sender, instance, **kwargs):
     try:
         with transaction.atomic():
@@ -298,7 +299,8 @@ def created_post_chat_rest_like(sender, instance, created, **kwargs):
             print(e)
             pass
 
-@receiver(post_delete, sender=PostChatRestMessageLike)#이걸 pre_delete로 해야하나?
+
+@receiver(post_delete, sender=PostChatRestMessageLike)
 def deleted_post_chat_rest_like(sender, instance, **kwargs):
     try:
         with transaction.atomic():
@@ -310,7 +312,7 @@ def deleted_post_chat_rest_like(sender, instance, **kwargs):
         pass
 
 
-@receiver(post_delete, sender=NoticePostChatRestLike)#이걸 pre_delete로 해야하나?
+@receiver(post_delete, sender=NoticePostChatRestLike)
 def deleted_notice_post_chat_rest_like(sender, instance, **kwargs):
     try:
         with transaction.atomic():

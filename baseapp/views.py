@@ -55,9 +55,13 @@ def create_new(request):
                 if form.cleaned_data['title'] == 'on':
                     title = form.cleaned_data['title_content']
                     title = title.strip()
+                    if title == '':
+                        title = None
                 if form.cleaned_data['description'] == 'on':
                     description = form.cleaned_data['description_content']
                     description = description.strip()
+                    if description == '':
+                        description = None
                 if form.cleaned_data['open_close'] == 'open':
                     open_close = True
 
