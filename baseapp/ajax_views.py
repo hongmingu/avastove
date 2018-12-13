@@ -388,11 +388,12 @@ def re_post_chat_modify_populate(request):
         if request.user.is_authenticated:
             if request.is_ajax():
                 post_id = request.POST.get('post_id', None)
+                step = 20
                 try:
                     post = Post.objects.get(uuid=post_id)
                 except:
                     return JsonResponse({'res': 0})
-                post_chat_set = post.postchat_set.all().order_by('-created')[:20]
+                post_chat_set = post.postchat_set.all().order_by('-created')[:step]
                 from django.core import serializers
                 post_chat_set = serializers.serialize('python', post_chat_set)
                 actual_data = [PostChat.objects.get(pk=item['pk']).get_value() for item in post_chat_set]
@@ -409,6 +410,7 @@ def re_post_chat_more_load(request):
             if request.is_ajax():
                 post_id = request.POST.get('post_id', None)
                 post_chat_id = request.POST.get('post_chat_id', None)
+                step = 10
                 try:
                     post = Post.objects.get(uuid=post_id)
                 except Exception as e:
@@ -416,7 +418,7 @@ def re_post_chat_more_load(request):
                 from django.db.models import Q
                 standard_post_chat = PostChat.objects.get(uuid=post_chat_id)
                 post_chat_set = PostChat.objects.filter(
-                    Q(post=post) & Q(created__lt=standard_post_chat.created)).order_by('-created')[:10]
+                    Q(post=post) & Q(created__lt=standard_post_chat.created)).order_by('-created')[:step]
                 from django.core import serializers
                 post_chat_set = serializers.serialize('python', post_chat_set)
                 actual_data = [PostChat.objects.get(pk=item['pk']).get_value() for item in post_chat_set]
@@ -433,10 +435,11 @@ def re_home_feed(request):
             if request.is_ajax():
                 last_id = request.POST.get('last_id', None)
                 posts = None
+                step = 30
                 if last_id == '':
                     posts = Post.objects.filter(
                         (Q(user__is_followed__user=request.user) | Q(post_follow__user=request.user)) & Q(
-                            is_open=True)).order_by('-post_chat_created').distinct()[:30]
+                            is_open=True)).order_by('-post_chat_created').distinct()[:step]
                 else:
                     last_post = None
                     try:
@@ -447,7 +450,7 @@ def re_home_feed(request):
 
                     posts = Post.objects.filter(
                         (Q(user__is_followed__user=request.user) | Q(post_follow__user=request.user)) & Q(
-                            is_open=True) & Q(post_chat_created__lte=last_post.post_chat_created)).exclude(pk=last_post.pk).order_by('-post_chat_created').distinct()[:30]
+                            is_open=True) & Q(post_chat_created__lte=last_post.post_chat_created)).exclude(pk=last_post.pk).order_by('-post_chat_created').distinct()[:step]
 
                 ################################
                 output = []
@@ -456,7 +459,7 @@ def re_home_feed(request):
                 post_follow = None
                 for post in posts:
                     count = count + 1
-                    if count == 30:
+                    if count == step:
                         last = post.uuid
                     post_follow = True
                     if Follow.objects.filter(user=request.user, follow=post.user).exists():
@@ -551,7 +554,7 @@ def re_comment_more_load(request):
             if request.is_ajax():
                 post_id = request.POST.get('post_id', None)
                 last_comment_id = request.POST.get('last_comment_id', None)
-
+                step = 20
                 try:
                     post = Post.objects.get(uuid=post_id)
                 except Exception:
@@ -559,7 +562,7 @@ def re_comment_more_load(request):
 
                 post_comment_last = PostComment.objects.get(uuid=last_comment_id)
 
-                post_comments = PostComment.objects.filter(Q(post=post) & Q(created__gt=post_comment_last.created)).order_by('created')[:20]
+                post_comments = PostComment.objects.filter(Q(post=post) & Q(created__gt=post_comment_last.created)).order_by('created')[:step]
 
                 post_comment_uuids = [post_comment.uuid for post_comment in post_comments]
                 output = []
@@ -591,7 +594,7 @@ def re_comment_more_load(request):
         else:
             post_id = request.POST.get('post_id', None)
             last_comment_id = request.POST.get('last_comment_id', None)
-
+            step = 20
             try:
                 post = Post.objects.get(uuid=post_id)
             except Exception:
@@ -600,7 +603,7 @@ def re_comment_more_load(request):
             post_comment_last = PostComment.objects.get(uuid=last_comment_id)
 
             post_comments = PostComment.objects.filter(
-                Q(post=post) & Q(created__gt=post_comment_last.created)).order_by('created')[:20]
+                Q(post=post) & Q(created__gt=post_comment_last.created)).order_by('created')[:step]
 
             post_comment_uuids = [post_comment.uuid for post_comment in post_comments]
             output = []
@@ -744,8 +747,8 @@ def re_user_home_populate(request):
                 if PostFollow.objects.filter(post=post, user=request.user).exists():
                     post_follow = True
 
-                output = {'title': post.title,
-                          'desc': post.description,
+                output = {'title': escape(post.title),
+                          'desc': escape(post.description),
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
                           'name': escape(name),
@@ -800,8 +803,8 @@ def re_user_home_populate(request):
 
                 post_follow = False
 
-                output = {'title': post.title,
-                          'desc': post.description,
+                output = {'title': escape(post.title),
+                          'desc': escape(post.description),
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
                           'name': escape(name),
@@ -830,6 +833,7 @@ def re_post_already_read(request):
         if request.user.is_authenticated:
             if request.is_ajax():
                 post_id = request.POST.get('post_id', None)
+                step = 20
                 try:
                     # post = Post.objects.last()
                     post = Post.objects.get(uuid=post_id)
@@ -837,7 +841,7 @@ def re_post_already_read(request):
                     return JsonResponse({'res': 0})
 
                 try:
-                    post_chat_reads = PostChatRead.objects.filter(post_chat__post=post, user=request.user).order_by('-created')[:20]
+                    post_chat_reads = PostChatRead.objects.filter(post_chat__post=post, user=request.user).order_by('-created')[:step]
                 except:
                     return JsonResponse({'res': 0})
 
@@ -917,13 +921,13 @@ def re_post_already_read(request):
         else:
             if request.is_ajax():
                 post_id = request.POST.get('post_id', None)
+                step = 20
                 try:
-                    # post = Post.objects.last()
                     post = Post.objects.get(uuid=post_id)
                 except:
                     return JsonResponse({'res': 0})
                 output = []
-                post_chats = PostChat.objects.filter(post=post).order_by('created')[:2]
+                post_chats = PostChat.objects.filter(post=post).order_by('created')[:step]
 
                 last_post_chat = None
                 for post_chat in post_chats:
@@ -973,12 +977,13 @@ def re_post_reading_more_load(request):
             if request.is_ajax():
                 last_id = request.POST.get('post_chat_before_id', None)
                 post_id = request.POST.get('post_id', None)
+                step = 11
                 try:
                     last_post_chat = PostChat.objects.get(uuid=last_id)
                 except:
                     return JsonResponse({'res': 0})
 
-                post_chats = PostChat.objects.filter(Q(post__uuid=post_id) & Q(pk__lt=last_post_chat.pk)).order_by('-created')[:11]
+                post_chats = PostChat.objects.filter(Q(post__uuid=post_id) & Q(pk__lt=last_post_chat.pk)).order_by('-created')[:step]
 
                 output = []
                 if post_chats:
@@ -987,7 +992,6 @@ def re_post_reading_more_load(request):
                             count = post_chat.postchatlikecount.count
                         except:
                             count = None
-                        # 여기서 you_like 부터 시작해야한다.
                         you_like = False
                         if PostChatLike.objects.filter(user=request.user, post_chat=post_chat).exists():
                             you_like = True
@@ -1009,12 +1013,14 @@ def re_post_reading_more_load(request):
             if request.is_ajax():
                 last_id = request.POST.get('post_chat_before_id', None)
                 post_id = request.POST.get('post_id', None)
+                step = 11
+
                 try:
                     last_post_chat = PostChat.objects.get(uuid=last_id)
                 except:
                     return JsonResponse({'res': 0})
 
-                post_chats = PostChat.objects.filter(Q(post__uuid=post_id) & Q(pk__lt=last_post_chat.pk)).order_by('-created')[:11]
+                post_chats = PostChat.objects.filter(Q(post__uuid=post_id) & Q(pk__lt=last_post_chat.pk)).order_by('-created')[:step]
 
                 output = []
                 if post_chats:
@@ -1023,7 +1029,6 @@ def re_post_reading_more_load(request):
                             count = post_chat.postchatlikecount.count
                         except:
                             count = None
-                        # 여기서 you_like 부터 시작해야한다.
                         you_like = False
                         sub_output = {
                             'id': post_chat.uuid,
@@ -1244,27 +1249,28 @@ def re_post_chat_rest_more_load(request):
                 post_chat_id = request.POST.get('post_chat_id', None)
                 last_id = request.POST.get('last_id', None)
                 post_chat = None
+                step = 11
                 try:
                     post_chat = PostChat.objects.get(uuid=post_chat_id)
                 except:
                     return JsonResponse({'res': 0})
                 post_chat_rest_messages = None
                 if last_id == '' and post_chat is not None:
-                    post_chat_rest_messages = PostChatRestMessage.objects.filter(post_chat=post_chat).order_by('created')[:11]
+                    post_chat_rest_messages = PostChatRestMessage.objects.filter(post_chat=post_chat).order_by('created')[:step]
                 elif last_id != '' and post_chat is not None:
                     try:
                         last_post_chat_rest_message = PostChatRestMessage.objects.get(uuid=last_id)
                     except:
                         return JsonResponse({'res': 0})
 
-                    post_chat_rest_messages = PostChatRestMessage.objects.filter(Q(post_chat=post_chat) & Q(pk__gt=last_post_chat_rest_message.pk)).order_by('created')[:11]
+                    post_chat_rest_messages = PostChatRestMessage.objects.filter(Q(post_chat=post_chat) & Q(pk__gt=last_post_chat_rest_message.pk)).order_by('created')[:step]
                 count = 0
                 next = False
                 output = []
                 if post_chat_rest_messages is not None:
                     for post_chat_rest_message in post_chat_rest_messages:
                         count = count + 1
-                        if count == 11:
+                        if count == step:
                             next = True
                             break
                         you_like = False
@@ -1289,27 +1295,29 @@ def re_post_chat_rest_more_load(request):
                 post_chat_id = request.POST.get('post_chat_id', None)
                 last_id = request.POST.get('last_id', None)
                 post_chat = None
+                step = 11
+
                 try:
                     post_chat = PostChat.objects.get(uuid=post_chat_id)
                 except:
                     return JsonResponse({'res': 0})
                 post_chat_rest_messages = None
                 if last_id == '' and post_chat is not None:
-                    post_chat_rest_messages = PostChatRestMessage.objects.filter(post_chat=post_chat).order_by('created')[:11]
+                    post_chat_rest_messages = PostChatRestMessage.objects.filter(post_chat=post_chat).order_by('created')[:step]
                 elif last_id != '' and post_chat is not None:
                     try:
                         last_post_chat_rest_message = PostChatRestMessage.objects.get(uuid=last_id)
                     except:
                         return JsonResponse({'res': 0})
 
-                    post_chat_rest_messages = PostChatRestMessage.objects.filter(Q(post_chat=post_chat) & Q(pk__gt=last_post_chat_rest_message.pk)).order_by('created')[:11]
+                    post_chat_rest_messages = PostChatRestMessage.objects.filter(Q(post_chat=post_chat) & Q(pk__gt=last_post_chat_rest_message.pk)).order_by('created')[:step]
                 count = 0
                 next = False
                 output = []
                 if post_chat_rest_messages is not None:
                     for post_chat_rest_message in post_chat_rest_messages:
                         count = count + 1
-                        if count == 11:
+                        if count == step:
                             next = True
                             break
                         you_like = False
@@ -1425,7 +1433,6 @@ def re_profile_follow(request):
 
                                 result = False
 
-                                # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                         except Exception:
                             return JsonResponse({'res': 0})
                     else:
@@ -1433,8 +1440,6 @@ def re_profile_follow(request):
                             with transaction.atomic():
                                 follow = Follow.objects.create(follow=chosen_user, user=request.user)
                                 result = True
-
-                                # customers = Customer.objects.filter(scoops_ordered__gt=F('store_visits'))
                         except Exception:
                             return JsonResponse({'res': 0})
                     return JsonResponse({'res': 1, 'result': result})
@@ -1452,6 +1457,7 @@ def re_profile_following(request):
                 user_id = request.POST.get('user_id', None)
                 next_id = request.POST.get('next_id', None)
                 user = None
+                step = 31
                 try:
                     user = User.objects.get(username=user_id)
                 except User.DoesNotExist:
@@ -1461,17 +1467,17 @@ def re_profile_following(request):
                 output = []
                 if user is not None:
                     if next_id == '':
-                        followings = Follow.objects.filter(user=user).order_by('created')[:31]
+                        followings = Follow.objects.filter(user=user).order_by('created')[:step]
                     else:
                         try:
                             last_following = Follow.objects.get(follow__username=next_id, user=user)
                         except:
                             return JsonResponse({'res': 0})
-                        followings = Follow.objects.filter(Q(user=user) & Q(pk__gte=last_following.pk)).order_by('created')[:31]
+                        followings = Follow.objects.filter(Q(user=user) & Q(pk__gte=last_following.pk)).order_by('created')[:step]
                     count = 0
                     for follow in followings:
                         count = count+1
-                        if count == 31:
+                        if count == step:
                             next = follow.follow.username
                             break
                         sub_output = {
@@ -1493,6 +1499,7 @@ def re_profile_follower(request):
                 user_id = request.POST.get('user_id', None)
                 next_id = request.POST.get('next_id', None)
                 user = None
+                step = 31
                 try:
                     user = User.objects.get(username=user_id)
                 except User.DoesNotExist:
@@ -1502,18 +1509,18 @@ def re_profile_follower(request):
                 output = []
                 if user is not None:
                     if next_id == '':
-                        followers = Follow.objects.filter(follow=user).order_by('created')[:31]
+                        followers = Follow.objects.filter(follow=user).order_by('created')[:step]
                     else:
                         try:
 
                             last_follower = Follow.objects.get(follow=user, user__username=next_id)
                         except:
                             return JsonResponse({'res': 0})
-                        followers = Follow.objects.filter(Q(follow=user) & Q(pk__gte=last_follower.pk)).order_by('created')[:31]
+                        followers = Follow.objects.filter(Q(follow=user) & Q(pk__gte=last_follower.pk)).order_by('created')[:step]
                     count = 0
                     for follow in followers:
                         count = count+1
-                        if count == 31:
+                        if count == step:
                             next = follow.user.username
                             break
                         sub_output = {
@@ -1535,6 +1542,7 @@ def re_profile_post(request):
                 chosen_user_id = request.POST.get('chosen_user_id', None)
                 last_id = request.POST.get('last_post_id', None)
                 user = None
+                step = 21
                 try:
                     user = User.objects.get(username=chosen_user_id)
                 except User.DoesNotExist:
@@ -1546,7 +1554,7 @@ def re_profile_post(request):
 
                 if master:
                     if last_id == '':
-                        posts = Post.objects.filter((Q(user=user))).order_by('-post_chat_created').distinct()[:21]
+                        posts = Post.objects.filter((Q(user=user))).order_by('-post_chat_created').distinct()[:step]
                     else:
                         last_post = None
                         try:
@@ -1555,12 +1563,12 @@ def re_profile_post(request):
                             print(e)
                             pass
                         if last_post is not None:
-                            posts = Post.objects.filter((Q(user=user)) & Q(post_chat_created__lte=last_post.post_chat_created)).exclude(pk=last_post.pk).order_by('-post_chat_created').distinct()[:21]
+                            posts = Post.objects.filter((Q(user=user)) & Q(post_chat_created__lte=last_post.post_chat_created)).exclude(pk=last_post.pk).order_by('-post_chat_created').distinct()[:step]
                         else:
-                            posts = Post.objects.filter(Q(user=user)).order_by('-post_chat_created').distinct()[:21]
+                            posts = Post.objects.filter(Q(user=user)).order_by('-post_chat_created').distinct()[:step]
                 else:
                     if last_id == '':
-                        posts = Post.objects.filter((Q(user=user) & Q(is_open=True))).order_by('-post_chat_created').distinct()[:21]
+                        posts = Post.objects.filter((Q(user=user) & Q(is_open=True))).order_by('-post_chat_created').distinct()[:step]
                     else:
                         last_post = None
                         try:
@@ -1569,9 +1577,9 @@ def re_profile_post(request):
                             print(e)
                             pass
                         if last_post is not None:
-                            posts = Post.objects.filter((Q(user=user)) & Q(is_open=True) & Q(post_chat_created__lte=last_post.post_chat_created)).exclude(pk=last_post.pk).order_by('-post_chat_created').distinct()[:21]
+                            posts = Post.objects.filter((Q(user=user)) & Q(is_open=True) & Q(post_chat_created__lte=last_post.post_chat_created)).exclude(pk=last_post.pk).order_by('-post_chat_created').distinct()[:step]
                         else:
-                            posts = Post.objects.filter(Q(user=user) & Q(is_open=True)).order_by('-post_chat_created').distinct()[:21]
+                            posts = Post.objects.filter(Q(user=user) & Q(is_open=True)).order_by('-post_chat_created').distinct()[:step]
                 # 이제 리스트 만드는 코드가 필요하다. #########
 
                 # filter(Q(post__uuid=post_id) & Q(pk__lt=last_post_chat.pk))
@@ -1583,7 +1591,7 @@ def re_profile_post(request):
                 post_follow = None
                 for post in posts:
                     count = count + 1
-                    if count == 21:
+                    if count == step:
                         last = post.uuid
                     post_follow = True
                     if Follow.objects.filter(user=request.user, follow=post.user).exists():
@@ -1602,6 +1610,8 @@ def re_profile_post(request):
                 chosen_user_id = request.POST.get('chosen_user_id', None)
                 last_id = request.POST.get('last_post_id', None)
                 user = None
+                step = 21
+
                 try:
                     user = User.objects.get(username=chosen_user_id)
                 except User.DoesNotExist:
@@ -1613,7 +1623,7 @@ def re_profile_post(request):
                     pass
                 else:
                     if last_id == '':
-                        posts = Post.objects.filter((Q(user=user) & Q(is_open=True))).order_by('-post_chat_created').distinct()[:21]
+                        posts = Post.objects.filter((Q(user=user) & Q(is_open=True))).order_by('-post_chat_created').distinct()[:step]
                     else:
                         last_post = None
                         try:
@@ -1622,9 +1632,9 @@ def re_profile_post(request):
                             print(e)
                             pass
                         if last_post is not None:
-                            posts = Post.objects.filter((Q(user=user)) & Q(is_open=True) & Q(post_chat_created__lte=last_post.post_chat_created)).exclude(pk=last_post.pk).order_by('-post_chat_created').distinct()[:21]
+                            posts = Post.objects.filter((Q(user=user)) & Q(is_open=True) & Q(post_chat_created__lte=last_post.post_chat_created)).exclude(pk=last_post.pk).order_by('-post_chat_created').distinct()[:step]
                         else:
-                            posts = Post.objects.filter(Q(user=user) & Q(is_open=True)).order_by('-post_chat_created').distinct()[:21]
+                            posts = Post.objects.filter(Q(user=user) & Q(is_open=True)).order_by('-post_chat_created').distinct()[:step]
                 # 이제 리스트 만드는 코드가 필요하다. #########
 
                 # filter(Q(post__uuid=post_id) & Q(pk__lt=last_post_chat.pk))
@@ -1636,7 +1646,7 @@ def re_profile_post(request):
                 post_follow = None
                 for post in posts:
                     count = count + 1
-                    if count == 21:
+                    if count == step:
                         last = post.uuid
                     post_follow = True
                     sub_output = {
@@ -1741,8 +1751,8 @@ def re_profile_populate(request):
                 if PostFollow.objects.filter(post=post, user=request.user).exists():
                     post_follow = True
 
-                output = {'title': post.title,
-                          'desc': post.description,
+                output = {'title': escape(post.title),
+                          'desc': escape(post.description),
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
                           'name': escape(name),
@@ -1797,8 +1807,8 @@ def re_profile_populate(request):
 
                 post_follow = False
 
-                output = {'title': post.title,
-                          'desc': post.description,
+                output = {'title': escape(post.title),
+                          'desc': escape(post.description),
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
                           'name': escape(name),
@@ -1829,6 +1839,7 @@ def re_post_like_list(request):
                 post_id = request.POST.get('post_id', None)
                 next_id = request.POST.get('next_id', None)
                 post = None
+                step = 31
                 try:
                     post = Post.objects.get(uuid=post_id)
                 except:
@@ -1838,18 +1849,18 @@ def re_post_like_list(request):
                 output = []
                 if post is not None:
                     if next_id == '':
-                        likes = PostLike.objects.filter(post=post).order_by('created')[:31]
+                        likes = PostLike.objects.filter(post=post).order_by('created')[:step]
                     else:
                         try:
 
                             last_like = PostLike.objects.get(post=post, user__username=next_id)
                         except:
                             return JsonResponse({'res': 0})
-                        likes = PostLike.objects.filter(Q(post=post) & Q(pk__gte=last_like.pk)).order_by('created')[:31]
+                        likes = PostLike.objects.filter(Q(post=post) & Q(pk__gte=last_like.pk)).order_by('created')[:step]
                     count = 0
                     for like in likes:
                         count = count+1
-                        if count == 31:
+                        if count == step:
                             next = like.user.username
                             break
                         sub_output = {
@@ -1871,6 +1882,7 @@ def re_post_chat_like_list(request):
                 post_chat_id = request.POST.get('post_chat_id', None)
                 next_id = request.POST.get('next_id', None)
                 post_chat = None
+                step = 31
                 try:
                     post_chat = PostChat.objects.get(uuid=post_chat_id)
                 except:
@@ -1880,18 +1892,18 @@ def re_post_chat_like_list(request):
                 output = []
                 if post_chat is not None:
                     if next_id == '':
-                        likes = PostChatLike.objects.filter(post_chat=post_chat).order_by('created')[:31]
+                        likes = PostChatLike.objects.filter(post_chat=post_chat).order_by('created')[:step]
                     else:
                         try:
 
                             last_like = PostChatLike.objects.get(post_chat=post_chat, user__username=next_id)
                         except:
                             return JsonResponse({'res': 0})
-                        likes = PostChatLike.objects.filter(Q(post_chat=post_chat) & Q(pk__gte=last_like.pk)).order_by('created')[:31]
+                        likes = PostChatLike.objects.filter(Q(post_chat=post_chat) & Q(pk__gte=last_like.pk)).order_by('created')[:step]
                     count = 0
                     for like in likes:
                         count = count+1
-                        if count == 31:
+                        if count == step:
                             next = like.user.username
                             break
                         sub_output = {
@@ -1913,6 +1925,7 @@ def re_post_chat_rest_like_list(request):
                 post_chat_rest_id = request.POST.get('post_chat_rest_id', None)
                 next_id = request.POST.get('next_id', None)
                 post_chat_rest_message = None
+                step = 31
                 try:
                     post_chat_rest_message = PostChatRestMessage.objects.get(uuid=post_chat_rest_id)
                 except:
@@ -1922,18 +1935,18 @@ def re_post_chat_rest_like_list(request):
                 output = []
                 if post_chat_rest_message is not None:
                     if next_id == '':
-                        likes = PostChatRestMessageLike.objects.filter(post_chat_rest_message=post_chat_rest_message).order_by('created')[:31]
+                        likes = PostChatRestMessageLike.objects.filter(post_chat_rest_message=post_chat_rest_message).order_by('created')[:step]
                     else:
                         try:
 
                             last_like = PostChatRestMessageLike.objects.get(post_chat_rest_message=post_chat_rest_message, user__username=next_id)
                         except:
                             return JsonResponse({'res': 0})
-                        likes = PostChatRestMessageLike.objects.filter(Q(post_chat_rest_message=post_chat_rest_message) & Q(pk__gte=last_like.pk)).order_by('created')[:31]
+                        likes = PostChatRestMessageLike.objects.filter(Q(post_chat_rest_message=post_chat_rest_message) & Q(pk__gte=last_like.pk)).order_by('created')[:step]
                     count = 0
                     for like in likes:
                         count = count+1
-                        if count == 31:
+                        if count == step:
                             next = like.user.username
                             break
                         sub_output = {
@@ -1999,6 +2012,7 @@ def re_post_follow_list(request):
                 post_id = request.POST.get('post_id', None)
                 next_id = request.POST.get('next_id', None)
                 post = None
+                step = 31
                 try:
                     post = Post.objects.get(uuid=post_id)
                 except:
@@ -2009,18 +2023,18 @@ def re_post_follow_list(request):
                 post_follows = None
                 if post is not None:
                     if next_id == '':
-                        post_follows = PostFollow.objects.filter(post=post).order_by('created')[:31]
+                        post_follows = PostFollow.objects.filter(post=post).order_by('created')[:step]
                     else:
                         try:
 
                             last_post_follow = PostFollow.objects.get(post=post, user__username=next_id)
                         except:
                             return JsonResponse({'res': 0})
-                        post_follows = PostFollow.objects.filter(Q(post=post) & Q(pk__gte=last_post_follow.pk)).order_by('created')[:31]
+                        post_follows = PostFollow.objects.filter(Q(post=post) & Q(pk__gte=last_post_follow.pk)).order_by('created')[:step]
                     count = 0
                     for post_follow in post_follows:
                         count = count+1
-                        if count == 31:
+                        if count == step:
                             next = post_follow.user.username
                             break
                         sub_output = {
@@ -2041,9 +2055,10 @@ def re_explore_feed(request):
             if request.is_ajax():
                 last_id = request.POST.get('last_id', None)
                 posts = None
+                step = 20
                 if last_id == '':
                     posts = Post.objects.filter(~Q(user__is_followed__user=request.user) & Q(is_open=True) & ~Q(user=request.user)).exclude(
-                        Q(post_follow__user=request.user)).order_by('-post_chat_created').distinct()[:20]
+                        Q(post_follow__user=request.user)).order_by('-post_chat_created').distinct()[:step]
                 else:
                     last_post = None
                     try:
@@ -2052,7 +2067,7 @@ def re_explore_feed(request):
                         print(e)
                         return JsonResponse({'res': 0})
                     posts = Post.objects.filter(~Q(user__is_followed__user=request.user) & Q(is_open=True) & Q(post_chat_created__lte=last_post.post_chat_created) & ~Q(user=request.user)).exclude(
-                        Q(post_follow__user=request.user) | Q(uuid=last_id)).order_by('-post_chat_created').distinct()[:20]
+                        Q(post_follow__user=request.user) | Q(uuid=last_id)).order_by('-post_chat_created').distinct()[:step]
 
                 # 여기서 posts 옵션 준다. 20개씩 줄 것이므로 21로 잡는다. #########
                 # 여기서 포스트 팔로우 된 건 피드에 뜨지 않게 Q 설정해야한다 .
@@ -2063,7 +2078,7 @@ def re_explore_feed(request):
                 post_follow = None
                 for post in posts:
                     count = count + 1
-                    if count == 20:
+                    if count == step:
                         last = post.uuid
                     sub_output = {
                         'id': post.uuid,
@@ -2083,8 +2098,9 @@ def re_note_all(request):
             if request.is_ajax():
                 next_id = request.POST.get('next_id', None)
                 notices = None
+                step = 31
                 if next_id == '':
-                    notices = Notice.objects.filter(Q(user=request.user)).order_by('-created').distinct()[:31]
+                    notices = Notice.objects.filter(Q(user=request.user)).order_by('-created').distinct()[:step]
                 else:
                     next_notice = None
                     try:
@@ -2092,7 +2108,7 @@ def re_note_all(request):
                     except Exception as e:
                         print(e)
                         return JsonResponse({'res': 0})
-                    notices = Notice.objects.filter(Q(user=request.user) & Q(pk__lte=next_notice.pk)).order_by('-created').distinct()[:31]
+                    notices = Notice.objects.filter(Q(user=request.user) & Q(pk__lte=next_notice.pk)).order_by('-created').distinct()[:step]
 
                 # 여기서 posts 옵션 준다. 20개씩 줄 것이므로 21로 잡는다. #########
                 # 여기서 포스트 팔로우 된 건 피드에 뜨지 않게 Q 설정해야한다 .
@@ -2102,7 +2118,7 @@ def re_note_all(request):
                 next = None
                 for notice in notices:
                     count = count + 1
-                    if count == 31:
+                    if count == step:
                         next = notice.uuid
                         break
                     sub_output = {
@@ -2140,14 +2156,15 @@ def re_search_all(request):
     if request.method == "POST":
         if request.is_ajax():
             search_word = request.POST.get('search_word', None)
+            user_step = 11
             users = User.objects.filter(Q(userusername__username__icontains=search_word)
-                                        | Q(usertextname__name__icontains=search_word)).order_by('-noticecount__created').distinct()[:11]
+                                        | Q(usertextname__name__icontains=search_word)).order_by('-noticecount__created').distinct()[:user_step]
             user_output = []
             users_count = 0
             user_next = None
             for user in users:
                 users_count = users_count + 1
-                if users_count == 11:
+                if users_count == user_step:
                     user_next = True
                     break
                 sub_output = {
@@ -2157,18 +2174,19 @@ def re_search_all(request):
                 }
 
                 user_output.append(sub_output)
-
+            post_step = 11
             posts = Post.objects.filter(Q(user__userusername__username__icontains=search_word)
                                         | Q(title__icontains=search_word)
                                         | Q(description__icontains=search_word)
-                                        | Q(user__usertextname__name__icontains=search_word)).order_by('-post_chat_created').distinct()[:11]
+                                        | Q(user__usertextname__name__icontains=search_word)).order_by('-post_chat_created').distinct()[:post_step]
 
             post_output = []
             posts_count = 0
             post_next = None
+
             for post in posts:
                 posts_count = posts_count + 1
-                if posts_count == 11:
+                if posts_count == post_step:
                     post_next = True
                     break
 
@@ -2200,9 +2218,10 @@ def re_search_user(request):
         if request.is_ajax():
             search_word = request.POST.get('search_word', None)
             next_id = request.POST.get('next_id', None)
+            step = 31
             if next_id == '':
                 users = User.objects.filter(Q(userusername__username__icontains=search_word)
-                                            | Q(usertextname__name__icontains=search_word)).order_by('-noticecount__created').distinct()[:31]
+                                            | Q(usertextname__name__icontains=search_word)).order_by('-noticecount__created').distinct()[:step]
             else:
                 next_user = None
                 try:
@@ -2213,13 +2232,13 @@ def re_search_user(request):
 
                 users = User.objects.filter((Q(userusername__username__icontains=search_word)
                                             | Q(usertextname__name__icontains=search_word)) & Q(noticecount__created__lte=next_user.noticecount.created)).exclude(pk=next_user.pk).order_by(
-                    '-noticecount__created').distinct()[:31]
+                    '-noticecount__created').distinct()[:step]
             user_output = []
             users_count = 0
             user_next = None
             for user in users:
                 users_count = users_count + 1
-                if users_count == 31:
+                if users_count == step:
                     user_next = user.username
                     break
                 sub_output = {
@@ -2243,12 +2262,13 @@ def re_search_post(request):
         if request.is_ajax():
             search_word = request.POST.get('search_word', None)
             next_id = request.POST.get('next_id', None)
+            step = 20
             if next_id == '':
                 posts = Post.objects.filter(Q(user__userusername__username__icontains=search_word)
                                             | Q(title__icontains=search_word)
                                             | Q(description__icontains=search_word)
                                             | Q(user__usertextname__name__icontains=search_word)).order_by(
-                    '-post_chat_created').distinct()[:2]
+                    '-post_chat_created').distinct()[:step]
             else:
                 next_post = None
                 try:
@@ -2261,14 +2281,14 @@ def re_search_post(request):
                                             | Q(title__icontains=search_word)
                                             | Q(description__icontains=search_word)
                                             | Q(user__usertextname__name__icontains=search_word)))
-                                            & Q(post_chat_created__lte=next_post.post_chat_created)).order_by('-post_chat_created').distinct()[:2]
+                                            & Q(post_chat_created__lte=next_post.post_chat_created)).order_by('-post_chat_created').distinct()[:step]
 
             post_output = []
             posts_count = 0
             post_next = None
             for post in posts:
                 posts_count = posts_count + 1
-                if posts_count == 2:
+                if posts_count == step:
                     post_next = post.uuid
                     break
 
