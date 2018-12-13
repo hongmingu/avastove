@@ -13,15 +13,6 @@
     <script defer src="{% static 'js/birthday.js' %}"></script>
     <script defer src="{% static 'js/validation_create.js' %}"></script>
 
-    <script src='https://www.google.com/recaptcha/api.js'></script>
-    <link href="https://fonts.googleapis.com/css?family=Tauri" rel="stylesheet">
-    {% if user.is_authenticated %}
-    {% else %}
-    {% endif %}
-
-    <style>
-
-    </style>
 </head>
 <body>
 {% include 'others/bootstrap_tester.html' %}

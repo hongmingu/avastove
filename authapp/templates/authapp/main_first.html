@@ -12,14 +12,6 @@
 
     <script defer src="{% static 'js/validation_create.js' %}"></script>
 
-    <link href="https://fonts.googleapis.com/css?family=Tauri" rel="stylesheet">
-    {% if user.is_authenticated %}
-    {% else %}
-    {% endif %}
-
-    <style>
-
-    </style>
 </head>
 <body>
 {% include 'others/bootstrap_tester.html' %}
@@ -84,8 +76,10 @@
                 <div class="mobile_display_none padding_35"></div>
                 <div class="mobile_display_none padding_35"></div>
                 <div class="mobile_display_none padding_35"></div>
-                <p><h3>It is to make chat.</h3></p>
-                <p><h3>You can make your chat.</h3></p>
+                <p>
+                <h3>It is to make chat.</h3></p>
+                <p>
+                <h3>You can make your chat.</h3></p>
             </div>
             <div class="col-sm-5">
                 <div class="mobile_display_none padding_35"></div>
@@ -106,10 +100,12 @@
 
                     <div class="row">
                         <div class="col-xs-9">
-                            <p class="text-primary word_wrap_break_word" id="p_clue">{% if clue %}{{ clue.message }}{% endif %}</p>
+                            <p class="text-primary word_wrap_break_word" id="p_clue">
+                                {% if clue %}{{ clue.message }}{% endif %}</p>
                         </div>
                         <div class="col-xs-3">
-                            <button id="btn_submit" type="submit" class="btn btn-default pull-right" name="type" value="create_first">
+                            <button id="btn_submit" type="submit" class="btn btn-default pull-right" name="type"
+                                    value="create_first">
                                 Submit
                             </button>
                         </div>
