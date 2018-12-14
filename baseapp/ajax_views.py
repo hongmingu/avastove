@@ -747,8 +747,18 @@ def re_user_home_populate(request):
                 if PostFollow.objects.filter(post=post, user=request.user).exists():
                     post_follow = True
 
-                output = {'title': escape(post.title),
-                          'desc': escape(post.description),
+                _title = None
+                if post.title is None:
+                    _title = ''
+                else:
+                    _title = post.title
+                _description = None
+                if post.description is None:
+                    _description = ''
+                else:
+                    _description = post.description
+                output = {'title': escape(_title),
+                          'desc': escape(_description),
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
                           'name': escape(name),
@@ -803,8 +813,18 @@ def re_user_home_populate(request):
 
                 post_follow = False
 
-                output = {'title': escape(post.title),
-                          'desc': escape(post.description),
+                _title = None
+                if post.title is None:
+                    _title = ''
+                else:
+                    _title = post.title
+                _description = None
+                if post.description is None:
+                    _description = ''
+                else:
+                    _description = post.description
+                output = {'title': escape(_title),
+                          'desc': escape(_description),
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
                           'name': escape(name),
@@ -1751,8 +1771,18 @@ def re_profile_populate(request):
                 if PostFollow.objects.filter(post=post, user=request.user).exists():
                     post_follow = True
 
-                output = {'title': escape(post.title),
-                          'desc': escape(post.description),
+                _title = None
+                if post.title is None:
+                    _title = ''
+                else:
+                    _title = post.title
+                _description = None
+                if post.description is None:
+                    _description = ''
+                else:
+                    _description = post.description
+                output = {'title': escape(_title),
+                          'desc': escape(_description),
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
                           'name': escape(name),
@@ -1807,8 +1837,18 @@ def re_profile_populate(request):
 
                 post_follow = False
 
-                output = {'title': escape(post.title),
-                          'desc': escape(post.description),
+                _title = None
+                if post.title is None:
+                    _title = ''
+                else:
+                    _title = post.title
+                _description = None
+                if post.description is None:
+                    _description = ''
+                else:
+                    _description = post.description
+                output = {'title': escape(_title),
+                          'desc': escape(_description),
                           'username': post.user.userusername.username,
                           'user_id': post.user.username,
                           'name': escape(name),
