@@ -2,16 +2,14 @@
 <html>
 <head>
     <meta charset="UTF-8">
-
     {% include 'authapp/_header_title.html' %}
-
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 
     {% include 'others/header_static.html' %}
+    {% include 'others/header_metas.html' %}
     {% load static from staticfiles %}
 
     <script defer src="{% static 'js/validation_create.js' %}"></script>
-
 </head>
 <body>
 {% include 'others/bootstrap_tester.html' %}

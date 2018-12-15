@@ -149,8 +149,7 @@ def search_all(request):
         if q is None:
             q = ''
         q = q.strip()
-        word = {}
-        word['q'] = q
+        word = q
         return render(request, 'baseapp/user_search_all.html', {'word': word})
 
 def search_user(request):
@@ -159,8 +158,7 @@ def search_user(request):
         if q is None:
             q = ''
         q = q.strip()
-        word = {}
-        word['q'] = q
+        word = q
         return render(request, 'baseapp/user_search_user.html', {'word': word})
 
 def search_post(request):
@@ -169,6 +167,5 @@ def search_post(request):
         if q is None:
             q = ''
         q = q.strip()
-        word = {}
-        word['q'] = q
+        word = q
         return render(request, 'baseapp/user_search_post.html', {'word': word})

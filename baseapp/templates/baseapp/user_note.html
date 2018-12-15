@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <head>
     <meta http-equiv="content-type" content="text/html; charset=UTF-8">
-    <title>Demo</title>
+    <title>avastove</title>
     {% include 'others/header_static.html' %}
     {% include 'others/favicon.html' %}
+    {% include 'others/header_metas.html' %}
 
     {% load static from staticfiles %}
     <script src="{% static 'js/navbar.js' %}"></script>
@@ -20,9 +21,6 @@
 <body class="light_background_color height_100">
 <!--navbar start-->
 {% include 'baseapp/_navbar.html' %}
-
-<!--navbar end-->
-<!--page info-->
 {% include 'others/bootstrap_tester.html' %}
 
 <div class="hidden" id="page_kind">note</div>
