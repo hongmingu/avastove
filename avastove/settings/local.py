@@ -28,7 +28,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'django.contrib.sitemaps',
     'storages',
-    'imagekit',
     'authapp',
     'baseapp',
     'debug_toolbar',
