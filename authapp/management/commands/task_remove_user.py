@@ -10,5 +10,5 @@ class Command(BaseCommand):
     help = 'delete user'
 
     def handle(self, *args, **options):
-        user_delete = User.objects.filter(userdelete__created__lte=now()-timedelta(days=1)).delete()
+        user_delete = User.objects.filter(userdelete__created__lte=now()-timedelta(days=14)).delete()
 
