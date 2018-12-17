@@ -175,7 +175,8 @@ $('#span_change_photo').click(function (e) {
                 dataType:'json',
                 cache:false,
                 data:{
-                    command: 'email_resend',
+                    command: 'email',
+                    email: $('#input_email').val(),
                 },
                 success:function (data) {
                     if (data.res === 1){
@@ -204,7 +205,6 @@ $('#span_change_photo').click(function (e) {
                     command: 'email_resend',
                 },
                 success:function (data) {
-                    console.log(data)
                     if (data.res === 1){
                         $('#p_resend_desc').html(data.email);
                         middle_this.replaceWith(save_this)

@@ -23,16 +23,19 @@
         {% endif %}
     </div>
     {% if clue.success %}
-    <div class="row">
-        <p><h4>Thank you, Let's back to Chatkaboo site:</h4></p>
-        <a class="btn btn-default btn-lg" href="https://www.chatkaboo.com">www.chatkaboo.com</a>
-    </div>
+        <div class="row">
+            <p><h4>Thank you, Let's back to site:</h4></p>
+            {% include 'authapp/_logo.html' %}
+        </div>
     {% else %}
-    <div class="row">
-        <p><h4>There is something wrong, Please retry your email confirmation:</h4></p>
-        <a class="btn btn-default btn-lg" href="https://www.chatkaboo.com">www.chatkaboo.com</a>
-    </div>
+        <div class="row">
+            <p><h4>There is something wrong, Please retry your email confirmation:</h4></p>
+            {% include 'authapp/_logo.html' %}
+        </div>
     {% endif %}
+    <div>If you have any question or something to say, come to my twitter: <a href="https://twitter.com/mingu_gam"
+                                                                              target="_blank"
+                                                                              rel="noopener noreferrer">click</a></div>
 </div>
 </body>
 </html>

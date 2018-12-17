@@ -90,34 +90,4 @@ EMAIL_USE_TLS = True
 DEFAULT_FROM_EMAIL = settings_json['django']['default_from_email']
 
 # aws workmail 사용
-#########################reCAPTCHA#############################
 
-#---------------------channels-----------------------
-# Channel layer definitions
-# http://channels.readthedocs.io/en/latest/topics/channel_layers.html
-CHANNEL_LAYERS = {
-    "default": {
-        # This example app uses the Redis channel layer implementation channels_redis
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            # "hosts": [(redis_host, 6379)],
-            "hosts": [('redis://127.0.0.1:6379')],
-        },
-    },
-}
-
-# ASGI_APPLICATION should be set to your outermost router
-ASGI_APPLICATION = 'avastove.routing.application'
-
-# Cache (It's different from channels)
-'''
-CACHES = {
-    "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://redis-test-cache.tegk2s.0001.usw2.cache.amazonaws.com:6379",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
-    }
-}
-'''
