@@ -42,16 +42,7 @@ class UserSitemap(Sitemap):
         return obj.updated
 
 sitemaps = {
-    # 'postarabic': PostArabicSitemap,
     'main': MainSitemap,
     'post': PostSitemap,
     'user': UserSitemap,
-    # 'postchinese': PostChineseSitemap,
-    # 'postportuguese': PostPortugueseSitemap,
-    # 'postspanish': PostSpanishSitemap,
-    # 'celebrityarabic': CelebrityArabicSitemap,
-    # 'celebritychinese': CelebrityChineseSitemap,
-    # 'celebrityportuguese': CelebrityPortugueseSitemap,
-    # 'celebrityspanish': CelebritySpanishSitemap,
-    # 'main_lang': Main_LangSitemap,
 }
