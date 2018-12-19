@@ -161,9 +161,9 @@ class UserPhoto(models.Model):
     def file_50_url(self):
         if self.file_50:
             return self.file_50.url
-        return "/media/default/default_photo_50.png"
+        return 'https://' + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_50.png"
 
     def file_300_url(self):
         if self.file_300:
             return self.file_300.url
-        return "/media/default/default_photo_300.png"
+        return 'https://' + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_300.png"

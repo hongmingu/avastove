@@ -13,9 +13,10 @@
                     post_id: $('#post_id').attr('data-u')
                 },
                 success: function (data) {
-                    $('#img_300').attr('src', '/media/default/default_photo_300.png')
-                    $("#modal_base_reset").modal("hide");
-
+                    if (data.res === 1){
+                        $('#img_300').attr('src', data.src)
+                        $("#modal_base_reset").modal("hide");
+                    }
                 }
             });
         });

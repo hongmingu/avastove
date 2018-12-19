@@ -12,7 +12,7 @@
                 remove:'remove'
             },
             success:function (data) {
-                $('#img_300').attr('src', '/media/default/default_photo_300.png')
+                $('#img_300').attr('src', data.src)
                 $("#modal_base_reset").modal("hide");
 
             }

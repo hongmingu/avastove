@@ -229,7 +229,7 @@ def upload_user_photo(request):
                     user_photo.file_300 = None
                     user_photo.file_50 = None
                     user_photo.save()
-                    return JsonResponse({'res': 1})
+                    return JsonResponse({'res': 1, 'src': user_photo.file_300_url()})
 
                 else:
                     form = UserPhotoForm(request.POST, request.FILES, instance=user_photo)

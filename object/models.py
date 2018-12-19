@@ -83,15 +83,16 @@ class PostProfile(models.Model):
     def __str__(self):
         return "PostPhoto pk: %s, username: %s" % (self.pk, self.post.user.userusername.username)
 
+
     def file_50_url(self):
         if self.file_50:
             return self.file_50.url
-        return "/media/default/default_photo_50.png"
+        return 'https://' + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_50.png"
 
     def file_300_url(self):
         if self.file_300:
             return self.file_300.url
-        return "/media/default/default_photo_300.png"
+        return 'https://' + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_300.png"
 
 from .numbers import *
 KINDS_CHOICES = (

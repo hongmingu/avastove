@@ -149,7 +149,7 @@ def re_create_new_remove_photo(request):
                     post_profile.file_50 = None
                     post_profile.file_300 = None
                     post_profile.save()
-                    return JsonResponse({'res': 1})
+                    return JsonResponse({'res': 1, 'src': post_profile.file_300_url()})
                 elif request.POST.get('whose', None) == 'other':
                     pass
 

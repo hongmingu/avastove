@@ -13,7 +13,7 @@ SECRET_KEY = settings_json['django_settings']['key']
 
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = '*'
 
 
 # Application definition
@@ -63,7 +63,7 @@ AUTHENTICATION_BACKENDS = [
     'authapp.backends.EmailOrUsernameAuthBackend',
     # 'django.contrib.auth.backends.ModelBackend',
 ]
-
+'''
 #### Static settings
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
@@ -74,6 +74,32 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'collected_static')#이 폴더가 없으면
 #### Media settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media_dir')
+
+'''
+# -------------------------------------------------------------------
+# Static settings
+DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = settings_json['cdn']['aws']['aws_access_key_id']
+AWS_SECRET_ACCESS_KEY = settings_json['cdn']['aws']['aws_secret_access_key']
+AWS_STORAGE_BUCKET_NAME = settings_json['cdn']['aws']['aws_storage_bucket_name']
+AWS_S3_OBJECT_PARAMETERS = {
+    'CacheControl': settings_json['cdn']['aws']['aws_s3_object_parameters']['cachecontrol'],
+}
+
+AWS_S3_CUSTOM_DOMAIN = 'cf.sajufortune.com'
+
+# Static Setting
+STATIC_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
+
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, 'static'),
+]
+# Media Setting
+MEDIA_URL = "https://%s/media/" % AWS_S3_CUSTOM_DOMAIN
+
+# -------------------------------------------------------------------
+
 
 
 SMTPusername = settings_json['django']['SMTPusername']
