@@ -139,12 +139,14 @@ def re_create_new_remove_photo(request):
                 if request.POST.get('command', None) == 'remove_photo':
                     post_id = request.POST.get('post_id', None)
                     try:
-                        post = Post.objects.get(pk=post_id)
-                    except:
+                        post = Post.objects.get(uuid=post_id)
+                    except Exception as e:
+                        print(e)
                         return JsonResponse({'res': 0})
                     try:
                         post_profile = PostProfile.objects.get(post=post)
-                    except:
+                    except Exception as e:
+                        print(e)
                         return JsonResponse({'res': 0})
                     post_profile.file_50 = None
                     post_profile.file_300 = None

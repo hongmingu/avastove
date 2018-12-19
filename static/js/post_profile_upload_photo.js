@@ -106,7 +106,6 @@
                 contentType: false,
                 data: form_data,
                 success: function (data) {
-                    console.log(data)
                     $("#modal_crop").modal("hide");
                     if (data.res === 1) {
                         $('#img_300').attr('src', data.url)

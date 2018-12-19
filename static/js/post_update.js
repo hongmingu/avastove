@@ -316,7 +316,6 @@ $(function () {
             var rotate = 'rotate(' + deg + 'deg)';
             save_this = $(this)
 
-            alert('rotate: ' + deg + 'height: ' + save_this.height() + 'width: ' + save_this.width())
             if (deg % 180 === 90 || deg % 180 === -90) {
                 if (save_this.parent().height() !== save_this.width()) {
                     save_this.parent().css('height', save_this.width())

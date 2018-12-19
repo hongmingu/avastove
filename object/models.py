@@ -83,7 +83,6 @@ class PostProfile(models.Model):
     def __str__(self):
         return "PostPhoto pk: %s, username: %s" % (self.pk, self.post.user.userusername.username)
 
-
     def file_50_url(self):
         if self.file_50:
             return self.file_50.url
