@@ -122,3 +122,18 @@ def clue_json_response(clue_success, clue_message):
     clue['message'] = clue_message
     return JsonResponse(clue)
 
+
+def asterisk_total(x):
+    def asterisk_part(x):
+        text = ''
+        for i in range(len(x)):
+            if i % 2:
+                text = text + '*'
+            else:
+                text = text + x[i]
+        return text
+
+    a = x.split('@')[0]
+    b = x.split('@')[1].split('.')[0]
+    c = x.split('@')[1].split('.')[-1]
+    return asterisk_part(a) + '@' + asterisk_part(b) + '.' + asterisk_part(c)

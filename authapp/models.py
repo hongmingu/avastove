@@ -23,6 +23,7 @@ class UserUsername(models.Model):
         from django.urls import reverse
         return reverse('baseapp:user_profile', kwargs={'user_username': self.username})
 
+
 class UserBirthday(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     birthday = models.DateField(blank=True, null=True)
@@ -54,7 +55,7 @@ class UserGender(models.Model):
 class UserTextName(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
 
-    name = models.CharField(max_length=30, unique=True)
+    name = models.CharField(max_length=30)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
