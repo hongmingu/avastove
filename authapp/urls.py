@@ -17,7 +17,7 @@ urlpatterns = [
     # re_path(r'^deactivate/$', views.deactivate_user, name='deactivate_user'),
     re_path(r'^delete/$', views.delete_user, name='delete_user'),
     re_path(r'^settings/$', views.settings, name='settings'),
-    # re_path(r'^settings/other/$', views.settings_other, name='settings_other'),
+    # re_path(r'^settings1/other/$', views.settings_other, name='settings_other'),
 
     re_path(r'^logout/$', views.log_out, name='log_out'),
     # re_path(r'^crop/$', views.crop, name='crop'),

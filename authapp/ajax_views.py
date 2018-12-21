@@ -156,7 +156,8 @@ def re_settings(request):
                                     recipient_list=new_user_email_list
                                 )
                                 # End Transaction
-                        except Exception:
+                        except Exception as e:
+                            print(e)
                             return JsonResponse({'res': 0, 'message': texts.UNEXPECTED_ERROR})
 
                         return JsonResponse({'res': 1, 'email': texts.EMAIL_SENT + ': ' + new_user_primary_email})
@@ -209,7 +210,8 @@ def re_settings(request):
                                     recipient_list=new_user_email_list
                                 )
                                 # End Transaction
-                        except Exception:
+                        except Exception as e:
+                            print(e)
                             return JsonResponse({'res': 0, 'message': texts.UNEXPECTED_ERROR})
 
                         return JsonResponse({'res': 1, 'email': texts.EMAIL_SENT + ': ' + new_user_primary_email})

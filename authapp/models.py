@@ -103,8 +103,6 @@ class UserPasswordResetToken(models.Model):
     def __str__(self):
         if self.user_primary_email is not None:
             email = self.user_primary_email
-        elif self.user_email is not None:
-            email = self.user_email
         else:
             email = "No email"
         return "PasswordAuthToken for %s" % email
@@ -161,9 +159,9 @@ class UserPhoto(models.Model):
     def file_50_url(self):
         if self.file_50:
             return self.file_50.url
-        return 'https://' + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_50.png"
+        return settings.AWS_S3_SCHEME + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_50.png"
 
     def file_300_url(self):
         if self.file_300:
             return self.file_300.url
-        return 'https://' + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_300.png"
+        return settings.AWS_S3_SCHEME + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_300.png"
