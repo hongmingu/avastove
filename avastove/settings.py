@@ -27,6 +27,7 @@ if settings_json['debug']['mode'] == 'dev':
     SECRET_KEY = settings_json['base']['key']
 
     DEBUG = True
+    DEPLOY = False
 
     ALLOWED_HOSTS = '*'
 
@@ -191,6 +192,7 @@ elif settings_json['debug']['mode'] == 'deploy':
     SECRET_KEY = settings_json['base']['key']
 
     DEBUG = False
+    DEPLOY = True
 
     ALLOWED_HOSTS = '*'
 
@@ -344,6 +346,7 @@ elif settings_json['debug']['mode'] == 'deploy_admin':
     SECRET_KEY = settings_json['base']['key']
 
     DEBUG = True
+    DEPLOY = True
 
     ALLOWED_HOSTS = '*'
 
