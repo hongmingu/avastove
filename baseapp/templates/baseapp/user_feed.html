@@ -11,6 +11,7 @@
     <script src="{% static 'js/a_selected.js' %}"></script>
     <script src="{% static 'js/date_differ.js' %}"></script>
     <script src="{% static 'js/home_populate.js' %}"></script>
+    <script src="{% static 'js/feed.js' %}"></script>
     <script src="{% static 'js/modal_resize.js' %}"></script>
     <script src="{% static 'js/modal_feed_menu.js' %}"></script>
     <script src="{% static 'js/modal_opens.js' %}"></script>
@@ -54,7 +55,7 @@
             <div class="row">
                 <!--여기서 modal -->
                 <div id="content"></div>
-                <a href=""><div class="hidden clickable more_load" align="center" id="home_feed_more_load">more load</div></a>
+                <a href=""><div class="hidden clickable more_load" align="center" id="more_load">more load</div></a>
 
             </div>
         </div>
@@ -64,58 +65,6 @@
 {% include 'baseapp/_modal_post.html' %}
 {% include 'baseapp/_modal_need_login.html' %}
 </body>
-<script>
-    $(function () {
-        $.ajax({url:'/re/explore/feed/', type:'post', dataType:'json', cache:false,
-            data:{
-                last_id: $('#post_last_id').html()
-            },
-            success:function (data) {
-            $.each(data.set, function (key, value) {
-                var string = value.id
-                var appender = '<div class="row div_base" id="post_div_'+value.id+'">' +
-                    '<script defer>' +
-                    '    home_populate("'+value.id+'")' +
-                    '<'+'/script></div>'
-                $('#content').append(appender)
-                $('#post_last_id').html(value.id)
-            })
-                if (data.last === null){
-                    $('#home_feed_more_load').addClass('hidden')
-                } else {
-                    $('#home_feed_more_load').removeClass('hidden')
-                }
-
-            }
-        })
-
-        $('#home_feed_more_load').click(function (e) {
-            e.preventDefault()
-            $.ajax({url:'/re/explore/feed/', type:'post', dataType:'json', cache:false,
-            data:{
-                last_id: $('#post_last_id').html()
-            },
-            success:function (data) {
-            $.each(data.set, function (key, value) {
-                var string = value.id
-                var appender = '<div class="row div_base" id="post_div_'+value.id+'">' +
-                    '<script defer>' +
-                    '    home_populate("'+value.id+'")' +
-                    '<'+'/script></div>'
-                $('#content').append(appender)
-                $('#post_last_id').html(value.id)
-            })
-                if (data.last === null){
-                    $('#home_feed_more_load').addClass('hidden')
-                } else {
-                    $('#home_feed_more_load').removeClass('hidden')
-                }
-
-            }
-        })
-        })
-    })
-</script>
 
 
 </html>

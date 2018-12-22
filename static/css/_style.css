@@ -404,7 +404,8 @@ a:active {
     font-weight: bold;
     color: darkslategrey;
 }
-.home_new_post{
+
+.home_new_post {
     background-color: var(--main-orange-btn-bcolor, orange);
     color: var(--main-orange-btn-color, whitesmoke);
     padding: 2px;
@@ -624,11 +625,13 @@ a:active {
 .created_description {
     font-size: 16px
 }
-.more_load{
+
+.more_load {
     background-color: var(--main-orange-btn-bcolor, orange);
     color: var(--main-orange-btn-color, whitesmoke);
     padding: 1px;
 }
+
 .created_description_content {
     font-size: 16px;
     white-space: pre-wrap;
@@ -896,6 +899,7 @@ a:active {
     border-radius: 3px;
     color: black;
 }
+
 .reading_chat_text {
     background-color: orange;
     padding: 3px;
@@ -909,6 +913,7 @@ a:active {
     border-radius: 3px;
     color: black;
 }
+
 .reading_chat_text_left {
     background-color: white;
     padding: 3px;
@@ -967,7 +972,7 @@ a:active {
 }
 
 .reading_chat_interaction_white {
-        background-color: orange;
+    background-color: orange;
     color: white;
     height: 70px;
     padding-top: 20px
@@ -1089,7 +1094,6 @@ a:active {
     padding: 3px;
 }
 
-
 .note_wrapper {
     margin-top: 5px;
     font-size: 12px;
@@ -1190,4 +1194,12 @@ a:active {
     border-width: 1px;
     margin-right: 0px;
     margin-left: 0px;
+}
+
+.nav_note_count {
+    background-color: #ff6d66;
+    color: white;
+    font-size: 11px;
+    border-radius: 4px;
+    padding: 1px;
 }

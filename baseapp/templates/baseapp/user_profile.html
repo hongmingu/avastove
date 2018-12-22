@@ -25,7 +25,6 @@
     {% load static from staticfiles %}
     <script src="{% static 'js/navbar.js' %}"></script>
     <script src="{% static 'js/a_selected.js' %}"></script>
-    <script src="{% static 'js/nav_badge.js' %}"></script>
     <script src="{% static 'js/date_differ.js' %}"></script>
     <script src="{% static 'js/profile.js' %}"></script>
     <script src="{% static 'js/profile_populate.js' %}"></script>
@@ -116,7 +115,7 @@
                 </div>
                 <div id="post_list"></div>
                 <a href="">
-                    <div class="hidden clickable main_background_color write_new_post" align="center"
+                    <div class="hidden clickable more_load" align="center"
                          id="profile_more_load">
                         more load
                     </div>
@@ -140,7 +139,7 @@
 
                 </div>
                 <a href="">
-                    <div class="hidden" align="center" id="modal_following_more">more</div>
+                    <div class="hidden clickable more_load" align="center" id="modal_following_more">more</div>
                 </a>
             </div>
         </div>
@@ -160,7 +159,7 @@
 
                 </div>
                 <a href="">
-                    <div class="hidden" align="center" id="modal_follower_more">more</div>
+                    <div class="hidden clickable more_load" align="center" id="modal_follower_more">more</div>
                 </a>
             </div>
         </div>

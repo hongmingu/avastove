@@ -22,7 +22,6 @@
     {% load static from staticfiles %}
     <script src="{% static 'js/navbar.js' %}"></script>
     <script src="{% static 'js/a_selected.js' %}"></script>
-    <script src="{% static 'js/nav_badge.js' %}"></script>
     <script src="{% static 'js/date_differ.js' %}"></script>
     <script src="{% static 'js/search_post.js' %}"></script>
 
@@ -69,7 +68,7 @@
             <div class="row">
                 <div class="h2">Posts result</div>
                 <div id="content_post"></div>
-                <div class="hidden" align="center" id="more_post_load"><a href=""><span class="clickable padding_5">more load</span></a></div>
+                <a href=""><div class="clickable more_load hidden" id="more_post_load">more load</div></a>
 
             </div>
         </div>

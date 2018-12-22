@@ -2263,7 +2263,8 @@ def re_search_user(request):
             step = 31
             if next_id == '':
                 users = User.objects.filter(Q(userusername__username__icontains=search_word)
-                                            | Q(usertextname__name__icontains=search_word)).order_by('-noticecount__created').distinct()[:step]
+                                            | Q(usertextname__name__icontains=search_word)).order_by(
+                    '-noticecount__created').distinct()[:step]
             else:
                 next_user = None
                 try:
@@ -2273,7 +2274,9 @@ def re_search_user(request):
                     return JsonResponse({'res': 0})
 
                 users = User.objects.filter((Q(userusername__username__icontains=search_word)
-                                            | Q(usertextname__name__icontains=search_word)) & Q(noticecount__created__lte=next_user.noticecount.created)).exclude(pk=next_user.pk).order_by(
+                                            | Q(usertextname__name__icontains=search_word))
+                                            & Q(noticecount__created__lte=next_user.noticecount.created)).exclude(
+                    pk=next_user.pk).order_by(
                     '-noticecount__created').distinct()[:step]
             user_output = []
             users_count = 0

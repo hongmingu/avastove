@@ -38,11 +38,16 @@
             </li>
 
             <li id="nav_div_ul_li_bsearch">
-
                 {% if user.is_authenticated %}
-                    <a class="padding_15_i" id="a_note" href="{% url 'baseapp:note_all' %}">
-                        <i id="i_note" class="glyphicon glyphicon-certificate"></i>
-                    </a>
+                    {% if user.noticecount.count == 0 %}
+                        <a class="padding_15_i" id="a_note" href="{% url 'baseapp:note_all' %}">
+                            <i id="i_note" class="glyphicon glyphicon-certificate"></i>
+                        </a>
+                    {% else %}
+                        <a class="padding_15_i" id="a_note" href="{% url 'baseapp:note_all' %}">
+                            <span id="i_note" class="nav_note_count">{{ user.noticecount.count }}</span>
+                        </a>
+                    {% endif %}
                 {% else %}
                     <a class="padding_15_i" id="a_note" href="{% url 'baseapp:main_create_log_in' %}">
                         <i id="i_note" class="glyphicon glyphicon-certificate"></i>

@@ -132,7 +132,6 @@ $(function () {
                 user_id: $('#chosen_user_id').html()
             },
             success: function (data) {
-                console.log(data)
                 if (data.result === true) {
                     $('#follow_text').html('following <span class="glyphicon glyphicon-ok"></span>')
                     var count_follower = parseInt($('#count_follower').html()) + 1

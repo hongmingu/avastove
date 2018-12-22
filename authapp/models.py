@@ -156,12 +156,23 @@ class UserPhoto(models.Model):
     def __str__(self):
         return "UserPhoto pk: %s, username: %s" % (self.pk, self.user.userusername.username)
 
-    def file_50_url(self):
-        if self.file_50:
-            return self.file_50.url
-        return settings.AWS_S3_SCHEME + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_50.png"
+    if settings.DEBUG:
+        def file_50_url(self):
+            if self.file_50:
+                return self.file_50.url
+            return "/media/default/default_photo_50.png"
 
-    def file_300_url(self):
-        if self.file_300:
-            return self.file_300.url
-        return settings.AWS_S3_SCHEME + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_300.png"
+        def file_300_url(self):
+            if self.file_300:
+                return self.file_300.url
+            return "/media/default/default_photo_300.png"
+    else:
+        def file_50_url(self):
+            if self.file_50:
+                return self.file_50.url
+            return settings.AWS_S3_SCHEME + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_50.png"
+
+        def file_300_url(self):
+            if self.file_300:
+                return self.file_300.url
+            return settings.AWS_S3_SCHEME + settings.AWS_S3_CUSTOM_DOMAIN + "/media/default/default_photo_300.png"
