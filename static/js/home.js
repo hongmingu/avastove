@@ -14,7 +14,6 @@ $(function () {
 
                 $('#content').append(appender)
                 $('#post_last_id').html(value.id)
-
             })
             if (data.last === null) {
                 $('#home_feed_more_load').addClass('hidden')

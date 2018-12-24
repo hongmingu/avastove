@@ -24,7 +24,6 @@ $(function () {
 
                         })
                     }
-
                     if (data.user_next === null) {
                         $('#more_user_load').addClass('hidden')
                         $('#next_id').html('')

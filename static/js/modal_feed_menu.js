@@ -9,7 +9,6 @@ $("#modal_feed_menu").on("shown.bs.modal", function () {
         $('#clicked_post_id').html('')
         $('#modal_feed_input').val('')
     });
-
     $('#modal_feed_menu_copy').click(function (e) {
         e.preventDefault()
         var clicked_post = $('#clicked_post_id').html()

@@ -22,7 +22,6 @@ $(function () {
 
         }
     })
-
     $('#more_load').click(function (e) {
         e.preventDefault()
         $.ajax({

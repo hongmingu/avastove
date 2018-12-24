@@ -5,7 +5,6 @@ $(function () {
             data: {
             },
             success: function (data) {
-                console.log(data)
                 if (data.res === 1){
                     if(data.notice_count > 0){
                         $('#badge_note').html(data.notice_count)

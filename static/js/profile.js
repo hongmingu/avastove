@@ -107,7 +107,6 @@ $(function () {
     var height = $(window).height();
     $('.modal_follow_wrapper').css('max-height', height - 120);
     $(window).on('resize', function () {
-
         if ($(window).height() != height) {
             height = $(window).height();
             $('.modal_follow_wrapper').css('max-height', height - 120);

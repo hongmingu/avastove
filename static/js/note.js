@@ -66,7 +66,6 @@ $(function () {
                         break;
                 }
                 $('#content').append(appender)
-
             })
             if (data.next === null) {
                 $('#more_load').addClass('hidden')

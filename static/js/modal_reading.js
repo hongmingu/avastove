@@ -34,7 +34,6 @@ $(function () {
                                 } else if (1000 <= value.rest_count) {
                                     rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
-
                                 prepender = $(rest_messages)
                                 break;
                             case 'text':

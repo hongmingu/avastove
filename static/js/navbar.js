@@ -5,7 +5,6 @@ $(function () {
     });
     var width = $(window).width();
     if (!(width >= 768)) {
-        //작으면
         if (!$("#nav_div_ul_li_search").length) {
             $("#nav_div_ul_li_bsearch").after('<li id="nav_div_ul_li_search"><a class="padding_15_i" href="#" id="nav_div_ul_li_a_search"><i class="glyphicon glyphicon-search"></i></a></li>')
             $("#nav_div_ul_li_a_search").click(function () {

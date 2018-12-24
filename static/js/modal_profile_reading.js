@@ -113,7 +113,6 @@ $(function () {
                                 }
 
                                 break;
-
                             case 'photo':
 
                                 if (value.you_say === true) {

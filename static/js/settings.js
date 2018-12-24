@@ -46,7 +46,6 @@ $('#span_change_photo').click(function (e) {
           reader.readAsDataURL(this.files[0]);
         }
       });
-
       /* SCRIPTS TO HANDLE THE CROPPER BOX */
     var image;
       var cropper

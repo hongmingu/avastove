@@ -5,7 +5,6 @@ $(function () {
     $('#open_close').val('open')
     $('#title_content').val('')
     $('#description_content').val('')
-
     $('#your_profile').click(function (e) {
         e.preventDefault()
         if ($(this).hasClass('choice_unselected')) {

@@ -22,7 +22,6 @@ $(function () {
                             $('#content_post').append(appender)
                         })
                     }
-
                     //여기에 모달들 추가해줘야 포스트 작동함. 그 후 모어로드 후 나머지 서치 구현 예
                     if (data.post_next === null) {
                         $('#more_post_load').addClass('hidden')

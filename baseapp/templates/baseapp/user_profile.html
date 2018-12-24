@@ -23,21 +23,20 @@
     <meta name="twitter:site" content="@avastove"/>
     <meta name="twitter:creator" content="@{{ chosen_user.userusername.username }}">
     {% load static from staticfiles %}
-    <script src="{% static 'js/navbar.js' %}"></script>
-    <script src="{% static 'js/a_selected.js' %}"></script>
-    <script src="{% static 'js/date_differ.js' %}"></script>
-    <script src="{% static 'js/profile.js' %}"></script>
-    <script src="{% static 'js/profile_populate.js' %}"></script>
-    <script src="{% static 'js/modal_resize.js' %}"></script>
-    <script src="{% static 'js/modal_feed_menu.js' %}"></script>
-    <script src="{% static 'js/modal_opens.js' %}"></script>
-    <script src="{% static 'js/modal_profile_reading.js' %}"></script>
+    <script src="{% static 'js/navbar.min.js' %}"></script>
+    <script src="{% static 'js/a_selected.min.js' %}"></script>
+    <script src="{% static 'js/date_differ.min.js' %}"></script>
+    <script src="{% static 'js/profile.min.js' %}"></script>
+    <script src="{% static 'js/profile_populate.min.js' %}"></script>
+    <script src="{% static 'js/modal_resize.min.js' %}"></script>
+    <script src="{% static 'js/modal_feed_menu.min.js' %}"></script>
+    <script src="{% static 'js/modal_opens.min.js' %}"></script>
+    <script src="{% static 'js/modal_profile_reading.min.js' %}"></script>
 
 </head>
 <body class="light_background_color height_100">
 <!--navbar start-->
 {% include 'baseapp/_navbar.html' %}
-{% include 'others/bootstrap_tester.html' %}
 <div class="hidden" id="page_kind">user</div>
 
 <div class="hidden" id="chosen_user_id">{{ chosen_user.username }}</div>

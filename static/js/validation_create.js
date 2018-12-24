@@ -5,7 +5,6 @@ var validate_base = (function validate_base() {
             'password', 'qwerty', 'superman', '123456', '1234567', '12345678', '123456789', '1234567890', '012345', '0123456',
             '01234567', '012345678', '0123456789', '111111', 'aaaaaa'
         ];
-
         var name = $('#id_name').val();
         var username = $('#id_username').val();
         var email = $('#id_email').val();

@@ -21,7 +21,6 @@ $(function () {
         open = 'close'
     })
 
-
     $('#ok').click(function (e) {
         e.preventDefault()
         var title_command, desc_command;
@@ -309,7 +308,8 @@ $(function () {
     var save_this;
     $("#modal_chat").on("shown.bs.modal", function () {
         image = document.getElementById('img_chat_hidden');
-        cropper = new Cropper(image,);
+        cropper = new Cropper(image,{
+          });
         var rotate_from = cropper.getData()
         $('#img_chat').each(function () {
             var deg = rotate_from['rotate'];

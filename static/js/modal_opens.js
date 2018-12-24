@@ -11,7 +11,6 @@ $(function () {
             }
         });
             var post_id = $('#clicked_post_id').html()
-
             $.ajax({url:'/re/post/follow/list/', type:'post', dataType:'json', cache:false,
                 data:{
                     post_id: post_id,

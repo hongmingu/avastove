@@ -9,7 +9,6 @@ var home_populate = function home_populate(post_id_value) {
                 post_id: post_id_value,
             },
             success: function (data) {
-
                 if (data.res === 1) {
                     var _last_chat;
                     switch (data.set.last_chat.kind) {

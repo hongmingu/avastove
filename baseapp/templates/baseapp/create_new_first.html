@@ -6,9 +6,9 @@
     {% include 'others/favicon.html' %}
     {% include 'others/header_metas.html' %}
     {% load static from staticfiles %}
-    <script src="{% static 'js/navbar.js' %}"></script>
-    <script src="{% static 'js/a_selected.js' %}"></script>
-    <script src="{% static 'js/create_new.js' %}"></script>
+    <script src="{% static 'js/navbar.min.js' %}"></script>
+    <script src="{% static 'js/a_selected.min.js' %}"></script>
+    <script src="{% static 'js/create_new.min.js' %}"></script>
 
     <link rel="stylesheet" href="{% static 'cropper/cropper.min.css' %}">
     <script src="{% static 'cropper/cropper.min.js' %}"></script>
@@ -17,7 +17,6 @@
 <body class="light_background_color height_100">
 {% include 'baseapp/_navbar.html' %}
 
-{% include 'others/bootstrap_tester.html' %}
 
 <div class="hidden" id="page_kind" data-u="create_new"></div>
 <div class="hidden" id="last_num" data-u=""></div>

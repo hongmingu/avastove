@@ -1,5 +1,4 @@
-
-    var date_differ = function date_differ(datetime){
+   var date_differ = function date_differ(datetime){
         var minute_unit = 1000 * 60; // hour
         var hour_unit = 1000 * 60 * 60; // hour
         var day_unit = 1000 * 60 * 60 * 24;// day
