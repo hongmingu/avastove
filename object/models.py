@@ -119,7 +119,7 @@ class PostChat(models.Model):
     you_say = models.BooleanField(default=True)
     before = models.ForeignKey("PostChat", on_delete=models.CASCADE, null=True, blank=True)
     kind = models.PositiveSmallIntegerField(choices=KINDS_CHOICES, default=0)
-    uuid = models.CharField(max_length=34, unique=True, default=uuid.uuid4().hex)
+    uuid = models.CharField(max_length=34, unique=True, null=True, blank=True, default=None)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
@@ -167,6 +167,22 @@ class PostChat(models.Model):
         elif self.kind == POSTCHAT_START:
             return 'start'
 
+
+class PostRead(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    post = models.ForeignKey("Post", on_delete=models.CASCADE, null=True, blank=True)
+    post_chat_uuid = models.CharField(max_length=34, unique=True, null=True, blank=True, default=None)
+    post_chat_datetime = models.DateTimeField(default=None, null=True, blank=True)
+    updated = models.DateTimeField(auto_now=True)
+    created = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return "user: %s, post: %s" % (self.user.userusername.username, self.post.uuid)
+
+    class Meta:
+        unique_together = ('user', 'post',)
+
+
 class PostChatRead(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     post = models.ForeignKey("Post", on_delete=models.CASCADE, null=True, blank=True)
@@ -205,7 +221,7 @@ class PostChatPhoto(models.Model):
 class PostChatRestMessage(models.Model):
     post_chat = models.ForeignKey("PostChat", on_delete=models.CASCADE, null=True, blank=True)
     text = models.TextField(max_length=1000, null=True, blank=True)
-    uuid = models.CharField(max_length=34, unique=True, default=uuid.uuid4().hex)
+    uuid = models.CharField(max_length=34, unique=True, null=True, blank=True, default=None)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
 
@@ -230,7 +246,7 @@ class PostChatRestMessageCount(models.Model):
 class PostComment(models.Model):
     post = models.ForeignKey("Post", on_delete=models.CASCADE, null=True, blank=True)
     text = models.TextField(max_length=1000, null=True, blank=True)
-    uuid = models.CharField(max_length=34, unique=True, default=uuid.uuid4().hex)
+    uuid = models.CharField(max_length=34, unique=True, null=True, blank=True, default=None)
 
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True)

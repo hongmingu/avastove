@@ -15,7 +15,7 @@ $(function () {
             },
             success: function (data) {
                 if (data.res === 1) {
-                    var start = false
+                    var start = false;
                     $.each(data.set, function (key, value) {
                         if (key === 0) {
                             $('#reading_post_chat_last_id').html(value.id)
@@ -404,10 +404,10 @@ $(function () {
                         $('#reading_chat_started').removeClass('hidden')
                     }
 
+                    $(".modal_reading_chat").animate({scrollTop: $('.modal_reading_chat').prop("scrollHeight")}, 400);
                 }
             }
         })
-        $(".modal_reading_chat").animate({scrollTop: $('.modal_reading_chat').prop("scrollHeight")}, 500);
 
     }).on("hidden.bs.modal", function () {
         var post_id = $('#reading_post_id').html()

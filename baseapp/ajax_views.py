@@ -181,9 +181,13 @@ def re_create_new_text(request):
                 post_chat = PostChat.objects.create(post=post, kind=POSTCHAT_TEXT, before=post_chat_last,
                                                     you_say=you_say, uuid=uuid.uuid4().hex)
                 post_chat_text = PostChatText.objects.create(post_chat=post_chat, text=request.POST.get('text', None))
-                post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat,
-                                                             user=request.user)
 
+                # post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat,
+                #                                              user=request.user)
+                post_read, created = PostRead.objects.get_or_create(post=post, user=request.user)
+                post_read.post_chat_datetime = post_chat.created
+                post_read.post_chat_uuid = post_chat.uuid
+                post_read.save()
                 return JsonResponse({'res': 1, 'content': post_chat.get_value()})
 
         return JsonResponse({'res': 2})
@@ -249,7 +253,12 @@ def re_create_new_chat_photo(request):
                     post_chat = PostChat.objects.create(kind=POSTCHAT_PHOTO, post=post, before=post_chat_last,
                                                         you_say=you_say, uuid=uuid.uuid4().hex)
                     post_chat_photo = PostChatPhoto.objects.create(post_chat=post_chat)
-                    post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat, user=request.user)
+                    # post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat, user=request.user)
+
+                    post_read, created = PostRead.objects.get_or_create(post=post, user=request.user)
+                    post_read.post_chat_datetime = post_chat.created
+                    post_read.post_chat_uuid = post_chat.uuid
+                    post_read.save()
 
                     DJANGO_TYPE = request.FILES['file'].content_type
 
@@ -686,7 +695,7 @@ def re_user_home_populate(request):
                 post_id = request.POST.get('post_id', None)
                 try:
                     post = Post.objects.get(uuid=post_id)
-                except:
+                except Exception as e:
                     return JsonResponse({'res': 0})
                 from django.db.models import Q
                 name = post.user.usertextname.name
@@ -698,6 +707,160 @@ def re_user_home_populate(request):
                 you_liked = False
                 if PostLike.objects.filter(user=request.user, post=post).exists():
                     you_liked = True
+
+                last_post_chat = PostChat.objects.filter(post=post).last()
+
+                post_chat = None
+                post_chat_last_chat = None
+                if last_post_chat.kind == POSTCHAT_START:
+                    post_chat_last_chat = {'kind': 'start'}
+
+                elif last_post_chat.kind == POSTCHAT_TEXT:
+                    post_chat = last_post_chat
+                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.you_say, 'text': escape(post_chat.postchattext.text)}
+                elif last_post_chat.kind == POSTCHAT_PHOTO:
+                    post_chat = last_post_chat
+                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.you_say, 'url': post_chat.postchatphoto.file.url}
+
+                post_read = None
+                try:
+                    post_read = PostRead.objects.get(post=post, user=request.user)
+                except Exception as e:
+                    pass
+
+                new = True
+                if post_read is not None:
+                    if post_read.post_chat_datetime >= PostChat.objects.filter(post=post).last().created:
+                        new = False
+
+                user_follow = False
+                if Follow.objects.filter(user=request.user, follow=post.user).exists() or request.user == post.user:
+                    user_follow = True
+
+                post_follow = False
+                if PostFollow.objects.filter(post=post, user=request.user).exists():
+                    post_follow = True
+
+                _title = None
+                if post.title is None:
+                    _title = ''
+                else:
+                    _title = post.title
+                _description = None
+                if post.description is None:
+                    _description = ''
+                else:
+                    _description = post.description
+                output = {'title': escape(_title),
+                          'desc': escape(_description),
+                          'username': post.user.userusername.username,
+                          'user_id': post.user.username,
+                          'name': escape(name),
+                          'photo': profile_photo,
+                          'created': post.post_chat_created,
+                          'last_chat': post_chat_last_chat,
+                          'absolute_url': post.get_absolute_url(),
+                          'id': post.uuid,
+                          'like_count': post.postlikecount.count,
+                          'you_liked': you_liked,
+                          'comment_count': post.postcommentcount.count,
+                          'three_comments': post.get_three_comments(),
+                          'new': new,
+                          'user_follow': user_follow,
+                          'post_follow': post_follow,
+                          'post_follow_count': post.postfollowcount.count,
+                          }
+                return JsonResponse({'res': 1, 'set': output})
+        else:
+            if request.is_ajax():
+                post_id = request.POST.get('post_id', None)
+                try:
+                    post = Post.objects.get(uuid=post_id)
+                except:
+                    return JsonResponse({'res': 0})
+                from django.db.models import Q
+                name = post.user.usertextname.name
+                profile_photo = post.user.userphoto.file_50_url()
+
+                if post.has_another_profile:
+                    name = post.postprofile.name
+                    profile_photo = post.postprofile.file_50_url()
+                you_liked = False
+
+                last_post_chat = PostChat.objects.filter(post=post).last()
+
+                post_chat = None
+                post_chat_last_chat = None
+                if last_post_chat.kind == POSTCHAT_START:
+                    post_chat_last_chat = {'kind': 'start'}
+                elif last_post_chat.kind == POSTCHAT_TEXT:
+                    post_chat = last_post_chat
+                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.you_say, 'text': escape(post_chat.postchattext.text)}
+                elif last_post_chat.kind == POSTCHAT_PHOTO:
+                    post_chat = last_post_chat
+                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.you_say, 'url': post_chat.postchatphoto.file.url}
+
+                new = True
+
+                user_follow = False
+
+                post_follow = False
+
+                _title = None
+                if post.title is None:
+                    _title = ''
+                else:
+                    _title = post.title
+                _description = None
+                if post.description is None:
+                    _description = ''
+                else:
+                    _description = post.description
+                output = {'title': escape(_title),
+                          'desc': escape(_description),
+                          'username': post.user.userusername.username,
+                          'user_id': post.user.username,
+                          'name': escape(name),
+                          'photo': profile_photo,
+                          'created': post.created,
+                          'last_chat': post_chat_last_chat,
+                          'absolute_url': post.get_absolute_url(),
+                          'id': post.uuid,
+                          'like_count': post.postlikecount.count,
+                          'you_liked': you_liked,
+                          'comment_count': post.postcommentcount.count,
+                          'three_comments': post.get_three_comments(),
+                          'new': new,
+                          'user_follow': user_follow,
+                          'post_follow': post_follow,
+                          'post_follow_count': post.postfollowcount.count,
+                          }
+                return JsonResponse({'res': 1, 'set': output})
+
+        return JsonResponse({'res': 2})
+
+'''
+@ensure_csrf_cookie
+def re_user_home_populate(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            if request.is_ajax():
+                post_id = request.POST.get('post_id', None)
+                try:
+                    post = Post.objects.get(uuid=post_id)
+                except Exception as e:
+                    return JsonResponse({'res': 0})
+                from django.db.models import Q
+                name = post.user.usertextname.name
+                profile_photo = post.user.userphoto.file_50_url()
+
+                if post.has_another_profile:
+                    name = post.postprofile.name
+                    profile_photo = post.postprofile.file_50_url()
+                you_liked = False
+                if PostLike.objects.filter(user=request.user, post=post).exists():
+                    you_liked = True
+
                 post_chat_read = PostChatRead.objects.filter(post=post, user=request.user).last()
                 post_chat = None
                 post_chat_last_chat = None
@@ -847,7 +1010,115 @@ def re_user_home_populate(request):
                 return JsonResponse({'res': 1, 'set': output})
 
         return JsonResponse({'res': 2})
+'''
+@ensure_csrf_cookie
+def re_post_already_read(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            if request.is_ajax():
+                post_id = request.POST.get('post_id', None)
+                step = 20
+                try:
+                    # post = Post.objects.last()
+                    post = Post.objects.get(uuid=post_id)
+                except Exception as e:
+                    return JsonResponse({'res': 0})
 
+                try:
+                    post_chats = PostChat.objects.filter(post=post).order_by('-created')[:step]
+                except Exception as e:
+                    return JsonResponse({'res': 0})
+
+                output = []
+                last_post_chat = None
+                if post_chats:
+                    first_check = True
+                    for post_chat in post_chats:
+                        try:
+                            count = post_chat.postchatlikecount.count
+                        except:
+                            count = None
+                        # 여기서 you_like 부터 시작해야한다.
+                        you_like = False
+                        if PostChatLike.objects.filter(user=request.user, post_chat=post_chat).exists():
+                            you_like = True
+                        sub_output = {
+                            'id': post_chat.uuid,
+                            'kind': post_chat_kind_converter(post_chat.kind),
+                            'like_count': count,
+                            'created': post_chat.created,
+                            'you_say': post_chat.you_say,
+                            'content': post_chat.get_raw_value(),
+                            'rest_count': post_chat.postchatrestmessagecount.count,
+                            'you_like': you_like
+                        }
+
+                        output.append(sub_output)
+
+                        if first_check is True:
+                            last_post_chat = post_chat
+                        first_check = False
+
+                next = None
+
+                post_read, created = PostRead.objects.get_or_create(post=post, user=request.user)
+                post_chat_last = PostChat.objects.filter(post=post).last()
+                post_read.post_chat_datetime = post_chat_last.created
+                post_read.post_chat_uuid = post_chat_last.uuid
+                post_read.save()
+
+                return JsonResponse({'res': 1, 'set': output, 'next': next})
+
+        else:
+            if request.is_ajax():
+                post_id = request.POST.get('post_id', None)
+                step = 20
+                try:
+                    post = Post.objects.get(uuid=post_id)
+                except:
+                    return JsonResponse({'res': 0})
+                output = []
+                try:
+                    post_chats = PostChat.objects.filter(post=post).order_by('-created')[:step]
+                except Exception as e:
+                    return JsonResponse({'res': 0})
+
+                output = []
+                last_post_chat = None
+                if post_chats:
+                    first_check = True
+                    for post_chat in post_chats:
+                        try:
+                            count = post_chat.postchatlikecount.count
+                        except:
+                            count = None
+                        # 여기서 you_like 부터 시작해야한다.
+                        you_like = False
+                        sub_output = {
+                            'id': post_chat.uuid,
+                            'kind': post_chat_kind_converter(post_chat.kind),
+                            'like_count': count,
+                            'created': post_chat.created,
+                            'you_say': post_chat.you_say,
+                            'content': post_chat.get_raw_value(),
+                            'rest_count': post_chat.postchatrestmessagecount.count,
+                            'you_like': you_like
+                        }
+
+                        output.append(sub_output)
+
+                        if first_check is True:
+                            last_post_chat = post_chat
+                        first_check = False
+
+                next = None
+
+                return JsonResponse({'res': 1, 'set': output, 'next': next})
+
+        return JsonResponse({'res': 2})
+
+
+'''
 
 @ensure_csrf_cookie
 def re_post_already_read(request):
@@ -859,12 +1130,12 @@ def re_post_already_read(request):
                 try:
                     # post = Post.objects.last()
                     post = Post.objects.get(uuid=post_id)
-                except:
+                except Exception as e:
                     return JsonResponse({'res': 0})
 
                 try:
                     post_chat_reads = PostChatRead.objects.filter(post_chat__post=post, user=request.user).order_by('-created')[:step]
-                except:
+                except Exception as e:
                     return JsonResponse({'res': 0})
 
                 post_chats = [post_chat_read.post_chat for post_chat_read in post_chat_reads]
@@ -990,7 +1261,7 @@ def re_post_already_read(request):
                 return JsonResponse({'res': 1, 'set': output, 'next': next})
 
         return JsonResponse({'res': 2})
-
+'''
 
 @ensure_csrf_cookie
 def re_post_reading_more_load(request):
@@ -1255,8 +1526,14 @@ def re_post_chat_add_say(request):
                 post_chat = PostChat.objects.create(post=post, kind=POSTCHAT_TEXT, before=post_chat_last,
                                                     you_say=you_say, uuid=uuid.uuid4().hex)
                 post_chat_text = PostChatText.objects.create(post_chat=post_chat, text=text)
-                post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat,
-                                                             user=request.user)
+
+                # post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat,
+                #                                              user=request.user)
+
+                post_read, created = PostRead.objects.get_or_create(post=post, user=request.user)
+                post_read.post_chat_datetime = post_chat.created
+                post_read.post_chat_uuid = post_chat.uuid
+                post_read.save()
 
                 return JsonResponse({'res': 1, 'text': escape(text), 'post_chat_id': post_chat.uuid})
 
@@ -1722,6 +1999,160 @@ def re_profile_populate(request):
                 you_liked = False
                 if PostLike.objects.filter(user=request.user, post=post).exists():
                     you_liked = True
+
+                last_post_chat = PostChat.objects.filter(post=post).last()
+
+                post_chat = None
+                post_chat_last_chat = None
+                if last_post_chat.kind == POSTCHAT_START:
+                    post_chat_last_chat = {'kind': 'start'}
+
+                elif last_post_chat.kind == POSTCHAT_TEXT:
+                    post_chat = last_post_chat
+                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.you_say, 'text': escape(post_chat.postchattext.text)}
+                elif last_post_chat.kind == POSTCHAT_PHOTO:
+                    post_chat = last_post_chat
+                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.you_say, 'url': post_chat.postchatphoto.file.url}
+
+                post_read = None
+                try:
+                    post_read = PostRead.objects.get(post=post, user=request.user)
+                except Exception as e:
+                    pass
+
+                new = True
+                if post_read is not None:
+                    if post_read.post_chat_datetime >= PostChat.objects.filter(post=post).last().created:
+                        new = False
+
+
+                user_follow = False
+                if Follow.objects.filter(user=request.user, follow=post.user).exists() or request.user == post.user:
+                    user_follow = True
+
+                post_follow = False
+                if PostFollow.objects.filter(post=post, user=request.user).exists():
+                    post_follow = True
+
+                _title = None
+                if post.title is None:
+                    _title = ''
+                else:
+                    _title = post.title
+                _description = None
+                if post.description is None:
+                    _description = ''
+                else:
+                    _description = post.description
+                output = {'title': escape(_title),
+                          'desc': escape(_description),
+                          'username': post.user.userusername.username,
+                          'user_id': post.user.username,
+                          'name': escape(name),
+                          'photo': profile_photo,
+                          'created': post.post_chat_created,
+                          'last_chat': post_chat_last_chat,
+                          'absolute_url': post.get_absolute_url(),
+                          'id': post.uuid,
+                          'like_count': post.postlikecount.count,
+                          'you_liked': you_liked,
+                          'comment_count': post.postcommentcount.count,
+                          'three_comments': post.get_three_comments(),
+                          'new': new,
+                          'user_follow': user_follow,
+                          'post_follow': post_follow,
+                          'post_follow_count': post.postfollowcount.count,
+                          }
+                return JsonResponse({'res': 1, 'set': output})
+        else:
+            if request.is_ajax():
+                post_id = request.POST.get('post_id', None)
+                try:
+                    post = Post.objects.get(uuid=post_id)
+                except:
+                    return JsonResponse({'res': 0})
+                from django.db.models import Q
+                name = post.user.usertextname.name
+                profile_photo = post.user.userphoto.file_50_url()
+
+                if post.has_another_profile:
+                    name = post.postprofile.name
+                    profile_photo = post.postprofile.file_50_url()
+                you_liked = False
+
+                last_post_chat = PostChat.objects.filter(post=post).last()
+
+                post_chat = None
+                post_chat_last_chat = None
+                if last_post_chat.kind == POSTCHAT_START:
+                    post_chat_last_chat = {'kind': 'start'}
+                elif last_post_chat.kind == POSTCHAT_TEXT:
+                    post_chat = last_post_chat
+                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.you_say, 'text': escape(post_chat.postchattext.text)}
+                elif last_post_chat.kind == POSTCHAT_PHOTO:
+                    post_chat = last_post_chat
+                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.you_say, 'url': post_chat.postchatphoto.file.url}
+
+                new = True
+
+                user_follow = False
+
+                post_follow = False
+
+                _title = None
+                if post.title is None:
+                    _title = ''
+                else:
+                    _title = post.title
+                _description = None
+                if post.description is None:
+                    _description = ''
+                else:
+                    _description = post.description
+                output = {'title': escape(_title),
+                          'desc': escape(_description),
+                          'username': post.user.userusername.username,
+                          'user_id': post.user.username,
+                          'name': escape(name),
+                          'photo': profile_photo,
+                          'created': post.created,
+                          'last_chat': post_chat_last_chat,
+                          'absolute_url': post.get_absolute_url(),
+                          'id': post.uuid,
+                          'like_count': post.postlikecount.count,
+                          'you_liked': you_liked,
+                          'comment_count': post.postcommentcount.count,
+                          'three_comments': post.get_three_comments(),
+                          'new': new,
+                          'user_follow': user_follow,
+                          'post_follow': post_follow,
+                          'post_follow_count': post.postfollowcount.count,
+                          }
+                return JsonResponse({'res': 1, 'set': output})
+
+        return JsonResponse({'res': 2})
+'''
+
+@ensure_csrf_cookie
+def re_profile_populate(request):
+    if request.method == "POST":
+        if request.user.is_authenticated:
+            if request.is_ajax():
+                post_id = request.POST.get('post_id', None)
+                try:
+                    post = Post.objects.get(uuid=post_id)
+                except:
+                    return JsonResponse({'res': 0})
+                from django.db.models import Q
+                name = post.user.usertextname.name
+                profile_photo = post.user.userphoto.file_50_url()
+
+                if post.has_another_profile:
+                    name = post.postprofile.name
+                    profile_photo = post.postprofile.file_50_url()
+                you_liked = False
+                if PostLike.objects.filter(user=request.user, post=post).exists():
+                    you_liked = True
                 post_chat_read = PostChatRead.objects.filter(post=post, user=request.user).last()
                 post_chat = None
                 post_chat_last_chat = None
@@ -1871,7 +2302,7 @@ def re_profile_populate(request):
                 return JsonResponse({'res': 1, 'set': output})
 
         return JsonResponse({'res': 2})
-
+'''
 
 @ensure_csrf_cookie
 def re_post_like_list(request):

@@ -405,10 +405,12 @@ $(function () {
                         $('#reading_chat_started').removeClass('hidden')
                     }
 
+                    $(".modal_reading_chat").animate({scrollTop: $('.modal_reading_chat').prop("scrollHeight")}, 400);
+
                 }
             }
         })
-        $(".modal_reading_chat").animate({scrollTop: $('.modal_reading_chat').prop("scrollHeight")}, 500);
+
 
     }).on("hidden.bs.modal", function () {
         var post_id = $('#reading_post_id').html()
