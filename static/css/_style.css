@@ -663,8 +663,6 @@ a:active {
 }
 
 .chat_preview_size {
-    display: inline-block;
-    max-width: 80%;
 }
 
 .chat_preview_name {
@@ -882,11 +880,15 @@ a:active {
 }
 
 .reading_chat_content_someone {
-    background-color: #fff7cd;
-
+    border: solid 1px orange;
+    margin-top: 8px;
+    padding: 10px;
 }
+
 .reading_chat_content_i {
-    background-color: orange;
+    background-color: #ffd876;
+    margin-top: 8px;
+    padding: 10px
 
 }
 .reading_chat_name {
@@ -894,12 +896,12 @@ a:active {
 }
 
 .reading_chat_text {
-    padding: 3px;
+    padding: 10px;
     color: black;
 }
 
 .reading_chat_text_someone {
-    padding: 3px;
+    padding: 10px;
     color: black;
 }
 
@@ -917,7 +919,8 @@ a:active {
 }
 
 .reading_like {
-    font-size: 12px;
+    margin-left: 4px;
+    font-size: 10px;
     color: #ff0a02;
 }
 
@@ -927,7 +930,7 @@ a:active {
 
 .reading_chat_rest {
     background-color: whitesmoke;
-    padding: 3px;
+    margin-bottom: 8px;
 }
 
 .reading_chat_rest_name {
@@ -936,7 +939,6 @@ a:active {
 }
 
 .reading_chat_rest_text {
-    background-color: lightgray;
     padding: 5px;
     font-size: 12px;
     border-radius: 3px;
@@ -958,7 +960,9 @@ a:active {
     padding: 2px;
     font-size: 12px
 }
-
+.modal_reading_interaction{
+    height: 70px!important;
+}
 .reading_chat_interaction_white {
     background-color: orange;
     color: white;
@@ -1010,7 +1014,6 @@ a:active {
     border-radius: 3px;
     font-size: 10px;
     color: white;
-    margin-right: 55px;
 }
 
 .reading_chat_rest_time {

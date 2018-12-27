@@ -726,10 +726,12 @@ def re_user_home_populate(request):
                 try:
                     post_read = PostRead.objects.get(post=post, user=request.user)
                 except Exception as e:
+                    print(e)
                     pass
-
+                print(str(post_read))
                 new = True
                 if post_read is not None:
+                    print(str(post_read.post_chat_datetime))
                     if post_read.post_chat_datetime >= PostChat.objects.filter(post=post).last().created:
                         new = False
 

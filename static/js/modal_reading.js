@@ -3,7 +3,7 @@ $(function () {
 
         var height = $(window).height();
         $('#modal_reading_post_content').css('height', height - 16);
-        $('#modal_reading_chat').css('height', height - 16 - 70 - 35 - 20)
+        $('#modal_reading_chat').css('height', height - 16 - 70 - 35 - 30)
 
         var reading_post_id = $('#reading_post_id').html()
         var reading_post_profile_photo = $('#reading_post_profile_photo').html()
@@ -997,7 +997,6 @@ $(function () {
 
                     })
                     $('#modal_reading_chat').append(prepender)
-                    $(".modal_reading_chat").animate({scrollTop: $('.modal_reading_chat').prop("scrollHeight")}, 500);
 
                 })
                 if (data.next === null) {
@@ -1020,8 +1019,11 @@ $(function () {
                     }
                     //다른사람 글 볼때 딜리트 활성화 제거 .
                 }
+
             }
         })
+        $(".modal_reading_chat").animate({scrollTop: $('.modal_reading_chat').prop("scrollHeight")}, 500);
+
 
     })
 

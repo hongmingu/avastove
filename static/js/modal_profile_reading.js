@@ -3,7 +3,7 @@ $(function () {
 
         var height = $(window).height();
         $('#modal_reading_post_content').css('height', height - 16);
-        $('#modal_reading_chat').css('height', height - 16 - 70 - 35 - 20)
+        $('#modal_reading_chat').css('height', height - 16 - 70 - 35 - 30)
 
         var reading_post_id = $('#reading_post_id').html()
         var reading_post_profile_photo = $('#reading_post_profile_photo').html()

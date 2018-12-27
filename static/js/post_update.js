@@ -137,11 +137,11 @@ $(function () {
                 success: function (data) {
                     if (data.res === 1) {
                         if (data.content.you_say === false) {
-                            var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + data.content.id + '"align="right">\n' +
+                            var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + data.content.id + '" align="left">\n' +
                                 '<div class="chat_preview_size">\n' +
                                 '<div><span class="chat_preview_name">someone</span></div>\n' +
                                 '<div class="chat_preview_you_saying">' + data.content.text + '</div>\n' +
-                                '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + data.content.id + '" >delete</span></a></div>\n' +
+                                '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + data.content.id + '" >delete</span></a></div>\n' +
                                 '</div>\n' +
                                 '</div>')
                             chat_preview.find('.chat_preview_delete').on('click', function (e) {
@@ -222,11 +222,11 @@ $(function () {
             success: function (data) {
                 if (data.res === 1) {
                     if (data.content.you_say === false) {
-                        var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + data.content.id + '"align="right">\n' +
+                        var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + data.content.id + '" align="left">\n' +
                             '<div class="chat_preview_size">\n' +
                             '<div><span class="chat_preview_name">someone</span></div>\n' +
                             '<div class="chat_preview_you_saying">' + data.content.text + '</div>\n' +
-                            '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + data.content.id + '" >delete</span></a></div>\n' +
+                            '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + data.content.id + '" >delete</span></a></div>\n' +
                             '</div>\n' +
                             '</div>')
                         chat_preview.find('.chat_preview_delete').on('click', function (e) {
@@ -387,11 +387,11 @@ $(function () {
             success: function (data) {
                 if (data.res === 1) {
                     if (data.content.you_say === false) {
-                        var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + data.content.id + '"align="right">\n' +
+                        var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + data.content.id + '" align="left">\n' +
                             '<div class="chat_preview_size">\n' +
                             '<div><span class="chat_preview_name">someone</span></div>\n' +
                             '<div align="right"><img class="chat_preview_img" src="' + data.content.url + '"></div>' +
-                            '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + data.content.id + '" >delete</span></a></div>\n' +
+                            '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + data.content.id + '" >delete</span></a></div>\n' +
                             '</div>\n' +
                             '</div>')
                         chat_preview.find('.chat_preview_delete').on('click', function (e) {
@@ -479,11 +479,11 @@ $(function () {
                             break;
                         case 'text':
                             if (value.you_say === false) {
-                                var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '"align="right">\n' +
+                                var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '" align="left">\n' +
                                     '<div class="chat_preview_size">\n' +
                                     '<div><span class="chat_preview_name">someone</span></div>\n' +
                                     '<div class="chat_preview_you_saying">' + value.text + '</div>\n' +
-                                    '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
+                                    '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
                                     '</div>\n' +
                                     '</div>')
                                 chat_preview.find('.chat_preview_delete').on('click', function (e) {
@@ -543,11 +543,11 @@ $(function () {
                             break;
                         case 'photo':
                             if (value.you_say === false) {
-                                var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '"align="right">\n' +
+                                var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '" align="left">\n' +
                                     '<div class="chat_preview_size">\n' +
                                     '<div><span class="chat_preview_name">someone</span></div>\n' +
                                     '<div align="right"><img class="chat_preview_img" src="' + value.url + '"></div>' +
-                                    '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
+                                    '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
                                     '</div>\n' +
                                     '</div>')
                                 chat_preview.find('.chat_preview_delete').on('click', function (e) {
@@ -648,11 +648,11 @@ $(function () {
                                 break;
                             case 'text':
                                 if (value.you_say === false) {
-                                    var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '"align="right">\n' +
+                                    var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '" align="left">\n' +
                                         '<div class="chat_preview_size">\n' +
                                         '<div><span class="chat_preview_name">someone</span></div>\n' +
                                         '<div class="chat_preview_you_saying">' + value.text + '</div>\n' +
-                                        '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
+                                        '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
                                         '</div>\n' +
                                         '</div>')
                                     chat_preview.find('.chat_preview_delete').on('click', function (e) {
@@ -711,11 +711,11 @@ $(function () {
                                 break;
                             case 'photo':
                                 if (value.you_say === false) {
-                                    var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '"align="right">\n' +
+                                    var chat_preview = $('<div class="chat_preview_wrapper" id="chat_' + value.id + '" align="left">\n' +
                                         '<div class="chat_preview_size">\n' +
                                         '<div><span class="chat_preview_name">someone</span></div>\n' +
                                         '<div align="right"><img class="chat_preview_img" src="' + value.url + '"></div>' +
-                                        '<div class="chat_preview_delete_wrapper" align="left"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
+                                        '<div class="chat_preview_delete_wrapper" align="right"><a href=""><span class="chat_preview_delete clickable hidden" data-u="' + value.id + '" >delete</span></a></div>\n' +
                                         '</div>\n' +
                                         '</div>')
                                     chat_preview.find('.chat_preview_delete').on('click', function (e) {

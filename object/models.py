@@ -170,7 +170,7 @@ class PostChat(models.Model):
 class PostRead(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     post = models.ForeignKey("Post", on_delete=models.CASCADE, null=True, blank=True)
-    post_chat_uuid = models.CharField(max_length=34, unique=True, null=True, blank=True, default=None)
+    post_chat_uuid = models.CharField(max_length=34, null=True, blank=True, default=None)
     post_chat_datetime = models.DateTimeField(default=None, null=True, blank=True)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
