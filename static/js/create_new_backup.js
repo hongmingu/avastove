@@ -113,5 +113,35 @@ $(function () {
 
 
 var create_set = (function create_set() {
+    $('#name').val($('#input_name').val())
+    $('#title_content').val($('#input_title').val())
+    $('#description_content').val($('#input_desc').val())
+    var name = $('#input_name').val()
+    var title = $('#input_title').val()
+    var description = $('#input_desc').val()
+    if ($('#whose').val() === 'other') {
+        if (name.replace(/ /g, '') === '') {
+            $('#name_clue').html('name cannot be empty').css('color', 'red')
+            $('html, body').animate({scrollTop: 0}, 400);
+            return false
+        }
+        if (!(1 <= name.length && name.length <= 30)) {
+            $('#name_clue').html('1 < name length < 30').css('color', 'red')
+            $('html, body').animate({scrollTop: 0}, 400);
+            return false
+        }
+    }
+    if ($('#title').val() === 'on') {
+        if (title.length > 1000) {
+            $('#title_clue').html('title cannot over 1000 characters').css('color', 'red')
+            return false
+        }
+    }
+    if ($('#description').val() === 'on') {
+        if (description.length > 2000) {
+            $('#desc_clue').html('description cannot ver 2000 characters').css('color', 'red')
+            return false
+        }
+    }
     return true;
 });

@@ -18,7 +18,7 @@ class Post(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     title = models.TextField(max_length=1000, null=True, blank=True, default=None)
     description = models.TextField(max_length=2000, null=True, blank=True, default=None)
-    has_another_profile = models.BooleanField(default=False)
+    # has_another_profile = models.BooleanField(default=False)
     is_open = models.BooleanField(default=True)
     uuid = models.CharField(max_length=34, unique=True, null=True, default=None)
     updated = models.DateTimeField(auto_now=True)
@@ -37,7 +37,6 @@ class Post(models.Model):
             post_chat = PostChat.objects.filter(post__uuid=self.uuid).order_by('created')[1]
         except IndexError:
             return {'kind': 'start'}
-        print(str(post_chat.kind))
         if post_chat.kind == POSTCHAT_TEXT:
             return {'kind': 'text', 'you_say': post_chat.you_say, 'text': escape(post_chat.postchattext.text)}
         elif post_chat.kind == POSTCHAT_PHOTO:
@@ -116,7 +115,7 @@ KINDS_CHOICES = (
 
 class PostChat(models.Model):
     post = models.ForeignKey(Post, on_delete=models.CASCADE, null=True, blank=True)
-    you_say = models.BooleanField(default=True)
+    i_say = models.BooleanField(default=True)
     before = models.ForeignKey("PostChat", on_delete=models.CASCADE, null=True, blank=True)
     kind = models.PositiveSmallIntegerField(choices=KINDS_CHOICES, default=0)
     uuid = models.CharField(max_length=34, unique=True, null=True, blank=True, default=None)
@@ -138,14 +137,14 @@ class PostChat(models.Model):
             except:
                 return 'error'
             # 여기서 스크립트 없애는 태그 걸어줘야 한다.
-            return {'kind': 'text', 'you_say': self.you_say, 'text': escape(post_chat_data.text), 'id': self.uuid}
+            return {'kind': 'text', 'you_say': self.i_say, 'text': escape(post_chat_data.text), 'id': self.uuid}
         elif self.kind == POSTCHAT_PHOTO:
             post_chat_data = None
             try:
                 post_chat_data = self.postchatphoto
             except:
                 return 'error'
-            return {'kind': 'photo', 'you_say': self.you_say, 'url': post_chat_data.file.url, 'id': self.uuid}
+            return {'kind': 'photo', 'you_say': self.i_say, 'url': post_chat_data.file.url, 'id': self.uuid}
         elif self.kind == POSTCHAT_START:
             return {'kind': 'start'}
 

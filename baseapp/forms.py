@@ -4,6 +4,14 @@ from object.models import Post, PostProfile, PostChatPhoto
 
 class PostCreateForm(forms.ModelForm):
 
+    open_close = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'open_close'}))
+
+    class Meta:
+        model = Post
+        fields = ['open_close']
+'''
+class PostCreateForm(forms.ModelForm):
+
     whose = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'whose'}))
     name = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'name'}), required=False)
     title = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'id': 'title'}))
@@ -15,7 +23,7 @@ class PostCreateForm(forms.ModelForm):
     class Meta:
         model = Post
         fields = ['whose', 'name', 'description', 'open_close', 'title_content', 'description_content']
-
+'''
 
 class PostProfilePhotoForm(forms.ModelForm):
     x = forms.FloatField(widget=forms.HiddenInput())

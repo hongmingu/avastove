@@ -179,7 +179,7 @@ def re_create_new_text(request):
                 if request.POST.get('you_say', None) == 'you':
                     you_say = True
                 post_chat = PostChat.objects.create(post=post, kind=POSTCHAT_TEXT, before=post_chat_last,
-                                                    you_say=you_say, uuid=uuid.uuid4().hex)
+                                                    i_say=you_say, uuid=uuid.uuid4().hex)
                 post_chat_text = PostChatText.objects.create(post_chat=post_chat, text=request.POST.get('text', None))
 
                 # post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat,
@@ -251,7 +251,7 @@ def re_create_new_chat_photo(request):
                     if request.POST.get('you_say', None) == 'someone':
                         you_say = False
                     post_chat = PostChat.objects.create(kind=POSTCHAT_PHOTO, post=post, before=post_chat_last,
-                                                        you_say=you_say, uuid=uuid.uuid4().hex)
+                                                        i_say=you_say, uuid=uuid.uuid4().hex)
                     post_chat_photo = PostChatPhoto.objects.create(post_chat=post_chat)
                     # post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat, user=request.user)
 
@@ -701,9 +701,9 @@ def re_user_home_populate(request):
                 name = post.user.usertextname.name
                 profile_photo = post.user.userphoto.file_50_url()
 
-                if post.has_another_profile:
-                    name = post.postprofile.name
-                    profile_photo = post.postprofile.file_50_url()
+                # if post.has_another_profile:
+                #     name = post.postprofile.name
+                #     profile_photo = post.postprofile.file_50_url()
                 you_liked = False
                 if PostLike.objects.filter(user=request.user, post=post).exists():
                     you_liked = True
@@ -717,10 +717,10 @@ def re_user_home_populate(request):
 
                 elif last_post_chat.kind == POSTCHAT_TEXT:
                     post_chat = last_post_chat
-                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.you_say, 'text': escape(post_chat.postchattext.text)}
+                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.i_say, 'text': escape(post_chat.postchattext.text)}
                 elif last_post_chat.kind == POSTCHAT_PHOTO:
                     post_chat = last_post_chat
-                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.you_say, 'url': post_chat.postchatphoto.file.url}
+                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.i_say, 'url': post_chat.postchatphoto.file.url}
 
                 post_read = None
                 try:
@@ -782,9 +782,9 @@ def re_user_home_populate(request):
                 name = post.user.usertextname.name
                 profile_photo = post.user.userphoto.file_50_url()
 
-                if post.has_another_profile:
-                    name = post.postprofile.name
-                    profile_photo = post.postprofile.file_50_url()
+                # if post.has_another_profile:
+                #     name = post.postprofile.name
+                #     profile_photo = post.postprofile.file_50_url()
                 you_liked = False
 
                 last_post_chat = PostChat.objects.filter(post=post).last()
@@ -795,10 +795,10 @@ def re_user_home_populate(request):
                     post_chat_last_chat = {'kind': 'start'}
                 elif last_post_chat.kind == POSTCHAT_TEXT:
                     post_chat = last_post_chat
-                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.you_say, 'text': escape(post_chat.postchattext.text)}
+                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.i_say, 'text': escape(post_chat.postchattext.text)}
                 elif last_post_chat.kind == POSTCHAT_PHOTO:
                     post_chat = last_post_chat
-                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.you_say, 'url': post_chat.postchatphoto.file.url}
+                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.i_say, 'url': post_chat.postchatphoto.file.url}
 
                 new = True
 
@@ -1047,7 +1047,7 @@ def re_post_already_read(request):
                             'kind': post_chat_kind_converter(post_chat.kind),
                             'like_count': count,
                             'created': post_chat.created,
-                            'you_say': post_chat.you_say,
+                            'you_say': post_chat.i_say,
                             'content': post_chat.get_raw_value(),
                             'rest_count': post_chat.postchatrestmessagecount.count,
                             'you_like': you_like
@@ -1099,7 +1099,7 @@ def re_post_already_read(request):
                             'kind': post_chat_kind_converter(post_chat.kind),
                             'like_count': count,
                             'created': post_chat.created,
-                            'you_say': post_chat.you_say,
+                            'you_say': post_chat.i_say,
                             'content': post_chat.get_raw_value(),
                             'rest_count': post_chat.postchatrestmessagecount.count,
                             'you_like': you_like
@@ -1293,7 +1293,7 @@ def re_post_reading_more_load(request):
                             'kind': post_chat_kind_converter(post_chat.kind),
                             'like_count': count,
                             'created': post_chat.created,
-                            'you_say': post_chat.you_say,
+                            'you_say': post_chat.i_say,
                             'content': post_chat.get_raw_value(),
                             'rest_count': post_chat.postchatrestmessagecount.count,
                             'you_like': you_like
@@ -1328,7 +1328,7 @@ def re_post_reading_more_load(request):
                             'kind': post_chat_kind_converter(post_chat.kind),
                             'like_count': count,
                             'created': post_chat.created,
-                            'you_say': post_chat.you_say,
+                            'you_say': post_chat.i_say,
                             'content': post_chat.get_raw_value(),
                             'rest_count': post_chat.postchatrestmessagecount.count,
                             'you_like': you_like
@@ -1365,7 +1365,7 @@ def re_post_chat_next_load(request):
                         'kind': post_chat_kind_converter(post_chat.kind),
                         'like_count': count,
                         'created': post_chat.created,
-                        'you_say': post_chat.you_say,
+                        'you_say': post_chat.i_say,
                         'content': post_chat.get_raw_value(),
                         'rest_count': post_chat.postchatrestmessagecount.count,
                         'you_like': you_like
@@ -1405,7 +1405,7 @@ def re_post_chat_next_load(request):
                         'kind': post_chat_kind_converter(post_chat.kind),
                         'like_count': count,
                         'created': post_chat.created,
-                        'you_say': post_chat.you_say,
+                        'you_say': post_chat.i_say,
                         'content': post_chat.get_raw_value(),
                         'rest_count': post_chat.postchatrestmessagecount.count,
                         'you_like': you_like
@@ -1524,7 +1524,7 @@ def re_post_chat_add_say(request):
                 you_say = True
 
                 post_chat = PostChat.objects.create(post=post, kind=POSTCHAT_TEXT, before=post_chat_last,
-                                                    you_say=you_say, uuid=uuid.uuid4().hex)
+                                                    i_say=you_say, uuid=uuid.uuid4().hex)
                 post_chat_text = PostChatText.objects.create(post_chat=post_chat, text=text)
 
                 # post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat,
@@ -1993,9 +1993,10 @@ def re_profile_populate(request):
                 name = post.user.usertextname.name
                 profile_photo = post.user.userphoto.file_50_url()
 
-                if post.has_another_profile:
-                    name = post.postprofile.name
-                    profile_photo = post.postprofile.file_50_url()
+                # if post.has_another_profile:
+                #     name = post.postprofile.name
+                #     profile_photo = post.postprofile.file_50_url()
+
                 you_liked = False
                 if PostLike.objects.filter(user=request.user, post=post).exists():
                     you_liked = True
@@ -2009,10 +2010,10 @@ def re_profile_populate(request):
 
                 elif last_post_chat.kind == POSTCHAT_TEXT:
                     post_chat = last_post_chat
-                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.you_say, 'text': escape(post_chat.postchattext.text)}
+                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.i_say, 'text': escape(post_chat.postchattext.text)}
                 elif last_post_chat.kind == POSTCHAT_PHOTO:
                     post_chat = last_post_chat
-                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.you_say, 'url': post_chat.postchatphoto.file.url}
+                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.i_say, 'url': post_chat.postchatphoto.file.url}
 
                 post_read = None
                 try:
@@ -2075,9 +2076,9 @@ def re_profile_populate(request):
                 name = post.user.usertextname.name
                 profile_photo = post.user.userphoto.file_50_url()
 
-                if post.has_another_profile:
-                    name = post.postprofile.name
-                    profile_photo = post.postprofile.file_50_url()
+                # if post.has_another_profile:
+                #     name = post.postprofile.name
+                #     profile_photo = post.postprofile.file_50_url()
                 you_liked = False
 
                 last_post_chat = PostChat.objects.filter(post=post).last()
@@ -2088,10 +2089,10 @@ def re_profile_populate(request):
                     post_chat_last_chat = {'kind': 'start'}
                 elif last_post_chat.kind == POSTCHAT_TEXT:
                     post_chat = last_post_chat
-                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.you_say, 'text': escape(post_chat.postchattext.text)}
+                    post_chat_last_chat = {'kind': 'text', 'you_say': post_chat.i_say, 'text': escape(post_chat.postchattext.text)}
                 elif last_post_chat.kind == POSTCHAT_PHOTO:
                     post_chat = last_post_chat
-                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.you_say, 'url': post_chat.postchatphoto.file.url}
+                    post_chat_last_chat = {'kind': 'photo', 'you_say': post_chat.i_say, 'url': post_chat.postchatphoto.file.url}
 
                 new = True
 

@@ -44,24 +44,16 @@ def create_new(request):
             if form.is_valid():
                 title = None
                 description = None
-                has_another_profile = False
-                profile_name = None
+                # has_another_profile = False
+                # profile_name = None
                 open_close = False
 
-                if form.cleaned_data['whose'] == 'other':
-                    has_another_profile = True
-                    profile_name = form.cleaned_data['name']
-                    profile_name = profile_name.strip()
-                if form.cleaned_data['title'] == 'on':
-                    title = form.cleaned_data['title_content']
-                    title = title.strip()
-                    if title == '':
-                        title = None
-                if form.cleaned_data['description'] == 'on':
-                    description = form.cleaned_data['description_content']
-                    description = description.strip()
-                    if description == '':
-                        description = None
+                # if form.cleaned_data['whose'] == 'other':
+                #     has_another_profile = True
+                #     profile_name = form.cleaned_data['name']
+                #     profile_name = profile_name.strip()
+                title = None
+                description = None
                 if form.cleaned_data['open_close'] == 'open':
                     open_close = True
 
@@ -69,11 +61,10 @@ def create_new(request):
                 post = Post.objects.create(user=request.user,
                                            title=title,
                                            description=description,
-                                           has_another_profile=has_another_profile,
                                            uuid=uuid_made,
                                            is_open=open_close)
-                if has_another_profile:
-                    PostProfile.objects.create(post=post, name=profile_name)
+                # if has_another_profile:
+                #     PostProfile.objects.create(post=post, name=profile_name)
                 post_like_count = PostLikeCount.objects.create(post=post)
                 post_comment_count = PostCommentCount.objects.create(post=post)
                 post_follow_count = PostFollowCount.objects.create(post=post)

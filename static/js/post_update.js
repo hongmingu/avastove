@@ -36,6 +36,22 @@ $(function () {
             desc_command = 'add'
         }
 
+
+        var title = $('#title_input').val()
+        var description =  $('#desc_input').val()
+        if ($('#title').val() === 'on') {
+            if (title.length > 1000) {
+                alert('title cannot over 1000 characters')
+                return false
+            }
+        }
+        if ($('#description').val() === 'on') {
+            if (description.length > 2000) {
+                alert('description cannot ver 2000 characters')
+                return false
+            }
+        }
+
         $.ajax({
             url: '/re/post/update/',
             type: 'post',
@@ -46,8 +62,8 @@ $(function () {
                 open: open,
                 title_command: title_command,
                 desc_command: desc_command,
-                title: $('#title_input').val(),
-                description: $('#desc_input').val(),
+                title: title,
+                description: description,
             },
             success: function (data) {
                 if (data.res === 1) {

@@ -38,155 +38,101 @@ $(function () {
                                 break;
                             case 'text':
                                 if (value.you_say === true) {
-                                    align = 'left';
                                     like_count = value.like_count
-                                    if (1000 <= value.like_count) {
-                                        like_count = parseInt(value.like_count / 1000)
 
-                                        like_count = like_count + 'k'
-                                    }
-                                    profile_photo = '<div class="reading_chat_img">\n' +
-                                        '<img class="img_small" src="' + reading_post_profile_photo + '"></div>\n';
-                                    chat_content = '<div class="reading_chat_content">' +
-                                        '<div class="reading_chat_name">' + reading_post_profile_name + '</div>' +
-                                        '<div class="reading_chat_text">' + value.content + '</div>' +
-                                        '</div>'
-
-                                    // 작업중인부분 ------------------------------------
                                     var heart;
                                     if (value.you_like === true) {
                                         heart = 'glyphicon-heart'
                                     } else {
                                         heart = 'glyphicon-heart-empty'
                                     }
-                                    like = '<div class="reading_like_wrapper">' +
-                                        '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
+                                    like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
+
+                                    chat_content = '<div class="reading_chat_content_i">' +
+                                        '<div>' + value.content + like + '</div>' +
                                         '</div>'
 
-                                    // 작업중인 부분------------------------------------------------------------
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
-                                    } else if (value.rest_count < 1000) {
+                                    } else {
                                         rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                    } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
-                                    prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
-                                        '</div>\n')
+                                    prepender = $('<div>' + chat_content + rest_messages + '</div>')
 
                                 } else if (value.you_say === false) {
-                                    align = 'right';
                                     like_count = value.like_count
 
-                                    if (1000 <= value.like_count) {
-                                        like_count = parseInt(value.like_count / 1000)
-                                        like_count = like_count + 'k'
-                                    }
-                                    chat_content = '<div class="reading_chat_content">' +
-                                        '<div class="reading_chat_text_someone">' + value.content + '</div>' +
-                                        '</div>'
-                                    // 작업중인부분 ------------------------------------
                                     var heart;
                                     if (value.you_like === true) {
                                         heart = 'glyphicon-heart'
                                     } else {
                                         heart = 'glyphicon-heart-empty'
                                     }
-                                    like = '<div class="reading_like_wrapper">' +
-                                        '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
+                                    like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
+
+                                    chat_content = '<div class="reading_chat_content_someone">' +
+                                        '<div>' + value.content + like + '</div>' +
                                         '</div>'
 
-
-                                    // 작업중인 부분------------------------------------------------------------
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
-                                    } else if (value.rest_count < 1000) {
+                                    } else {
                                         rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                    } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
-                                    prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
-                                        '</div>\n')
+                                    prepender = $('<div>' + chat_content + rest_messages + '</div>')
+
 
                                 }
 
                                 break;
+
                             case 'photo':
 
                                 if (value.you_say === true) {
 
-                                    align = 'left';
                                     like_count = value.like_count
 
-                                    if (1000 <= value.like_count) {
-                                        like_count = parseInt(value.like_count / 1000)
-                                        like_count = like_count + 'k'
-                                    }
-                                    profile_photo = '<div class="reading_chat_img">\n' +
-                                        '<img class="img_small" src="' + reading_post_profile_photo + '"></div>\n';
-                                    chat_content = '<div class="reading_chat_content">' +
-                                        '<div class="reading_chat_name">' + reading_post_profile_name + '</div>' +
-                                        '<div><img class="reading_chat_img" src="' + value.content + '"></div>' +
-                                        '</div>'
-                                    // 작업중인부분 ------------------------------------
                                     var heart;
                                     if (value.you_like === true) {
                                         heart = 'glyphicon-heart'
                                     } else {
                                         heart = 'glyphicon-heart-empty'
                                     }
-                                    like = '<div class="reading_like_wrapper">' +
-                                        '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
-                                        '</div>'
+                                    like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
 
-                                    // 작업중인 부분------------------------------------------------------------
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
-                                    } else if (value.rest_count < 1000) {
+                                    } else {
                                         rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                    } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
-                                    prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
-                                        '</div>\n')
+                                    chat_content = '<div class="reading_chat_content_i">' +
+                                        '<div><img class="reading_chat_img" src="' + value.content + '">' + like + '</div>' +
+                                        '</div>'
+                                    prepender = $('<div>' + chat_content + rest_messages + '</div>')
                                 } else if (value.you_say === false) {
-
-                                    align = 'right';
                                     like_count = value.like_count
 
-                                    if (1000 <= value.like_count) {
-                                        like_count = parseInt(value.like_count / 1000)
-                                        like_count = like_count + 'k'
-                                    }
-                                    chat_content = '<div class="reading_chat_content">' +
-                                        '<div><img class="reading_chat_img" src="' + value.content + '"></div>' +
-                                        '</div>'
-                                    // 작업중인부분 ------------------------------------
                                     var heart;
                                     if (value.you_like === true) {
                                         heart = 'glyphicon-heart'
                                     } else {
                                         heart = 'glyphicon-heart-empty'
                                     }
-                                    like = '<div class="reading_like_wrapper">' +
-                                        '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
-                                        '</div>'
+                                    like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
 
-                                    // 작업중인 부분------------------------------------------------------------
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
-                                    } else if (value.rest_count < 1000) {
+                                    } else {
                                         rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                    } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
-                                    prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
-                                        '</div>\n')
-
+                                    chat_content = '<div class="reading_chat_content_someone">' +
+                                        '<div><img class="reading_chat_img" src="' + value.content + '">' + like + '</div>'
+                                    '</div>'
+                                    prepender = $('<div>' + chat_content + rest_messages + '</div>')
                                 }
 
                                 break;
@@ -263,10 +209,6 @@ $(function () {
                                     $.each(data.set, function (key, value) {
                                         var like_count = value.like_count
 
-                                        if (1000 <= value.like_count) {
-                                            like_count = parseInt(value.like_count / 1000)
-                                            like_count = like_count + 'k'
-                                        }
                                         var like = ''
                                         if (value.you_like === true) {
                                             like = 'glyphicon-heart'
@@ -278,16 +220,13 @@ $(function () {
                                             delete_div = '<div align="right"><a href=""><span class="reading_chat_rest_messages_delete">delete</span></a></div>'
                                         }
                                         var pre_rest_appender = '<div class="reading_chat_rest" align="right" id="reading_chat_rest_wrapper_' + value.id + '">' +
-                                            '<div class="reading_like_wrapper">' +
-                                            '<a href=""><span id="rest_like_span_' + value.id + '"class="glyphicon ' + like + ' reading_like"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="rest_like_' + value.id + '" data-u="' + value.like_count + '">' + like_count + '</span></a>' +
-                                            '</div>' +
                                             '<div class="reading_chat_content">' +
                                             '<div class="reading_chat_rest_name"><a href="/' + value.username + '/"><span>' + value.name + '[' + value.username + ']' + '</span></a></div>\n' +
-                                            '<div class="reading_chat_rest_text">' + value.text + '<span>   </span><span class="reading_chat_rest_time">' + date_differ(value.created) + '</span></div>\n' +
+                                            '<div class="reading_chat_rest_text">' + value.text + '<span>   </span><span class="reading_chat_rest_time">' + date_differ(value.created) + '</span>' +
+                                            '<a href=""><span id="rest_like_span_' + value.id + '" class="glyphicon ' + like + ' reading_like"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="rest_like_' + value.id + '" data-u="' + value.like_count + '">' + like_count + '</span></a>' +
                                             '</div>' +
-                                            '<div class="reading_chat_img">' +
-                                            '<a href="/' + value.username + '/"><img class="img_small clickable" src="' + value.photo + '"></a>' +
-                                            '</div>' + delete_div +
+                                            '</div>' +
+                                            delete_div +
                                             '</div>'
                                         var rest_appender = $(pre_rest_appender)
                                         rest_appender.find('#rest_like_' + value.id).on('click', function (e) {
@@ -454,82 +393,55 @@ $(function () {
                                 } else if (1000 <= value.rest_count) {
                                     rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
-
                                 prepender = $(rest_messages)
                                 break;
                             case 'text':
                                 if (value.you_say === true) {
-                                    align = 'left';
                                     like_count = value.like_count
-                                    if (1000 <= value.like_count) {
-                                        like_count = parseInt(value.like_count / 1000)
 
-                                        like_count = like_count + 'k'
-                                    }
-                                    profile_photo = '<div class="reading_chat_img">\n' +
-                                        '<img class="img_small" src="' + reading_post_profile_photo + '"></div>\n';
-                                    chat_content = '<div class="reading_chat_content">' +
-                                        '<div class="reading_chat_name">' + reading_post_profile_name + '</div>' +
-                                        '<div class="reading_chat_text">' + value.content + '</div>' +
-                                        '</div>'
-
-                                    // 작업중인부분 ------------------------------------
                                     var heart;
                                     if (value.you_like === true) {
                                         heart = 'glyphicon-heart'
                                     } else {
                                         heart = 'glyphicon-heart-empty'
                                     }
-                                    like = '<div class="reading_like_wrapper">' +
-                                        '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
+                                    like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
+
+                                    chat_content = '<div class="reading_chat_content_i">' +
+                                        '<div>' + value.content + like + '</div>' +
                                         '</div>'
 
-                                    // 작업중인 부분------------------------------------------------------------
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
-                                    } else if (value.rest_count < 1000) {
+                                    } else {
                                         rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                    } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
-                                    prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
-                                        '</div>\n')
+                                    prepender = $('<div>' + chat_content + rest_messages + '</div>')
 
                                 } else if (value.you_say === false) {
-                                    align = 'right';
                                     like_count = value.like_count
 
-                                    if (1000 <= value.like_count) {
-                                        like_count = parseInt(value.like_count / 1000)
-                                        like_count = like_count + 'k'
-                                    }
-                                    chat_content = '<div class="reading_chat_content">' +
-                                        '<div class="reading_chat_text_someone">' + value.content + '</div>' +
-                                        '</div>'
-                                    // 작업중인부분 ------------------------------------
                                     var heart;
                                     if (value.you_like === true) {
                                         heart = 'glyphicon-heart'
                                     } else {
                                         heart = 'glyphicon-heart-empty'
                                     }
-                                    like = '<div class="reading_like_wrapper">' +
-                                        '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
+                                    like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
+
+                                    chat_content = '<div class="reading_chat_content_someone">' +
+                                        '<div>' + value.content + like + '</div>' +
                                         '</div>'
 
-
-                                    // 작업중인 부분------------------------------------------------------------
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
-                                    } else if (value.rest_count < 1000) {
+                                    } else {
                                         rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                    } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
-                                    prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
-                                        '</div>\n')
+                                    prepender = $('<div>' + chat_content + rest_messages + '</div>')
+
 
                                 }
 
@@ -539,76 +451,47 @@ $(function () {
 
                                 if (value.you_say === true) {
 
-                                    align = 'left';
                                     like_count = value.like_count
 
-                                    if (1000 <= value.like_count) {
-                                        like_count = parseInt(value.like_count / 1000)
-                                        like_count = like_count + 'k'
-                                    }
-                                    profile_photo = '<div class="reading_chat_img">\n' +
-                                        '<img class="img_small" src="' + reading_post_profile_photo + '"></div>\n';
-                                    chat_content = '<div class="reading_chat_content">' +
-                                        '<div class="reading_chat_name">' + reading_post_profile_name + '</div>' +
-                                        '<div><img class="reading_chat_img" src="' + value.content + '"></div>' +
-                                        '</div>'
-                                    // 작업중인부분 ------------------------------------
                                     var heart;
                                     if (value.you_like === true) {
                                         heart = 'glyphicon-heart'
                                     } else {
                                         heart = 'glyphicon-heart-empty'
                                     }
-                                    like = '<div class="reading_like_wrapper">' +
-                                        '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
-                                        '</div>'
+                                    like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
 
-                                    // 작업중인 부분------------------------------------------------------------
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
-                                    } else if (value.rest_count < 1000) {
+                                    } else {
                                         rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                    } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
-                                    prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
-                                        '</div>\n')
+                                    chat_content = '<div class="reading_chat_content_i">' +
+                                        '<div><img class="reading_chat_img" src="' + value.content + '">' + like + '</div>' +
+                                        '</div>'
+                                    prepender = $('<div>' + chat_content + rest_messages + '</div>')
                                 } else if (value.you_say === false) {
-
-                                    align = 'right';
                                     like_count = value.like_count
 
-                                    if (1000 <= value.like_count) {
-                                        like_count = parseInt(value.like_count / 1000)
-                                        like_count = like_count + 'k'
-                                    }
-                                    chat_content = '<div class="reading_chat_content">' +
-                                        '<div><img class="reading_chat_img" src="' + value.content + '"></div>' +
-                                        '</div>'
-                                    // 작업중인부분 ------------------------------------
                                     var heart;
                                     if (value.you_like === true) {
                                         heart = 'glyphicon-heart'
                                     } else {
                                         heart = 'glyphicon-heart-empty'
                                     }
-                                    like = '<div class="reading_like_wrapper">' +
-                                        '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
-                                        '</div>'
+                                    like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
 
-                                    // 작업중인 부분------------------------------------------------------------
                                     if (value.rest_count === 0) {
                                         rest_messages = ''
-                                    } else if (value.rest_count < 1000) {
+                                    } else {
                                         rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                    } else if (1000 <= value.rest_count) {
-                                        rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                     }
 
-                                    prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
-                                        '</div>\n')
-
+                                    chat_content = '<div class="reading_chat_content_someone">' +
+                                        '<div><img class="reading_chat_img" src="' + value.content + '">' + like + '</div>'
+                                    '</div>'
+                                    prepender = $('<div>' + chat_content + rest_messages + '</div>')
                                 }
 
                                 break;
@@ -684,10 +567,6 @@ $(function () {
                                     $.each(data.set, function (key, value) {
                                         var like_count = value.like_count
 
-                                        if (1000 <= value.like_count) {
-                                            like_count = parseInt(value.like_count / 1000)
-                                            like_count = like_count + 'k'
-                                        }
                                         var like = ''
                                         if (value.you_like === true) {
                                             like = 'glyphicon-heart'
@@ -699,16 +578,13 @@ $(function () {
                                             delete_div = '<div align="right"><a href=""><span class="reading_chat_rest_messages_delete">delete</span></a></div>'
                                         }
                                         var pre_rest_appender = '<div class="reading_chat_rest" align="right" id="reading_chat_rest_wrapper_' + value.id + '">' +
-                                            '<div class="reading_like_wrapper">' +
-                                            '<a href=""><span id="rest_like_span_' + value.id + '"class="glyphicon ' + like + ' reading_like"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="rest_like_' + value.id + '" data-u="' + value.like_count + '">' + like_count + '</span></a>' +
-                                            '</div>' +
                                             '<div class="reading_chat_content">' +
-                                            '<div class="reading_chat_rest_name"><a href="/' + value.username + '/"><span>' + value.name + '[' + value.username + ']' + '</span></a></a></div>\n' +
-                                            '<div class="reading_chat_rest_text">' + value.text + '<span>   </span><span class="reading_chat_rest_time">' + date_differ(value.created) + '</span></div>\n' +
+                                            '<div class="reading_chat_rest_name"><a href="/' + value.username + '/"><span>' + value.name + '[' + value.username + ']' + '</span></a></div>\n' +
+                                            '<div class="reading_chat_rest_text">' + value.text + '<span>   </span><span class="reading_chat_rest_time">' + date_differ(value.created) + '</span>' +
+                                            '<a href=""><span id="rest_like_span_' + value.id + '" class="glyphicon ' + like + ' reading_like"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="rest_like_' + value.id + '" data-u="' + value.like_count + '">' + like_count + '</span></a>' +
                                             '</div>' +
-                                            '<div class="reading_chat_img">' +
-                                            '<a href="/' + value.username + '/"><img class="img_small clickable" src="' + value.photo + '"></a>' +
-                                            '</div>' + delete_div +
+                                            '</div>' +
+                                            delete_div +
                                             '</div>'
                                         var rest_appender = $(pre_rest_appender)
 
@@ -844,80 +720,55 @@ $(function () {
                             } else if (1000 <= value.rest_count) {
                                 rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                             }
-
                             prepender = $(rest_messages)
                             break;
                         case 'text':
                             if (value.you_say === true) {
-                                align = 'left';
                                 like_count = value.like_count
-                                if (1000 <= value.like_count) {
-                                    like_count = parseInt(value.like_count / 1000)
 
-                                    like_count = like_count + 'k'
-                                }
-                                profile_photo = '<div class="reading_chat_img">\n' +
-                                    '<img class="img_small" src="' + reading_post_profile_photo + '"></div>\n';
-                                chat_content = '<div class="reading_chat_content">' +
-                                    '<div class="reading_chat_name">' + reading_post_profile_name + '</div>' +
-                                    '<div class="reading_chat_text">' + value.content + '</div>' +
-                                    '</div>'
-                                // 작업중인부분 ------------------------------------
                                 var heart;
                                 if (value.you_like === true) {
                                     heart = 'glyphicon-heart'
                                 } else {
                                     heart = 'glyphicon-heart-empty'
                                 }
-                                like = '<div class="reading_like_wrapper">' +
-                                    '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
+                                like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
+
+                                chat_content = '<div class="reading_chat_content_i">' +
+                                    '<div>' + value.content + like + '</div>' +
                                     '</div>'
 
-
-                                // 작업중인 부분------------------------------------------------------------
                                 if (value.rest_count === 0) {
                                     rest_messages = ''
-                                } else if (value.rest_count < 1000) {
+                                } else {
                                     rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                } else if (1000 <= value.rest_count) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
 
-                                prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
-                                    '</div>\n')
+                                prepender = $('<div>' + chat_content + rest_messages + '</div>')
 
                             } else if (value.you_say === false) {
-                                align = 'right';
                                 like_count = value.like_count
 
-                                if (1000 <= value.like_count) {
-                                    like_count = parseInt(value.like_count / 1000)
-                                    like_count = like_count + 'k'
-                                }
-                                chat_content = '<div class="reading_chat_content">' +
-                                    '<div class="reading_chat_text_someone">' + value.content + '</div>' +
-                                    '</div>'
-                                // 작업중인부분 ------------------------------------
                                 var heart;
                                 if (value.you_like === true) {
                                     heart = 'glyphicon-heart'
                                 } else {
                                     heart = 'glyphicon-heart-empty'
                                 }
-                                like = '<div class="reading_like_wrapper">' +
-                                    '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
+                                like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
+
+                                chat_content = '<div class="reading_chat_content_someone">' +
+                                    '<div>' + value.content + like + '</div>' +
                                     '</div>'
 
-                                // 작업중인 부분------------------------------------------------------------
                                 if (value.rest_count === 0) {
                                     rest_messages = ''
-                                } else if (value.rest_count < 1000) {
+                                } else {
                                     rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                } else if (1000 <= value.rest_count) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
-                                prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
-                                    '</div>\n')
+
+                                prepender = $('<div>' + chat_content + rest_messages + '</div>')
+
 
                             }
 
@@ -927,81 +778,52 @@ $(function () {
 
                             if (value.you_say === true) {
 
-                                align = 'left';
                                 like_count = value.like_count
 
-                                if (1000 <= value.like_count) {
-                                    like_count = parseInt(value.like_count / 1000)
-                                    like_count = like_count + 'k'
-                                }
-                                profile_photo = '<div class="reading_chat_img">\n' +
-                                    '<img class="img_small" src="' + reading_post_profile_photo + '"></div>\n';
-                                chat_content = '<div class="reading_chat_content">' +
-                                    '<div class="reading_chat_name">' + reading_post_profile_name + '</div>' +
-                                    '<div><img class="reading_chat_img" src="' + value.content + '"></div>' +
-                                    '</div>'
-                                // 작업중인부분 ------------------------------------
                                 var heart;
                                 if (value.you_like === true) {
                                     heart = 'glyphicon-heart'
                                 } else {
                                     heart = 'glyphicon-heart-empty'
                                 }
-                                like = '<div class="reading_like_wrapper">' +
-                                    '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
-                                    '</div>'
+                                like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
 
-                                // 작업중인 부분------------------------------------------------------------
                                 if (value.rest_count === 0) {
                                     rest_messages = ''
-                                } else if (value.rest_count < 1000) {
+                                } else {
                                     rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                } else if (1000 <= value.rest_count) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
-                                prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
-                                    '</div>\n')
+
+                                chat_content = '<div class="reading_chat_content_i">' +
+                                    '<div><img class="reading_chat_img" src="' + value.content + '">' + like + '</div>' +
+                                    '</div>'
+                                prepender = $('<div>' + chat_content + rest_messages + '</div>')
                             } else if (value.you_say === false) {
-
-                                align = 'right';
                                 like_count = value.like_count
 
-                                if (1000 <= value.like_count) {
-                                    like_count = parseInt(value.like_count / 1000)
-                                    like_count = like_count + 'k'
-                                }
-                                chat_content = '<div class="reading_chat_content">' +
-                                    '<div><img class="reading_chat_img" src="' + value.content + '"></div>' +
-                                    '</div>'
-                                // 작업중인부분 ------------------------------------
                                 var heart;
                                 if (value.you_like === true) {
                                     heart = 'glyphicon-heart'
                                 } else {
                                     heart = 'glyphicon-heart-empty'
                                 }
-                                like = '<div class="reading_like_wrapper">' +
-                                    '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>' +
-                                    '</div>'
+                                like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + value.id + '" data-u="' + value.id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + value.id + '">' + like_count + '</span></a>'
 
-                                // 작업중인 부분------------------------------------------------------------
                                 if (value.rest_count === 0) {
                                     rest_messages = ''
-                                } else if (value.rest_count < 1000) {
+                                } else {
                                     rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + value.rest_count + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
-                                } else if (1000 <= value.rest_count) {
-                                    rest_messages = '<div id="rest_wrapper_' + value.id + '"><a href=""><div class="reading_chat_rest_messages clickable" id="rest_start_' + value.id + '" data-u="' + value.id + '" align="center">' + parseInt(value.like_count / 1000) + 'k' + ' messages</div></a></div><a href=""><div id="rest_more_' + value.id + '" class="rest_more_load reading_chat_rest_messages hidden" data-u="' + value.id + '" align="center">more</div></a><div class="hidden" id="rest_last_' + value.id + '"></div>'
                                 }
 
-                                prepender = $('<div class="reading_chat_left" align="' + align + '">' + like + chat_content + rest_messages +
-                                    '</div>\n')
-
+                                chat_content = '<div class="reading_chat_content_someone">' +
+                                    '<div><img class="reading_chat_img" src="' + value.content + '">' + like + '</div>'
+                                '</div>'
+                                prepender = $('<div>' + chat_content + rest_messages + '</div>')
                             }
 
                             break;
                         default:
                             break;
-
                     }
                     prepender.find('#reading_like_count_' + value.id).on('click', function (e) {
                         e.preventDefault()
@@ -1073,10 +895,6 @@ $(function () {
                                 $.each(data.set, function (key, value) {
                                     var like_count = value.like_count
 
-                                    if (1000 <= value.like_count) {
-                                        like_count = parseInt(value.like_count / 1000)
-                                        like_count = like_count + 'k'
-                                    }
                                     var like = ''
                                     if (value.you_like === true) {
                                         like = 'glyphicon-heart'
@@ -1088,16 +906,13 @@ $(function () {
                                         delete_div = '<div align="right"><a href=""><span class="reading_chat_rest_messages_delete">delete</span></a></div>'
                                     }
                                     var pre_rest_appender = '<div class="reading_chat_rest" align="right" id="reading_chat_rest_wrapper_' + value.id + '">' +
-                                        '<div class="reading_like_wrapper">' +
-                                        '<a href=""><span id="rest_like_span_' + value.id + '"class="glyphicon ' + like + ' reading_like"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="rest_like_' + value.id + '" data-u="' + value.like_count + '">' + like_count + '</span></a>' +
-                                        '</div>' +
                                         '<div class="reading_chat_content">' +
                                         '<div class="reading_chat_rest_name"><a href="/' + value.username + '/"><span>' + value.name + '[' + value.username + ']' + '</span></a></div>\n' +
-                                        '<div class="reading_chat_rest_text">' + value.text + '<span>   </span><span class="reading_chat_rest_time">' + date_differ(value.created) + '</span></div>\n' +
+                                        '<div class="reading_chat_rest_text">' + value.text + '<span>   </span><span class="reading_chat_rest_time">' + date_differ(value.created) + '</span>' +
+                                        '<a href=""><span id="rest_like_span_' + value.id + '" class="glyphicon ' + like + ' reading_like"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="rest_like_' + value.id + '" data-u="' + value.like_count + '">' + like_count + '</span></a>' +
                                         '</div>' +
-                                        '<div class="reading_chat_img">' +
-                                        '<a href="/' + value.username + '/"><img class="img_small clickable" src="' + value.photo + '"></a>' +
-                                        '</div>' + delete_div +
+                                        '</div>' +
+                                        delete_div +
                                         '</div>'
                                     var rest_appender = $(pre_rest_appender)
 
@@ -1230,16 +1045,13 @@ $(function () {
                         delete_div = '<div align="right"><a href=""><span class="reading_chat_rest_messages_delete">delete</span></a></div>'
                     }
                     var pre_rest_appender = '<div class="reading_chat_rest" align="right" id="reading_chat_rest_wrapper_' + data.set.id + '">' +
-                        '<div class="reading_like_wrapper">' +
-                        '<a href=""><span id="rest_like_span_' + data.set.id + '"class="glyphicon glyphicon-heart-empty reading_like"></span></a>' +
-                        '</div>' +
                         '<div class="reading_chat_content">' +
                         '<div class="reading_chat_rest_name">' + data.set.name + '</div>\n' +
-                        '<div class="reading_chat_rest_text">' + data.set.text + '</div>\n' +
+                        '<div class="reading_chat_rest_text">' + data.set.text +
+                        '<a href=""><span id="rest_like_span_' + data.set.id + '"class="glyphicon glyphicon-heart-empty reading_like"></span></a>' +
                         '</div>' +
-                        '<div class="reading_chat_img">' +
-                        '<img class="img_small" src="' + data.set.photo + '">' +
-                        '</div>' + delete_div +
+                        '</div>' +
+                        delete_div +
                         '</div>'
                     var rest_appender = $(pre_rest_appender)
 
@@ -1320,16 +1132,13 @@ $(function () {
                     delete_div = '<div align="right"><a href=""><span class="reading_chat_rest_messages_delete">delete</span></a></div>'
                 }
                 var pre_rest_appender = '<div class="reading_chat_rest" align="right" id="reading_chat_rest_wrapper_' + data.set.id + '">' +
-                    '<div class="reading_like_wrapper">' +
-                    '<a href=""><span id="rest_like_span_' + data.set.id + '"class="glyphicon glyphicon-heart-empty reading_like"></span></a>' +
-                    '</div>' +
                     '<div class="reading_chat_content">' +
                     '<div class="reading_chat_rest_name">' + data.set.name + '</div>\n' +
-                    '<div class="reading_chat_rest_text">' + data.set.text + '</div>\n' +
+                    '<div class="reading_chat_rest_text">' + data.set.text +
+                    '<a href=""><span id="rest_like_span_' + data.set.id + '"class="glyphicon glyphicon-heart-empty reading_like"></span></a>' +
                     '</div>' +
-                    '<div class="reading_chat_img">' +
-                    '<img class="img_small" src="' + data.set.photo + '">' +
-                    '</div>' + delete_div +
+                    '</div>' +
+                    delete_div +
                     '</div>'
                 var rest_appender = $(pre_rest_appender)
 
@@ -1411,30 +1220,20 @@ $(function () {
                         var prepender, align, profile_photo, chat_content, like, like_count, rest_messages;
                         $('#reading_post_chat_last_id').html(data.post_chat_id)
 
-                        align = 'left';
-
                         like_count = 0
 
-                        profile_photo = '<div class="reading_chat_img">\n' +
-                            '<img class="img_small" src="' + reading_post_profile_photo + '"></div>\n';
-                        chat_content = '<div class="reading_chat_content">' +
-                            '<div class="reading_chat_name">' + reading_post_profile_name + '</div>' +
-                            '<div class="reading_chat_text">' + data.text + '</div>' +
-                            '</div>'
-                        // 작업중인부분 ------------------------------------
                         var heart;
                         heart = 'glyphicon-heart-empty'
 
-                        like = '<div class="reading_like_wrapper">' +
-                            '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + data.post_chat_id + '" data-u="' + data.post_chat_id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + data.post_chat_id + '">' + like_count + '</span></a>' +
-                            '</div>'
-
-
                         rest_messages = ''
 
+                        like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + data.post_chat_id + '" data-u="' + data.post_chat_id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + data.post_chat_id + '">' + like_count + '</span></a>'
 
-                        prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
-                            '</div>\n')
+                        chat_content = '<div class="reading_chat_content_i">' +
+                            '<div>' + data.text + like + '</div>' +
+                            '</div>'
+
+                        prepender = $('<div>' + chat_content + rest_messages + '</div>')
                         var last_id;
 
                         prepender.find('#reading_like_count_' + data.post_chat_id).on('click', function (e) {
@@ -1527,30 +1326,20 @@ $(function () {
                     var prepender, align, profile_photo, chat_content, like, like_count, rest_messages;
                     $('#reading_post_chat_last_id').html(data.post_chat_id)
 
-                    align = 'left';
-
                     like_count = 0
 
-                    profile_photo = '<div class="reading_chat_img">\n' +
-                        '<img class="img_small" src="' + reading_post_profile_photo + '"></div>\n';
-                    chat_content = '<div class="reading_chat_content">' +
-                        '<div class="reading_chat_name">' + reading_post_profile_name + '</div>' +
-                        '<div class="reading_chat_text">' + data.text + '</div>' +
-                        '</div>'
-                    // 작업중인부분 ------------------------------------
                     var heart;
                     heart = 'glyphicon-heart-empty'
 
-                    like = '<div class="reading_like_wrapper">' +
-                        '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + data.post_chat_id + '" data-u="' + data.post_chat_id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + data.post_chat_id + '">' + like_count + '</span></a>' +
-                        '</div>'
-
-
                     rest_messages = ''
 
+                    like = '<a href=""><span class="glyphicon ' + heart + ' reading_like" id="reading_like_span_' + data.post_chat_id + '" data-u="' + data.post_chat_id + '"></span></a><span class="reading_like_text"> </span><a href=""><span class="reading_like_text" id="reading_like_count_' + data.post_chat_id + '">' + like_count + '</span></a>'
 
-                    prepender = $('<div class="reading_chat_left" align="' + align + '">' + profile_photo + chat_content + like + rest_messages +
-                        '</div>\n')
+                    chat_content = '<div class="reading_chat_content_i">' +
+                        '<div>' + data.text + like + '</div>' +
+                        '</div>'
+
+                    prepender = $('<div>' + chat_content + rest_messages + '</div>')
                     var last_id;
 
                     prepender.find('#reading_like_count_' + data.post_chat_id).on('click', function (e) {
