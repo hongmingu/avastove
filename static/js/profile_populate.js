@@ -120,6 +120,7 @@ var profile_populate = function profile_populate(post_id_value) {
                         '<div class=""><span class="comments_title">Comments ' + data.set.comment_count + '</span></div>\n' +
                         '<div class="comments_list" id="comment_list_' + id + '">' + _comment + '</div>\n' +
                         '<a href="#"><div class="home_feed_comment_more clickable ' + _more_comments_class + '" align="center" id="more_comments_' + data.set.id + '">more comments</div></a>\n' +
+                        '<div id="comment_add_list_' + id + '"></div>' +
                         '</div>\n' +
                         '</div>\n' +
                         '<div class="hidden" id="last_comment_' + data.set.id + '" data-u="' + _last_comment_id + '">' + _last_comment_id + '</div>' +
@@ -271,7 +272,6 @@ var profile_populate = function profile_populate(post_id_value) {
                                         comment: text,
                                     },
                                     success: function (data) {
-                                        console.log(data)
                                         if (data.res === 1) {
                                             var _comment = '';
                                             if (data.set !== null) {
@@ -305,7 +305,7 @@ var profile_populate = function profile_populate(post_id_value) {
                                                     }
                                                 })
                                             })
-                                            $('#comment_list_' + id).prepend(_comment_prepender)
+                                            $('#comment_add_list_' + id).append(_comment_prepender)
                                             $('#textarea_' + id).val('')
                                         }
                                     }
@@ -367,7 +367,7 @@ var profile_populate = function profile_populate(post_id_value) {
                                                 }
                                             })
                                         })
-                                        $('#comment_list_' + id).prepend(_comment_prepender)
+                                        $('#comment_add_list_' + id).append(_comment_prepender)
                                         $('#textarea_' + id).val('')
                                     }
                                 }
@@ -388,7 +388,6 @@ var profile_populate = function profile_populate(post_id_value) {
                                 last_comment_id: $('#last_comment_' + data.set.id).html(),
                             },
                             success: function (sub_data) {
-                                console.log(sub_data)
                                 if (sub_data.res === 1) {
                                     var _comment = '';
                                     if (sub_data.set !== null) {
