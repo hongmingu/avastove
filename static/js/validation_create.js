@@ -17,8 +17,8 @@ var validate_base = (function validate_base() {
                 $('#p_clue').html('It\'s unavailable username');
                 return false;
             }
-            if (!(6 <= username.length && username.length <= 30)){
-                $('#p_clue').html('username should be 6 <= username <= 30 greater than or equal to 6, less than or equal to 30');
+            if (!(4 <= username.length && username.length <= 30)){
+                $('#p_clue').html('username should be 4 <= username <= 30 greater than or equal to 4, less than or equal to 30');
                 return false;
             }
             if (8 <= username.length && /^\d+$/.test(username)){
@@ -53,8 +53,8 @@ var validate_base = (function validate_base() {
                 $('#p_clue').html('It\'s unavailable username');
                 return false;
             }
-            if (!(6 <= username.length && username.length <= 30)){
-                $('#p_clue').html('username should be 6 <= username <= 30 greater than or equal to 6, less than or equal to 30');
+            if (!(4 <= username.length && username.length <= 30)){
+                $('#p_clue').html('username should be 4 <= username <= 30 greater than or equal to 4, less than or equal to 30');
                 return false;
             }
             if (8 <= username.length && /^\d+$/.test(username)){

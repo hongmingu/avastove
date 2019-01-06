@@ -35,7 +35,7 @@ def user_username_failure_validate(username):
     import re
     if not (re.match('^([A-Za-z0-9_](?:(?:[A-Za-z0-9_]|(?:\.(?!\.))){0,28}(?:[A-Za-z0-9_]))?)$', username)):
         return 1
-    if not (6 <= len(username) <= 30):
+    if not (4 <= len(username) <= 30):
         return 2
     if (8 <= len(username)) and username.isdigit():
         return 3

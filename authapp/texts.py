@@ -3,14 +3,14 @@ from django.contrib.sites.shortcuts import get_current_site
 BAD_ACCESS = 'Bad Access'
 UNEXPECTED_ERROR = 'unexpected error'
 
-USER_TEXT_NAME_LENGTH_PROBLEM = 'name should be 6 <= password <= 30 /' \
-                          ' greater than or equal to 6, less than or equal to 30'
+USER_TEXT_NAME_LENGTH_PROBLEM = 'name should be 1 <= password <= 30 /' \
+                          ' greater than or equal to 1, less than or equal to 30'
 USER_TEXT_NAME_BANNED = 'It\'s unavailable name'
 USER_TEXT_NAME_CHANGED = 'name is changed'
 
 USERNAME_UNAVAILABLE = 'username can be made of digit, alphabet, . or _'
-USERNAME_LENGTH_PROBLEM = 'username should be 6 <= password <= 30 /' \
-                          ' greater than or equal to 6, less than or equal to 30'
+USERNAME_LENGTH_PROBLEM = 'username should be 4 <= password <= 30 /' \
+                          ' greater than or equal to 4, less than or equal to 30'
 USERNAME_ALREADY_USED = 'This username is already used'
 USERNAME_BANNED = 'It\'s unavailable username'
 USERNAME_8_CANNOT_DIGITS = 'If username length is greater than or equal to 8, cannot be made of only digits'
