@@ -69,9 +69,12 @@ def create_new(request):
                 post_comment_count = PostCommentCount.objects.create(post=post)
                 post_follow_count = PostFollowCount.objects.create(post=post)
                 post_chat = PostChat.objects.create(post=post, before=None, kind=POSTCHAT_START, uuid=uuid.uuid4().hex)
-                post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat,
-                                                             user=request.user)
-
+                # post_chat_read = PostChatRead.objects.create(post=post_chat.post, post_chat=post_chat,
+                #                                              user=request.user)
+                post_read, created = PostRead.objects.get_or_create(post=post, user=request.user)
+                post_read.post_chat_datetime = post_chat.created
+                post_read.post_chat_uuid = post_chat.uuid
+                post_read.save()
                 # 여기서 post unique constraint 처리 해주면 좋긴 하나 지금 하기엔 하고 싶지 않다.
                 return redirect(reverse('baseapp:post_update', kwargs={'uuid': uuid_made}))
     if request.method == "GET":

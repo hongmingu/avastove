@@ -147,8 +147,8 @@ def get_file_path_50(instance, filename):
 
 class UserPhoto(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, null=True, blank=True)
-    file_50 = models.ImageField(null=True, blank=True, default=None, upload_to=get_file_path)
-    file_300 = models.ImageField(null=True, blank=True, default=None, upload_to=get_file_path_50)
+    file_50 = models.ImageField(null=True, blank=True, default=None, upload_to=get_file_path, max_length=1000)
+    file_300 = models.ImageField(null=True, blank=True, default=None, upload_to=get_file_path_50, max_length=1000)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)

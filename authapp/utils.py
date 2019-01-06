@@ -13,7 +13,7 @@ def make_id():
     random_time = int(time.time()*1000 - STANDARD_TIME*1000)
     random_bit = random.SystemRandom().getrandbits(23)
     id_number = (random_time << 23) | random_bit
-    return id_number
+    return str(id_number)
 
 
 def get_random_time(id_number):

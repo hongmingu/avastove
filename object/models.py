@@ -73,8 +73,8 @@ class PostProfile(models.Model):
 
     name = models.CharField(max_length=30, null=True, blank=True)
 
-    file_50 = models.ImageField(null=True, blank=True, default=None, upload_to=get_file_path_post_profile_50)
-    file_300 = models.ImageField(null=True, blank=True, default=None, upload_to=get_file_path_post_profile_300)
+    file_50 = models.ImageField(null=True, blank=True, default=None, upload_to=get_file_path_post_profile_50, max_length=1000)
+    file_300 = models.ImageField(null=True, blank=True, default=None, upload_to=get_file_path_post_profile_300, max_length=1000)
 
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -209,7 +209,7 @@ class PostChatText(models.Model):
 class PostChatPhoto(models.Model):
     post_chat = models.OneToOneField("PostChat", on_delete=models.CASCADE, null=True, blank=True)
 
-    file = models.ImageField(null=True, blank=True, default=None, upload_to=get_file_path_post_chat_photo)
+    file = models.ImageField(null=True, blank=True, default=None, upload_to=get_file_path_post_chat_photo, max_length=1000)
     updated = models.DateTimeField(auto_now=True)
     created = models.DateTimeField(auto_now_add=True)
 
