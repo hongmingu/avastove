@@ -137,7 +137,7 @@
 }
 
 .light_background_color {
-    background-color: rgba(255, 244, 214, 0.91);
+    background-color: #ececec;
 }
 
 .height_100 {
@@ -369,7 +369,7 @@ a:active {
     position: absolute;
     border-radius: 5px;
     background-color: #ed7b1b;
-    font-size: 10px;
+    font-size: 11px;
     color: white;
     pointer-events: none;
     z-index: 1031;
@@ -407,7 +407,7 @@ a:active {
 
 .home_new_post {
     background-color: var(--main-orange-btn-bcolor, orange);
-    color: var(--main-orange-btn-color, whitesmoke);
+    color: darkred;
     padding: 2px;
     font-size: 16px;
     font-weight: bold;
@@ -426,7 +426,7 @@ a:active {
 }
 
 .home_feed_comment_time {
-    font-size: 10px;
+    font-size: 11px;
     background-color: #c5c5c5;
     color: black;
     border-radius: 3px;
@@ -559,7 +559,7 @@ a:active {
 
 .write_new_post {
     font-weight: bold;
-    color: white;
+    color: darkred;
     width: 100%;
     border-radius: 3px;
 }
@@ -577,7 +577,7 @@ a:active {
 
 .choice_selected {
     font-weight: bold;
-    color: white;
+    color: darkred;
     font-size: 14px;
     background-color: orange;
     border-radius: 3px;
@@ -717,7 +717,7 @@ a:active {
 
 .remove_add_t_d {
     background-color: orange;
-    color: white;
+    color: darkred;
     border-radius: 3px;
 }
 
@@ -756,7 +756,7 @@ a:active {
 }
 
 .home_feed_post_follow_count {
-    font-size: 10px;
+    font-size: 11px;
 }
 
 .modal_feed_menu_input {
@@ -920,12 +920,12 @@ a:active {
 
 .reading_like {
     margin-left: 4px;
-    font-size: 10px;
+    font-size: 11px;
     color: #ff0a02;
 }
 
 .reading_like_text {
-    font-size: 10px
+    font-size: 11px
 }
 
 .reading_chat_rest {
@@ -945,13 +945,13 @@ a:active {
 }
 
 .reading_chat_more_load {
-    background-color: #1b6d85;
-    color: white
+    background-color: #30bfea;
+    color: black;
 }
 
 .reading_chat_started {
-    background-color: #1b6d85;
-    color: white;
+    background-color: #47b4cf;
+    color: black;
 }
 
 .reading_chat_rest_messages {
@@ -965,7 +965,7 @@ a:active {
 }
 .reading_chat_interaction_white {
     background-color: orange;
-    color: white;
+    color: darkred;
     height: 70px;
     padding-top: 20px
 
@@ -995,7 +995,7 @@ a:active {
     background-color: orange;
     font-size: 20px;
     padding: 15px;
-    color: white
+    color: darkred;
 }
 
 .interaction_choice_interact {
@@ -1013,13 +1013,13 @@ a:active {
     padding: 2px;
     border-radius: 3px;
     font-size: 10px;
-    color: white;
+    color: black;
 }
 
 .reading_chat_rest_time {
-    font-size: 10px;
+    font-size: 11px;
     background-color: #b4b4b4;
-    color: white;
+    color: black;
     border-radius: 3px;
     padding: 2px;
 }
@@ -1062,14 +1062,14 @@ a:active {
     border-radius: 3px;
     font-size: 14px;
     background-color: #1b6d85;
-    color: white;
+    color: black;
 }
 
 .profile_update {
     border-radius: 3px;
     font-size: 14px;
     background-color: #15852a;
-    color: white;
+    color: black;
 }
 
 .profile_post_div {
@@ -1079,7 +1079,7 @@ a:active {
 
 .now_open_close {
     background-color: #6064ff;
-    color: white;
+    color: black;
     font-size: 14px;
     border-radius: 3px;
     padding: 3px;
