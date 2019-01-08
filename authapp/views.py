@@ -312,7 +312,7 @@ def main_create_log_in(request):
 
             if '@' in username:
                 try:
-                    user_primary_email = UserPrimaryEmail.objects.get(email=username, primary=True)
+                    user_primary_email = UserPrimaryEmail.objects.get(email=username)
                 except UserPrimaryEmail.DoesNotExist:
                     user_primary_email = None
 
