@@ -258,7 +258,9 @@ elif settings_json['debug']['mode'] == 'deploy':
             'HOST': settings_json['database']['default']['host'],
             'PORT': settings_json['database']['default']['port'],
             'OPTIONS': {
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                'charset': 'utf8mb4',
+                'use_unicode': True,
             }
         }
     }
@@ -419,7 +421,9 @@ elif settings_json['debug']['mode'] == 'deploy_admin':
             'HOST': settings_json['database']['default']['host'],
             'PORT': settings_json['database']['default']['port'],
             'OPTIONS': {
-                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'"
+                'init_command': "SET sql_mode='STRICT_TRANS_TABLES'",
+                'charset': 'utf8mb4',
+                'use_unicode': True,
             }
         }
     }
